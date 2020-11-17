@@ -1,29 +1,23 @@
-# library-m-s
+# 图书管理系统
 
-## Project setup
-```
-npm install
-```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## 项目简介
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Run your tests
-```
-npm run test
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
+## 运行效果
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+## 功能模块
+
+
+
+## 开发环境
+
+
+## 部署步骤
+
+
+
+## 目录结构
