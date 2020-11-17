@@ -18,6 +18,11 @@ const routes = [{
         path: '/index5',
         name: 'index',
         component: Index
+    },
+    {
+        path: '/index6',
+        name: 'index',
+        component: Index
     }
 ]
 const router = new VueRouter({
