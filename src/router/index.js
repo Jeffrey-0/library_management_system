@@ -5,10 +5,16 @@ import Index from '../views/user/Index.vue'
 Vue.use(VueRouter)
 
 const routes = [{
-    path: '/index',
-    name: 'index',
-    component: Index
-}]
+        path: '/index',
+        name: 'index',
+        component: Index
+    },
+    {
+        path: '/index4',
+        name: 'index',
+        component: Index
+    }
+]
 const router = new VueRouter({
     // mode: 'history',
     // base: process.env.BASE_URL,
