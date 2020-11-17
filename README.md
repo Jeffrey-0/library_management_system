@@ -21,3 +21,23 @@
 
 
 ## 目录结构
+
+* public
+* src
+  * assets    资源文件
+    * css
+    * img
+  * common  公共js
+  * components  组件
+  * network  网络请求
+  * router  路由
+  * view   页面
+    * admin
+    * user
+  * App.vue  主页
+  * main.js  主函数
+* .gitignore
+* babel.config.js
+* package.json
+* README.md
+
