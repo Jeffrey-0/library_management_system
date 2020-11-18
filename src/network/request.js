@@ -19,7 +19,8 @@ export function request(config) {
   instance.interceptors.response.use(res => {
     return res.data
   }, err => {
-    console.log(err)
+    console.log(err + '错误')
+    // return err
   })
   
   // 3.发出真正网络请求
