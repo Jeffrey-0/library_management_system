@@ -41,7 +41,7 @@ export default {
    margin-top: 30px;
    margin-left: 400px;
    width: 900px;
-   height: 550px;
+   height: 630px;
    background: white;
    padding: 10px 30px;
    border-radius: 5px;
