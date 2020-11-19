@@ -72,12 +72,15 @@
 
     <el-table-column
       label="状态"
-      width="70">
-      <!-- <template slot-scope="scope"> -->
-        <el-button @click="dialogFormVisible = true" type="text" size="small">借阅</el-button>
-        <!-- <el-button type="text" size="small">编辑</el-button> -->
-      <!-- </template> -->
-    </el-table-column>
+      width="70"> 
+        <!-- <el-button @click="dialogFormVisible = true" type="text" size="small">借阅</el-button> -->
+        <div slot-scope="scope">
+          <!-- <el-button @click="handleClick(scope.row)" type="text" size="small" class="primary">借阅</el-button> -->
+        <el-tag @click="handleClick(scope.row)"
+          :type="scope.row.name === '王小虎' ? 'primary' : 'success'"
+          disable-transitions>{{scope.row.name}}</el-tag>
+        </div>
+     </el-table-column> 
   </el-table>
 
   <div class="block">
@@ -115,6 +118,7 @@
       </el-form-item>
       <el-form-item label="状态   ">
         <el-input v-model="formInline.user" placeholder="年龄" disabled></el-input>
+        
       </el-form-item>
     </el-form>
   </el-form>
@@ -130,6 +134,7 @@
   export default {
     methods: {
       handleClick(row) {
+        this.dialogFormVisible = true
         console.log(row);
       },
        onSubmit() {
@@ -140,7 +145,10 @@
       },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
-      }
+      },
+    filterTag(value, row) {
+      return row.tag === value;
+    }
     },
 
     data() {
@@ -161,7 +169,7 @@
           zip: 200333
         }, {
           date: '2016-05-01',
-          name: '王小虎',
+          name: '王小虎2',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1519 弄',
@@ -212,6 +220,9 @@
  }
   .demo-form-inline {
    text-align: right;
+ }
+ .el-form--inline .el-form-item {
+   margin-right: 5px;
  }
  /* .el-input__inner {
    width: 100px;
