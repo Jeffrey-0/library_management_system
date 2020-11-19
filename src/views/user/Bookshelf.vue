@@ -1,6 +1,6 @@
 <template>
   <div>
-  书架
+    
   </div>
 </template>
 
@@ -9,6 +9,7 @@ export default {
   name: '',
   data () {
     return {
+      books: []
     }
   },
   methods: {

@@ -40,8 +40,8 @@ export default {
    position: absolute;
    margin-top: 30px;
    margin-left: 400px;
-   width: 890px;
-   height: 550px;
+   width: 900px;
+   height: 630px;
    background: white;
    padding: 10px 30px;
    border-radius: 5px;
