@@ -2,19 +2,19 @@
   <div id="loginC">
     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="40px" class="demo-ruleForm">
       <el-form-item label="ID" prop="id">
-        <el-input type="text" v-model="ruleForm.id" autocomplete="off"></el-input>
+        <el-input type="text" v-model="ruleForm.id" autocomplete="off" maxlength="30"></el-input>
       </el-form-item>
-      <el-form-item label="姓名" prop="checkPass">
-        <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
+      <el-form-item label="姓名" prop="username">
+        <el-input type="text" v-model="ruleForm.username" autocomplete="off" maxlength="30"></el-input>
       </el-form-item>
-      <el-form-item label="邮箱" prop="age">
-        <el-input type="email" v-model.number="ruleForm.email"></el-input>
+      <el-form-item label="邮箱" prop="email">
+        <el-input type="text" v-model="ruleForm.email" maxlength="30"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pass">
-        <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+        <el-input type="password" v-model="ruleForm.pass" autocomplete="off" maxlength="30"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="checkPass">
-        <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+        <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" maxlength="30"></el-input>
       </el-form-item>
       
       <el-form-item>
@@ -25,33 +25,53 @@
 </template>
 
 <script>
-
+import {logon} from '../network/login'
 export default {
     data() {
-      var checkAge = (rule, value, callback) => {
+      var checkID = (rule, value, callback) => {
         if (!value) {
-          return callback(new Error('年龄不能为空'));
+          return callback(new Error('ID不能为空'));
         }
-        setTimeout(() => {
-          if (!Number.isInteger(value)) {
-            callback(new Error('请输入数字值'));
-          } else {
-            if (value < 18) {
-              callback(new Error('必须年满18岁'));
+        callback()
+      }
+      var checkUsername = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('姓名不能为空'));
+        }
+        callback()
+      }
+      var checkEmail = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('邮箱不能为空'));
+        } else {
+          if (value !== '') {
+            let regex = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+            if (!regex.test(value)) {
+              return callback(new Error('邮箱格式错误'))
             } else {
-              callback();
+              callback()
             }
           }
-        }, 1000);
+          callback()
+        }
       };
       var validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
         } else {
-          if (this.ruleForm.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
+          if (value !== '') {
+            let regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,30}/
+            if (value.length < 8) {
+              return callback(new Error('长度不能小于8'))
+            } else if (value.length > 30) {
+              return callback(new Error('长度不能大于30'))
+            } else if (!regex.test(value)) {
+              return callback(new Error('必须有大小写字母已经特殊字符'))
+            } else {
+              callback()
+            }
           }
-          callback();
+          callback()
         }
       };
       var validatePass2 = (rule, value, callback) => {
@@ -70,26 +90,60 @@ export default {
           email: '',
           pass: '',
           checkPass: '',
-          age: ''
         },
         rules: {
+          id: [
+            { validator: checkID, trigger: 'blur' }
+          ],
+          username: [
+            { validator: checkUsername, trigger: 'blur' }
+          ],
+          email: [
+            { validator: checkEmail, trigger: 'blur' }
+          ],
           pass: [
             { validator: validatePass, trigger: 'blur' }
           ],
           checkPass: [
             { validator: validatePass2, trigger: 'blur' }
-          ],
-          age: [
-            { validator: checkAge, trigger: 'blur' }
           ]
+          //  ,
+          // age: [
+          //   { validator: checkAge, trigger: 'blur' }
+          // ]
         }
       };
     },
     methods: {
       submitForm(formName) {
+        // this.$emit('logonSuccess', {
+        //   id: 123,
+        //   password: 123
+        // })
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log('loing请求')
+            console.log('logon请求')
+            logon(this.ruleForm.id, this.ruleForm.username, this.ruleForm.pass, this.ruleForm.email).then(res => {
+              console.log(res)  
+              if (!res) {
+                this.$message({
+                  message: '注册失败',
+                  type: 'error',
+                  center: true,
+                  offset: 40
+                })
+              } else {
+                this.$message({
+                  message: '注册成功',
+                  type: 'success',
+                  center: true,
+                  offset: 40
+                })
+                // this.$router.go(0)
+                // this.$router.replace('/login')
+                this.$emit('logonSuccess', res)
+              }
+            })
             
           } else {
             console.log('error submit!!');

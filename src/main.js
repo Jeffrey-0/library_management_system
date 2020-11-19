@@ -22,9 +22,18 @@ new Vue({
 
 // 配置代理，解决跨域
 Vue.prototype.HOST = {
+<<<<<<< HEAD
     target: 'http://127.0.0.1:3000',
     changeOrigin: true,
     pathRewrite: {
         '^/api': ''
     }
 }
+=======
+  target: 'http://127.0.0.1:3000',
+  changeOrigin: true,
+  pathRewrite: {
+    '^/api': ''
+  }
+}
+>>>>>>> 9745e54376c4302331b4f1e944c1c7bac586b28b

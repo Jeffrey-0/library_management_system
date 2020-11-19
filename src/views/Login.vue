@@ -2,11 +2,11 @@
   <div id="login">
     <el-col id="container" :xs="24" :sm="12" :md="6">
       <el-tabs type="border-card" stretch>
-        <el-tab-pane label="登录">
-          <login-c></login-c>
+        <el-tab-pane label="登录" id="loginBt">
+          <login-c :toLoginC="data"></login-c>
         </el-tab-pane>
         <el-tab-pane label="注册">
-          <logon-c></logon-c>
+          <logon-c @logonSuccess="logonSuccess"></logon-c>
         </el-tab-pane>
       </el-tabs>
     </el-col>
@@ -19,10 +19,25 @@ import LogonC from '../components/LogonC.vue'
 
 
 export default {
-    components: {
-      LoginC,
-      LogonC
+  data () {
+    return {
+      data: {
+      }
     }
+  },
+  components: {
+    LoginC,
+    LogonC
+  },
+  methods: {
+    logonSuccess (data) {
+      console.log('切换登录')
+      console.log(document.getElementById('tab-0'))
+      document.getElementById('tab-0').click()
+      console.log(data)
+      this.data = data
+    } 
+  }
   }
 </script>
 

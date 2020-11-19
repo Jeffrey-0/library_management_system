@@ -14,13 +14,39 @@ const routes = [{
     },
     {
         path: '/login',
-        name: 'Login',
+        name: 'login',
         component: Login
     },
     {
-        path: '/index5',
+        path: '/index',
         name: 'index',
-        component: Index
+        component: Index,
+        children: [{
+                path: 'info',
+                component: () =>
+                    import ('../views/user/Info.vue')
+            },
+            {
+                path: 'bookshelf',
+                component: () =>
+                    import ('../views/user/Bookshelf.vue')
+            },
+            {
+                path: 'history',
+                component: () =>
+                    import ('../views/user/History.vue')
+            },
+            {
+                path: 'library',
+                component: () =>
+                    import ('../views/user/Library.vue')
+            },
+            {
+                path: 'notice',
+                component: () =>
+                    import ('../views/user/Notice.vue')
+            }
+        ]
     },
     {
         path: '/index6',

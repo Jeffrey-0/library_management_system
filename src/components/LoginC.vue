@@ -1,8 +1,8 @@
 <template>
   <div id="loginC">
     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="40px" class="demo-ruleForm">
-      <el-form-item label="ID" prop="username">
-        <el-input v-model.number="ruleForm.username" maxlength="30"></el-input>
+      <el-form-item label="ID" prop="id">
+        <el-input v-model.number="ruleForm.id" maxlength="30"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pass">
         <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
@@ -16,88 +16,105 @@
 
 <script>
 
-import {login} from '../network/login'
+// import {login} from '../network/login'
+import {loginP} from '../network/login'
 export default {
-    data() {
-      var checkUsername = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('ID不能为空'));
-        }
-        setTimeout(() => {
-          callback()
-        }, 1000);
-      };
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          if (value !== '') {
-            let regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,30}/
-            if (value.length < 8) {
-              return callback(new Error('长度不能小于8'))
-            } else if (value.length > 30) {
-              return callback(new Error('长度不能大于30'))
-            } else if (!regex.test(value)) {
-              return callback(new Error('必须有大小写字母已经特殊字符'))
-            } else {
-              callback()
-            }
-          }
-          callback()
-        }
+  props: [
+    'toLoginC'
+  ],
+  data() {
+    var checkId = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('ID不能为空'));
       }
-      return {
-        ruleForm: {
-          pass: '',
-          checkPass: '',
-          username: ''
-        },
-        rules: {
-          pass: [
-            { validator: validatePass, trigger: 'blur' }
-          ],
-          username: [
-            { validator: checkUsername, trigger: 'blur' }
-          ]
-        }
-      };
-    },
-    methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            // alert('submit!');
-            console.log('login---')
-            console.log(this.ruleForm.username, this.ruleForm.pass)
-            // 发起登录请求
-            login(this.ruleForm.username, this.ruleForm.pass).then(res => {
-              if(res.length > 0) {
-                console.log('登录成功')
-                this.$message({
-                message: '登录成功',
-                type: 'success',
-                center: true
-              })
-              } else {
-                console.log('登录失败')
-                this.$message({
-                message: '账号或密码错误',
-                type: 'error',
-                center: true
-              })
-              }
-            })
+      setTimeout(() => {
+        callback()
+      }, 1000);
+    };
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      } else {
+        if (value !== '') {
+          let regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,30}/
+          if (value.length < 8) {
+            return callback(new Error('长度不能小于8'))
+          } else if (value.length > 30) {
+            return callback(new Error('长度不能大于30'))
+          } else if (!regex.test(value)) {
+            return callback(new Error('必须有大小写字母已经特殊字符'))
           } else {
-            console.log('error submit!!');
-            return false;
+            callback()
           }
-        });
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
+        }
+        callback()
       }
     }
+    return {
+      ruleForm: {
+        pass: 'aA@000000',
+        id: '1'
+      },
+      rules: {
+        pass: [
+          { validator: validatePass, trigger: 'blur' }
+        ],
+        id: [
+          { validator: checkId, trigger: 'blur' }
+        ]
+      }
+    };
+  },
+  methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // alert('submit!');
+          console.log('login---')
+          console.log(this.ruleForm.id, this.ruleForm.pass)
+          // 发起登录请求
+          loginP(this.ruleForm.id, this.ruleForm.pass).then(res => {
+            if(res && res.userId) {
+              console.log('登录成功')
+              this.$message({
+                message: '登录成功',
+                type: 'success',
+                center: true,
+                offset: 40
+              })
+              this.$router.push('/index')
+            } else {
+              console.log('登录失败')
+              this.$message({
+              message: 'ID或密码错误',
+              type: 'error',
+              center: true,
+              offset: 40
+            })
+            }
+          })
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    }
+  },
+  // 监听父组件中传过来的参数toLoginC变化
+  watch: {
+    toLoginC: {
+      handler(newValue, oldValue) {
+        console.log(newValue, oldValue)
+        this.ruleForm.id = newValue && newValue.userId
+        this.ruleForm.pass = newValue && newValue.userPassword
+      },
+      deep: true
+    }
   }
+}
 </script>
 
 <style scoped> 
