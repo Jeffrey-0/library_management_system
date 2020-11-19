@@ -1,1 +1,24 @@
 @import "./normalize.css";
+.el-tabs__item {
+    height: 28px;
+    line-height: 25px;
+    border-radius: 5px;
+}
+
+.el-tabs__item.is-active {
+    color: #fff;
+    background-color: #409eff;
+    padding: 0 2px;
+}
+
+.screen .el-select .el-input {
+    width: 131px;
+}
+
+.content-body .el-tag {
+    cursor: pointer;
+}
+
+.content-body .el-select {
+    width: 100%;
+}

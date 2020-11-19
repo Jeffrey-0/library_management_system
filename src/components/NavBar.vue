@@ -1,7 +1,14 @@
 <template>
   <div class="wrapper">
     <div class="header">
-      <div class="collapse-btn"><li class="el-icon-s-fold"></li></div>
+      <div class="collapse-btn" @click="isCollapse">
+        <li
+          :class="{
+            'el-icon-s-unfold': collapse,
+            'el-icon-s-fold': !collapse,
+          }"
+        ></li>
+      </div>
       <div class="logo">图书管理系统</div>
       <div class="header-right">
         <div class="header-user-con">
@@ -15,42 +22,27 @@
         </div>
       </div>
     </div>
-    <div class="sidebar">
-      <el-row class="tac el-row">
-        <el-col :span="24">
-          <el-menu
-            default-active="2"
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
-            background-color="#545c64"
-            text-color="#fff"
-            active-text-color="#ffd04b"
-          >
-            <el-menu-item index="1">
-              <i class="el-icon-menu"></i>
-              <span slot="title">导航二</span>
-            </el-menu-item>
-            <el-menu-item index="2">
-              <i class="el-icon-setting"></i>
-              <span slot="title">导航四</span>
-            </el-menu-item>
-          </el-menu>
-        </el-col>
-      </el-row>
-    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "NavBar",
+  data() {
+    return {
+      collapse: true,
+    };
+  },
   methods: {
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
+    },
+    isCollapse() {
+      this.collapse = !this.collapse;
+      this.$eventBus.$emit("eventBusName", this.collapse);
     },
   },
 };
@@ -72,6 +64,9 @@ export default {
   padding: 0 21px;
   cursor: pointer;
   line-height: 70px;
+}
+.header .collapse-btn:hover {
+  background-color: #283446;
 }
 .header .logo {
   float: left;
@@ -115,9 +110,5 @@ export default {
 }
 .header .header-right .header-user-con .user-name {
   margin-left: 10px;
-}
-.sidebar {
-  display: block;
-  width: 250px;
 }
 </style>
