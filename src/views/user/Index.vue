@@ -28,6 +28,7 @@ export default {
 
 <style scoped>
 #index {
+  color: black;
   width: 100%;
   height: 100%;
   background-image: url(../../assets/img/bg_index.jpg);
