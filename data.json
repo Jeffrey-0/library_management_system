@@ -47,5 +47,12 @@
       "userPassword": "aA@000000",
       "id": "bWGYuAm"
     }
+  ],
+  "books": [
+    {
+      "id": 1,
+      "bookId": 1,
+      "bookName": ""
+    }
   ]
 }
