@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-bar></nav-bar>
+    <nav-header></nav-header>
     <nav-right></nav-right>
     <tag />
     <div :class="{ 'content-box': true, 'content-collapse': collapse }">
@@ -13,11 +13,16 @@
 </template>
 
 <script>
-import NavBar from "@/components/NavBar.vue";
+import NavHeader from "@/components/NavHeader.vue";
 import NavRight from "@/components/NavRight.vue";
 import Tag from "@/components/Tag.vue";
 export default {
   name: "User",
+  components: {
+    NavHeader,
+    Tag,
+    NavRight,
+  },
   data() {
     return {
       collapse: true,
