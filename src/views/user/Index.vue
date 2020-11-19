@@ -38,13 +38,14 @@ export default {
  }
  .content {
    position: absolute;
-   margin-top: 30px;
-   margin-left: 400px;
-   width: 900px;
-   height: 630px;
+   margin-top: 10px;
+   margin-left: 370px;
+   width: 910px;
+   height: 570px;
    background: white;
    padding: 10px 30px;
    border-radius: 5px;
+   overflow: auto;
  }
  .title{
    font-size: 20px;
@@ -56,4 +57,28 @@ export default {
     margin: 20px;
     background: red;
   }*/
+
+  /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar
+{
+	width: 5px;
+	height: 5px;
+	background-color: #F5F5F5;
+}
+ 
+/*定义滚动条轨道 内阴影+圆角
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+	border-radius: 3px;
+	background-color: #F5F5F5;
+}*/
+ 
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb
+{
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 0 3px rgba(0,0,0,.3);
+	background-color: #555;
+}
 </style>

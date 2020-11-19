@@ -3,8 +3,8 @@
     <div class="title">历史</div>
 
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
-      <el-form-item label="书名">
-        <el-input v-model="formInline.user" placeholder="审批人"></el-input>
+      <el-form-item>
+        <el-input v-model="formInline.user" placeholder="书名"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -14,7 +14,7 @@
     :data="tableData"
     border
     stripe
-    style="width: 100%;min-height:400px;margin-bottom:15px">  
+    style="width: 100%;min-height:390px;margin-bottom:15px">  
     <el-table-column
       prop="date"
       label="书名"
@@ -123,13 +123,6 @@
           city: '普陀区',
           address: '上海市普陀区金沙江路 1519 弄',
           zip: 200333
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1519 弄',
-          zip: 200333
         }],
          formInline: {
           user: '',
@@ -146,5 +139,8 @@
    font-size: 20px;
    font-weight: bold;
    padding: 10px 10px 20px;
+ }
+ .demo-form-inline {
+   text-align: right;
  }
 </style>

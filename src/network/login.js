@@ -18,8 +18,8 @@ export function loginP (id, password) {
     url: 'users',
     method: 'post',
     data: {
-      id,
-      password
+      user_id: id,
+      user_password: password
     },
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -42,10 +42,10 @@ export function logon (id, username, password, email) {
     url: 'users',
     method: 'post',
     data: {
-      id,
-      username,
-      password,
-      email
+      user_id: id,
+      user_name: username,
+      user_password: password,
+      user_email: email
     },
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'

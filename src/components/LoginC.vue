@@ -16,8 +16,8 @@
 
 <script>
 
-import {login} from '../network/login'
-// import {loginP} from '../network/login'
+// import {login} from '../network/login'
+import {loginP} from '../network/login'
 export default {
   props: [
     'toLoginC'
@@ -73,8 +73,8 @@ export default {
           console.log('login---')
           console.log(this.ruleForm.id, this.ruleForm.pass)
           // 发起登录请求
-          login(this.ruleForm.id, this.ruleForm.pass).then(res => {
-            if(res.length > 0) {
+          loginP(this.ruleForm.id, this.ruleForm.pass).then(res => {
+            if(res.user_id) {
               console.log('登录成功')
               this.$message({
                 message: '登录成功',

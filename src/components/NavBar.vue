@@ -69,11 +69,29 @@ export default {
   padding: 12px;
   border-top:1px dashed #dadada;
   border-bottom:1px dashed #dadada;
+  position: relative;
+  height: 20px;
 }
 .nav a {
   text-decoration: none;
-  margin: 20px;
   color: black;
+  position: absolute;
+}
+.nav a:nth-child(1) {
+  left: 20px;
+}
+.nav a:nth-child(2) {
+  left: 50%;
+  transform: translate(-50%);
+  margin: auto;
+}
+.nav a:nth-child(3) {
+  right: 20px;
+}
+.nav::after {
+  content: '';
+  clear: both;
+  display: block;
 }
 .notice {
   margin: 0px auto;

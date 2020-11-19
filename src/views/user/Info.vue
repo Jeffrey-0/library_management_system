@@ -113,16 +113,17 @@
  .title{
    font-size: 20px;
    font-weight: bold;
-   padding: 10px 10px 20px;
+   padding: 10px 10px 10px;
  }
  #infoForm, .demo-ruleForm {
    width: 530px;
-   padding: 20px;
+   padding: 10px;
     margin: 0px auto;
     text-align: left;
  }
  .demo-ruleForm {
    text-align: center;
+   padding-bottom: 0px;
  }
  .bt-save{
   margin-left: 50%;

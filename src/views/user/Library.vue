@@ -3,17 +3,41 @@
     <div class="title">书库</div>
 
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
-      <el-form-item label="书名">
+      <!-- <el-form-item label="书名">
         <el-input v-model="formInline.user" placeholder="审批人"></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="分类">
-        <el-select v-model="formInline.region" placeholder="活动区域">
-          <el-option label="区域一" value="shanghai"></el-option>
+        <el-select v-model="formInline.region" placeholder="分类">
+          <el-option label="所有" value="shanghai"></el-option>
+          <el-option label="区域二" value="beijing"></el-option>
           <el-option label="区域二" value="beijing"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="作者">
+      <el-form-item label="出版社">
+        <el-select v-model="formInline.region" placeholder="出版社">
+          <el-option label="所有" value="shanghai"></el-option>
+          <el-option label="区域二" value="beijing"></el-option>
+          <el-option label="区域二" value="beijing"></el-option>
+        </el-select>
+      </el-form-item>
+      <!-- <el-form-item label="剩余情况">
         <el-input v-model="formInline.user" placeholder="审批人"></el-input>
+      </el-form-item> -->
+      <el-form-item label="剩余">
+        <el-select v-model="formInline.region" placeholder="剩余情况" width="50px">
+          <el-option label="所有" value="shanghai"></el-option>
+          <el-option label="已空" value="beijing"></el-option>
+          <el-option label="有剩" value="beijing"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">查询</el-button>
+      </el-form-item>
+    </el-form>
+
+    <el-form :inline="true" :model="formInline" class="demo-form-inline demo-form-inline2">
+      <el-form-item>
+        <el-input v-model="formInline.user" placeholder="书名"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -23,7 +47,7 @@
     :data="tableData"
     border
     stripe
-    style="width: 100%;min-height:400px;margin-bottom:15px">  
+    style="width: 100%;min-height:330px;margin-bottom:15px">  
     <el-table-column
       prop="date"
       label="书名"
@@ -91,20 +115,6 @@
     data() {
       return {
         tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1517 弄',
-          zip: 200333
-        }, {
           date: '2016-05-01',
           name: '王小虎',
           province: '上海',
@@ -156,4 +166,10 @@
    font-weight: bold;
    padding: 10px 10px 20px;
  }
+  .demo-form-inline {
+   text-align: right;
+ }
+ /* .el-input__inner {
+   width: 100px;
+ }*/
 </style>
