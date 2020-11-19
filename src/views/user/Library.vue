@@ -47,7 +47,7 @@
     <el-table-column
       prop="zip"
       label="剩余数量"
-      width="130">
+      width="120">
     </el-table-column>
 
     <el-table-column

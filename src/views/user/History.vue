@@ -38,7 +38,7 @@
     <el-table-column
       prop="zip"
       label="归还时间"
-      width="130">
+      width="120">
     </el-table-column>
 
     <el-table-column
