@@ -10,6 +10,7 @@
     <div class="notice_head" @click="toNotice">公告</div>
     <div class="notice">公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容</div>
     <!-- <div class="notice">公告内容</div> -->
+    <el-button type="info" class="exit">退出登录</el-button>
   </div>
 </template>
 
@@ -41,7 +42,7 @@ export default {
   top: 50px;
   left: 70px;
   width: 280px;
-  height: 450px;
+  height: 490px;
   background: #fff;
   border-radius: 4px;
   overflow: hidden;
@@ -108,7 +109,10 @@ export default {
   margin-bottom: 10px;
   cursor: pointer;
 }
-
+.exit {
+  width: 80%;
+  margin: 20px;
+}
 /* 定义滚动条 */
 
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/

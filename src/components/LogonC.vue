@@ -127,7 +127,7 @@ export default {
               console.log(res)  
               if (!res) {
                 this.$message({
-                  message: 'ID已存在',
+                  message: '注册失败',
                   type: 'error',
                   center: true,
                   offset: 40

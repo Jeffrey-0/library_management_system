@@ -6,8 +6,8 @@ export function login (id, password) {
   return request({
     url:'users',
     params:{
-      id,
-      password
+      userId: id,
+      userPassword: password
     }
   })
 }
@@ -15,11 +15,12 @@ export function login (id, password) {
 // post请求
 export function loginP (id, password) {
   return request({
-    url: 'users',
+    // url: 'users',
+    url: 'login',
     method: 'post',
     data: {
-      user_id: id,
-      user_password: password
+      userId: id,
+      userPassword: password
     },
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -39,13 +40,14 @@ export function loginP (id, password) {
 // post请求
 export function logon (id, username, password, email) {
   return request({
-    url: 'users',
+    // url: 'users',
+    url: 'logon',
     method: 'post',
     data: {
-      user_id: id,
-      user_name: username,
-      user_password: password,
-      user_email: email
+      userId: id,
+      userName: username,
+      userPassword: password,
+      userEmail: email
     },
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'

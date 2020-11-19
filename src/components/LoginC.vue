@@ -74,7 +74,7 @@ export default {
           console.log(this.ruleForm.id, this.ruleForm.pass)
           // 发起登录请求
           loginP(this.ruleForm.id, this.ruleForm.pass).then(res => {
-            if(res.user_id) {
+            if(res && res.userId) {
               console.log('登录成功')
               this.$message({
                 message: '登录成功',
@@ -108,8 +108,8 @@ export default {
     toLoginC: {
       handler(newValue, oldValue) {
         console.log(newValue, oldValue)
-        this.ruleForm.id = newValue && newValue.id
-        this.ruleForm.pass = newValue && newValue.password
+        this.ruleForm.id = newValue && newValue.userId
+        this.ruleForm.pass = newValue && newValue.userPassword
       },
       deep: true
     }
