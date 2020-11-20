@@ -10,7 +10,7 @@
     <div class="notice_head" @click="toNotice">公告</div>
     <div class="notice">公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容</div>
     <!-- <div class="notice">公告内容</div> -->
-    <el-button type="info" class="exit">退出登录</el-button>
+    <el-button type="info" class="exit" @click="signOut">退出登录</el-button>
   </div>
 </template>
 
@@ -30,6 +30,11 @@ export default {
     toNotice () {
       if (this.$route && this.$route.path !== '/index/notice') {
         this.$router.push('/index/notice')
+      }
+    },
+    signOut () {
+      if (this.$route && this.$route.path !== '/login') {
+        this.$router.push('/login')
       }
     }
   }

@@ -17,7 +17,7 @@
         <el-input v-model="formInline.user" placeholder="姓名" disabled></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">归还</el-button>
+        <el-button type="primary" @click="open">归还</el-button>
       </el-form-item>
       <el-form-item label="借阅有效期">
         <el-input v-model="formInline.user" placeholder="手机" disabled></el-input>
@@ -49,6 +49,23 @@ export default {
   methods: {
      onSubmit() {
         console.log('submit!');
+      },
+       open() {
+        this.$confirm('是否归还该书', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '归还成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消归还'
+          });          
+        });
       }
   }
 }

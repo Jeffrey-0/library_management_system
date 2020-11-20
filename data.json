@@ -5,47 +5,117 @@
       "userId": 1,
       "userName": "张三",
       "userPassword": "aA@000000",
-      "userEmail": "631253877@qq.com"
+      "userEmail": "631253877@qq.com",
+      "userSex": "男",
+      "userPhone": "123123123",
+      "userCategory": "0"
     },
     {
       "id": 2,
       "userId": 2,
       "userName": "李四",
       "userPassword": "aA@000000",
-      "userEmail": "631253877@qq.com"
+      "userEmail": "631253877@qq.com",
+      "userSex": "男",
+      "userPhone": "123123123",
+      "userCategory": "0"
     },
     {
       "id": 3,
       "userId": 3,
       "userName": "王五",
       "userPassword": "aA@000000",
-      "userEmail": "631253877@qq.com"
+      "userEmail": "631253877@qq.com",
+      "userSex": "男",
+      "userPhone": "123123123",
+      "userCategory": "1"
+    }
+  ],
+  "books": [
+    {
+      "id": 1,
+      "bookId": 1,
+      "bookName": "西游记",
+      "bookAuthor": "吴承恩",
+      "bookPub": "人民日报",
+      "bookSort": "小说",
+      "bookRecord": "2020-09-22"
+    },
+    {
+      "id": 2,
+      "bookId": 2,
+      "bookName": "三国演义",
+      "bookAuthor": "吴承恩2",
+      "bookPub": "人民日报2",
+      "bookSort": "长篇",
+      "bookRecord": "2020-09-22"
+    },
+    {
+      "id": 3,
+      "bookId": 3,
+      "bookName": "水浒传",
+      "bookAuthor": "吴承恩",
+      "bookPub": "人民日报",
+      "bookSort": "小说",
+      "bookRecord": "2020-09-22"
     },
     {
       "id": 4,
-      "userId": "5",
-      "userName": "123",
-      "passwrod": "aA@0000000",
-      "userEmail": "123123@qq.com"
+      "bookId": 4,
+      "bookName": "红楼梦",
+      "bookAuthor": "吴承恩",
+      "bookPub": "人民日报",
+      "bookSort": "小说",
+      "bookRecord": "2020-09-22"
+    }
+  ],
+  "booksorts": [
+    {
+      "id": 1,
+      "sortId": 1,
+      "sortName": "小说"
     },
     {
-      "id": 5
+      "id": 2,
+      "sortId": 2,
+      "sortName": "历史"
     },
     {
-      "id": 6
+      "id": 3,
+      "sortId": 3,
+      "sortName": "经济"
+    }
+  ],
+  "borrowHistory": [
+    {
+      "id": 1,
+      "historyId": 1,
+      "userId": 2,
+      "bookId": 1,
+      "borrowDate": "2020-02-11",
+      "returnDate": "2020-03-12",
+      "isreturn": 0,
+      "validityDate": 20
     },
     {
-      "id": 7
+      "id": 2,
+      "historyId": 1,
+      "userId": 2,
+      "bookId": 1,
+      "borrowDate": "2020-02-11",
+      "returnDate": "2020-03-12",
+      "isreturn": 0,
+      "validityDate": 20
     },
     {
-      "id": "51231123",
-      "userId": "12312",
-      "userPassword": "123123"
-    },
-    {
-      "userId": "13242314234213",
-      "userPassword": "aA@000000",
-      "id": "bWGYuAm"
+      "id": 3,
+      "historyId": 1,
+      "userId": 2,
+      "bookId": 1,
+      "borrowDate": "2020-02-11",
+      "returnDate": "2020-03-12",
+      "isreturn": 0,
+      "validityDate": 20
     }
   ]
 }

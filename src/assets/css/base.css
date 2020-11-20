@@ -1,5 +1,5 @@
 @import "./normalize.css";
-.el-tabs__item {
+/* .el-tabs__item {
     height: 28px;
     line-height: 25px;
     border-radius: 5px;
@@ -21,7 +21,7 @@
 
 .content-body .el-select {
     width: 100%;
-}
+} */
 
 .el-input.is-disabled .el-input__inner {
     cursor: default;
