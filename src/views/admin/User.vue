@@ -8,6 +8,7 @@
         <i :class="icon"></i>
         <span>{{ tagName }}</span>
       </div>
+      <div class="content"></div>
     </div>
   </div>
 </template>
@@ -42,9 +43,13 @@ export default {
     this.$eventBusTag.$on("eventBusName", (val) => {
       this.tagName = val;
     });
-    this.$eventBusiIcon.$on("eventBusName", (val, index) => {
+    this.$eventBusiIcon.$on("eventBusName", (val, index, path) => {
       console.log(val);
       this.icon = index;
+      if (this.$route && this.$route.path !== "/" + path) {
+        console.log("user65");
+        this.$router.push("/" + path);
+      }
     });
   },
 };
@@ -67,5 +72,17 @@ export default {
 }
 .content-collapse {
   left: 65px;
+}
+.content-box .crumbs {
+  margin: 10px 0;
+  text-align: left;
+  color: #606266;
+}
+.content-box .content {
+  height: 100%;
+  padding: 30px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 </style>

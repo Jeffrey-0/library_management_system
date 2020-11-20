@@ -6,7 +6,6 @@
       closable
       @tab-remove="removeTab"
       @tab-click="isActive"
-      @click="addTag(editableTabsValue)"
     >
       <el-tab-pane
         v-for="item in editableTabs"
@@ -71,12 +70,20 @@ export default {
       this.editableTabsValue = activeName;
       this.editableTabs = tabs.filter((tab) => tab.name !== targetName);
     },
-    isActive(tabName) {
+    isActive(tabName, path) {
       for (let i = 0; i < this.editableTabs.length; i++) {
         if (this.editableTabs[i].title == tabName) {
           this.editableTabsValue = this.editableTabs[i].name;
+          if (this.$route && this.$route.path !== "/" + path) {
+            console.log("454545");
+            this.$router.push("/" + path);
+          }
           break;
         }
+      }
+      if (this.$route && this.$route.path !== "/home") {
+        console.log("454545");
+        this.$router.push("/home");
       }
     },
     isCollapse(val) {
@@ -87,9 +94,10 @@ export default {
     this.$eventBus.$on("eventBusName", (val) => {
       this.isCollapse(val);
     });
-    this.$eventBusTag.$on("eventBusName", (val) => {
-      this.isActive(val);
-      this.addTab(val);
+    this.$eventBusTag.$on("eventBusName", (val, path) => {
+      this.isActive(val, path);
+      console.log("tag99999");
+      this.addTab(val, path);
     });
   },
 };

@@ -1,69 +1,57 @@
 <template>
   <div>
-    <el-menu
-      :default-active="activeIndex2"
-      class="el-menu-demo"
-      mode="horizontal"
-      @select="handleSelect"
-      background-color="#545c64"
-      text-color="#fff"
-      active-text-color="#ffd04b"
+    <iframe
+      id="iframeId"
+      :src="url"
+      frameborder="0"
+      class="pc iframe"
+      scrolling="auto"
+      @load="loadfrom"
     >
-      <el-menu-item index="1">处理中心</el-menu-item>
-      <el-submenu index="2">
-        <template slot="title">我的工作台</template>
-        <el-menu-item index="2-1">选项1</el-menu-item>
-        <el-menu-item index="2-2">选项2</el-menu-item>
-        <el-menu-item index="2-3">选项3</el-menu-item>
-        <el-submenu index="2-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="2-4-1">选项1</el-menu-item>
-          <el-menu-item index="2-4-2">选项2</el-menu-item>
-          <el-menu-item index="2-4-3">选项3</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-menu-item index="3" disabled>消息中心</el-menu-item>
-      <el-menu-item index="4"
-        ><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item
-      >
-    </el-menu>
+    </iframe>
   </div>
 </template>
-
 <script>
 export default {
   name: "HelloWorld",
-  props: {
-    msg: String,
-  },
   data() {
     return {
-      activeIndex: "1",
-      activeIndex2: "1",
+      url: "/static/xxx4.0/scene.html",
     };
   },
+  mounted() {},
   methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+    loadfrom(val) {
+      // console.log(val.path[0].contentWindow.location)
+      // console.log(val.path[0].contentWindow.location.href)
+      // http://localhost:8080/static/yunyaopai4.0/index.html
+      let url = val.path[0].contentWindow.location.href;
+      let urlArr = url.split("/");
+      let urlArrLength = urlArr.length;
+      if (
+        urlArr[urlArrLength - 1] === "index.html" &&
+        urlArr[urlArrLength - 2] === "yunyaopai4.0"
+      ) {
+        // console.log('ok')
+        // console.log(this.$router)
+        this.$router.push("/live");
+      }
     },
   },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+ 
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.iframe {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  overflow-y: hidden;
 }
 </style>
+

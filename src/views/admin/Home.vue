@@ -227,9 +227,13 @@ export default {
     this.$eventBusTag.$on("eventBusName", (val) => {
       this.tagName = val;
     });
-    this.$eventBusiIcon.$on("eventBusName", (val, index) => {
+    this.$eventBusiIcon.$on("eventBusName", (val, index, path) => {
       console.log(val);
       this.icon = index;
+      if (this.$route && this.$route.path !== "/" + path) {
+        console.log("home454545");
+        this.$router.push("/" + path);
+      }
     });
   },
 };
