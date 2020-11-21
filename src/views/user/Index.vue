@@ -23,6 +23,11 @@ export default {
   components: {
     NavBar,
   },
+  created () {
+    let user = JSON.parse(sessionStorage.getItem('user'))
+    console.log('sessionStorage', sessionStorage.getItem('user'))
+    console.log(user && user.userName, user && user.userId)
+  }
 };
 </script>
 

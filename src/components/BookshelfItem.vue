@@ -9,21 +9,23 @@
       </el-form-item>
     </el-form> -->
 
-    <el-form :inline="true" :model="formInline"  class="demo-form-inline" id="infoForm" label-width="100px">
+    <el-form :inline="true" :model="book"  class="demo-form-inline" id="infoForm" label-width="100px">
       <el-form-item label="书籍名称">
-        <el-input v-model="formInline.user" placeholder="姓名" disabled></el-input>
+        <el-input v-model="book.bookName" placeholder="无" disabled></el-input>
       </el-form-item>
       <el-form-item label="借阅时间">
-        <el-input v-model="formInline.user" placeholder="姓名" disabled></el-input>
+        <el-input v-model="book.borrowDate" placeholder="无" disabled></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="open">归还</el-button>
+
+        <el-button v-if="book.bookName" type="primary" @click="open">归还</el-button>
+        <el-button v-else type="info" @click="open" disabled>未借</el-button>
       </el-form-item>
       <el-form-item label="借阅有效期">
-        <el-input v-model="formInline.user" placeholder="手机" disabled></el-input>
+        <el-input v-model="book.validityDate" placeholder="无" disabled></el-input>
       </el-form-item>
-      <el-form-item label="归还时间">
-        <el-input v-model="formInline.user" placeholder="年龄" disabled></el-input>
+      <el-form-item label="截止时间">
+        <el-input v-model="book.returnDate" placeholder="无" disabled></el-input>
       </el-form-item>
       <!-- <el-form-item label="邮箱">
         <el-input v-model="formInline.user" placeholder="邮箱"></el-input>
@@ -44,8 +46,16 @@ export default {
         user: '',
         region: ''
       }
+      
     }
   },
+  created () {
+    console.log(this.book)
+  },
+  props: [
+    'book',
+    'index'
+  ],
   methods: {
      onSubmit() {
         console.log('submit!');
@@ -56,18 +66,26 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '归还成功!'
-          });
+          this.$emit('returnBook', this.book.bookId, this.index)
         }).catch(() => {
           this.$message({
             type: 'info',
             message: '取消归还'
-          });          
-        });
+          })        
+        })
       }
-  }
+  },
+  // 监听父组件中传过来的参数book变化
+  // watch: {
+  //   book: {
+  //     handler(newValue, oldValue) {
+  //       console.log(newValue, oldValue)
+  //       // this.ruleForm.id = newValue && newValue.userId
+  //       // this.ruleForm.pass = newValue && newValue.userPassword
+  //     },
+  //     deep: true
+  //   }
+  // }
 }
 </script>
 

@@ -2,46 +2,43 @@
   <div>
     <div class="title">书库</div>
 
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+    <el-form :inline="true" :model="formSeletor" class="demo-form-inline">
       <!-- <el-form-item label="书名">
-        <el-input v-model="formInline.user" placeholder="审批人"></el-input>
+        <el-input v-model="formSeletor.user" placeholder="审批人"></el-input>
       </el-form-item> -->
       <el-form-item label="分类">
-        <el-select v-model="formInline.region" placeholder="分类">
-          <el-option label="所有" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
+        <el-select v-model="formSeletor.sort" placeholder="分类">
+          <el-option label="所有" value="所有"></el-option>
+          <el-option :label="item.sortName" :value="item.sortId" v-for="item in bookSorts" :key="item.sortId"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="出版社">
-        <el-select v-model="formInline.region" placeholder="出版社">
-          <el-option label="所有" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
+        <el-select v-model="formSeletor.pub" placeholder="出版社">
+          <el-option label="所有" value="所有"></el-option>
+          <el-option :label="item.pubName" :value="item.pubName" v-for="item in bookPubs" :key="item.pubId"></el-option>
         </el-select>
       </el-form-item>
       <!-- <el-form-item label="剩余情况">
-        <el-input v-model="formInline.user" placeholder="审批人"></el-input>
+        <el-input v-model="formSeletor.user" placeholder="审批人"></el-input>
       </el-form-item> -->
       <el-form-item label="状态">
-        <el-select v-model="formInline.region" placeholder="剩余情况" width="50px">
-          <el-option label="所有" value="shanghai"></el-option>
-          <el-option label="已借" value="beijing"></el-option>
-          <el-option label="未借" value="beijing"></el-option>
-          <el-option label="下架" value="beijing"></el-option>
+        <el-select v-model="formSeletor.status" placeholder="剩余情况" width="50px">
+          <el-option label="所有" value="所有"></el-option>
+          <el-option label="借完" value="0"></el-option>
+          <el-option label="可借" value="1"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">查询</el-button>
+        <el-button type="primary" @click="onSubmitSeletor">查询</el-button>
       </el-form-item>
     </el-form>
 
-    <el-form :inline="true" :model="formInline" class="demo-form-inline demo-form-inline2">
+    <el-form :inline="true" :model="form" class="demo-form-inline demo-form-inline2">
       <el-form-item>
-        <el-input v-model="formInline.user" placeholder="书名"></el-input>
+        <el-input v-model="form.bookName" placeholder="书名"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">查询</el-button>
+        <el-button type="primary" @click="onSubmitFuzzy">查询</el-button>
       </el-form-item>
     </el-form>
   <el-table
@@ -50,24 +47,24 @@
     stripe
     style="width: 100%;min-height:330px;margin-bottom:15px">  
     <el-table-column
-      prop="date"
+      prop="bookName"
       label="书名">
     </el-table-column>
     <el-table-column
-      prop="name"
+      prop="bookSort"
       label="类别">
     </el-table-column>
     <el-table-column
-      prop="province"
+      prop="bookAuthor"
       label="作者">
     </el-table-column>
     <el-table-column
-      prop="date"
-      label="上架时间">
+      prop="bookPub"
+      label="出版社">
     </el-table-column>
     <el-table-column
-      prop="zip"
-      label="剩余数量">
+      prop="bookRecord"
+      label="上架时间">
     </el-table-column>
 
     <el-table-column
@@ -77,8 +74,8 @@
         <div slot-scope="scope">
           <!-- <el-button @click="handleClick(scope.row)" type="text" size="small" class="primary">借阅</el-button> -->
         <el-tag @click="handleClick(scope.row)"
-          :type="scope.row.name === '王小虎' ? 'primary' : 'success'"
-          disable-transitions>{{scope.row.name}}</el-tag>
+          :type="scope.row.isreturn == '0' ? 'info' : 'primary'"
+          disable-transitions>{{scope.row.isreturn == '0' ? '借完' : '借阅'}}</el-tag>
         </div>
      </el-table-column> 
   </el-table>
@@ -87,9 +84,9 @@
     <el-pagination
       @current-change="handleCurrentChange"
       :current-page="currentPage"
-      :page-size="6"
+      :page-size="pageSize"
       layout="total, prev, pager, next, jumper"
-      :total="50">
+      :total="total">
     </el-pagination>
   </div>
 
@@ -102,40 +99,44 @@
         <el-input v-model="formInline.user" placeholder="姓名" disabled></el-input>
       </el-form-item> -->
       <el-form-item label="书名">
-        <el-input v-model="formInline.user" placeholder="姓名" disabled></el-input>
+        <el-input v-model="formInline.bookName" placeholder="书名" disabled></el-input>
       </el-form-item>
       <el-form-item label="分类">
-        <el-input v-model="formInline.user" placeholder="手机" disabled></el-input>
+        <el-input v-model="formInline.bookSort" placeholder="分类" disabled></el-input>
       </el-form-item>
       <el-form-item label="出版社">
-        <el-input v-model="formInline.user" placeholder="年龄" disabled></el-input>
+        <el-input v-model="formInline.bookPub" placeholder="出版社" disabled></el-input>
       </el-form-item>
       <el-form-item label="作者">
-        <el-input v-model="formInline.user" placeholder="手机" disabled></el-input>
+        <el-input v-model="formInline.bookAuthor" placeholder="作者" disabled></el-input>
       </el-form-item>
       <el-form-item label="上架">
-        <el-input v-model="formInline.user" placeholder="年龄" disabled></el-input>
+        <el-input v-model="formInline.bookRecord" placeholder="上架" disabled></el-input>
       </el-form-item>
       <el-form-item label="状态   ">
-        <el-input v-model="formInline.user" placeholder="年龄" disabled></el-input>
+        <el-input v-model="formInline.isreturn" placeholder="状态" disabled></el-input>
         
       </el-form-item>
     </el-form>
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogFormVisible = false">确定借阅</el-button>
+    <el-button v-if="formInlineIsreturn" type="primary" @click="borrowBook">确定借阅</el-button>
+    <el-button v-else type="info" @click="dialogFormVisible = false" disabled>借完</el-button>
   </div>
 </el-dialog>
   </div>
 </template>
 
 <script>
+  import {SelectBook, SelectBookSort, SelectBookPub, SelectSelector, SelectFuzzy, borrowBook} from '../../network/book'
   export default {
     methods: {
       handleClick(row) {
         this.dialogFormVisible = true
         console.log(row);
+        this.formInline = row
+        this.formInlineIsreturn = row.isreturn
       },
        onSubmit() {
         console.log('submit!');
@@ -145,69 +146,130 @@
       },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
+        this.currentPage = val
+        if (this.queryModel === 2) { //模糊查询
+            SelectFuzzy(this.form.bookName,this.currentPage, this.pageSize).then(res => {
+            // TODO
+            this.tableData = res
+            this.total = 7
+          })
+        } else if (this.queryModel === 1) {  // 筛选查询
+          SelectSelector(this.formSeletor.sort, this.formSeletor.pub, this.formSeletor.isreturn,this.currentPage, this.pageSize).then(res => {
+            // TODO
+            this.tableData = res
+            this.total = 6
+          })
+        } else { // 普通查询
+          SelectBook(this.currentPage, this.pageSize).then(res => {
+            console.log(res)
+            // TODO
+            this.tableData = res
+            this.total = 8
+            // this.total = res.total
+          })
+        }
+        
       },
-    filterTag(value, row) {
-      return row.tag === value;
-    }
+      filterTag(value, row) {
+        return row.tag === value;
+      },
+      onSubmitSeletor () {
+        
+        this.currentPage = 1
+        SelectSelector(this.formSeletor.sort, this.formSeletor.pub, this.formSeletor.status).then(res => {
+          // TODO
+          this.tableData = res
+          this.total = 6
+        })
+        console.log(this.formSeletor)
+        this.queryModel = 1
+      },
+      onSubmitFuzzy () {
+        this.currentPage = 1
+        console.log(this.form.bookName)
+        if (this.form.bookName) {
+          SelectFuzzy(this.form.bookName).then(res => {
+            // TODO
+            this.tableData = res
+            this.total = 7
+          })
+          this.queryModel = 2
+        } else {  //为空时切换普通查询
+          SelectBook(this.currentPage, this.pageSize).then(res => {
+            console.log(res)
+            // TODO
+            this.tableData = res
+            // this.total = res.total
+          })
+          this.queryModel = 0
+        }
+      },
+      borrowBook () {
+        console.log('借书1', this.formInline)
+        borrowBook(this.formInline.bookId).then(res => {
+          console.log('借书', res)
+        })
+        this.dialogFormVisible = false
+        this.$message({
+          type: 'success',
+          message: '借书成功'
+        })
+        this.tableData.map(value => {
+          console.log(value)
+          if (value.bookId == this.formInline.Id) {
+            value.isreturn = 0
+          }
+        })
+        console.log(this.tableData[1])
+      }
     },
 
     data() {
       return {
-        tableData: [{
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1519 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1516 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-01',
-          name: '王小虎2',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1519 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1519 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1519 弄',
-          zip: 200333
-        }],
-         formInline: {
-          user: '',
-          region: ''
+        tableData: [], // 书籍列表
+         formInline: {   // 书籍详情模态框
+          "id": '',
+          "bookId": '',
+          "bookName": '',
+          "bookAuthor": '',
+          "bookPub": '',
+          "bookSort": '',
+          "bookRecord": '',
+          "isreturn": 0
         },
-        currentPage: 4,
+        formSeletor: {  // 筛选表单
+          sort: '所有',
+          pub: '所有',
+          status: '所有'
+        },
+        currentPage: 1,
         dialogTableVisible: false,
         dialogFormVisible: false,
-        form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
+        form: {  // 模糊查询表单
+          bookName: ''
         },
-        formLabelWidth: '120px'
+        formLabelWidth: '120px',
+        pageSize: 5,
+        formInlineIsreturn: '0',
+        total: 8,
+        bookSorts: [],
+        bookPubs: [],
+        queryModel: 0  // 当前查询状态，用户分页切换，分页查询0， 筛选查询1， 模糊查询2
       }
+    },
+    created () {
+      SelectBook(this.currentPage, this.pageSize).then(res => {
+        console.log(res)
+        // TODO
+        this.tableData = res
+        // this.total = res.total
+      })
+      SelectBookSort().then(res => {
+        this.bookSorts = res
+      })
+      SelectBookPub().then(res => {
+        this.bookPubs = res
+      })
     }
   }
 </script>
@@ -223,6 +285,10 @@
  }
  .el-form--inline .el-form-item {
    margin-right: 5px;
+ }
+
+ .el-tag {
+   cursor: pointer;
  }
  /* .el-input__inner {
    width: 100px;
