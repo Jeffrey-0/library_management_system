@@ -12,9 +12,6 @@
       <div class="logo">图书管理系统</div>
       <div class="header-right">
         <div class="header-user-con">
-          <div class="btn-bell">
-            <a href="#" class="el-tooltip"><li class="el-icon-bell"></li></a>
-          </div>
           <div class="user-avator"><img src="../assets/dog.jpg" alt="" /></div>
           <div class="user-name el-dropdown">
             <span class="el-dropdown-link el-dropdown-selfdefine">名字 </span>
@@ -66,7 +63,8 @@ export default {
   line-height: 70px;
 }
 .header .collapse-btn:hover {
-  background-color: #283446;
+  
+  background-color: #324157;
 }
 .header .logo {
   float: left;

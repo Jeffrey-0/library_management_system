@@ -4,13 +4,14 @@ import Index from '../views/user/Index.vue'
 
 import Home from '../views/admin/Home.vue'
 import User from '../views/admin/User.vue'
+import Books from '../views/admin/Books.vue'
+import Notice from '../views/admin/Notice.vue'
 import Login from '../views/Login.vue'
 import HelloWorld from '../components/HelloWorld.vue'
 
 Vue.use(VueRouter)
 
 const routes = [{
-<<<<<<< HEAD
         path: '/user',
         name: 'user',
         component: User
@@ -19,14 +20,19 @@ const routes = [{
         path: '/home',
         name: 'home',
         component: Home
-=======
-        path: '/',
-        name: 'index',
-        component: Index
->>>>>>> f1c23d288da0067769f78134c28043b00ad69735
     },
     {
-        path: '/',
+        path: '/books',
+        name: 'books',
+        component: Books
+    },
+    {
+        path: '/notice',
+        name: 'notice',
+        component: Notice
+    },
+    {
+        path: '/helloWorld',
         name: 'HelloWorld',
         component: HelloWorld
     },

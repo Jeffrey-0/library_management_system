@@ -12,51 +12,41 @@
           text-color="#fff"
           active-text-color="#ffd04b"
         >
+          
           <el-menu-item
             index="1"
+            @click="addTag('首页', 'el-icon-reading')"
+          >
+            <i class="el-icon-view"></i>
+            <span slot="title">首页</span>
+          </el-menu-item>
+          <el-menu-item
+            index="2"
             @click="addTag('用户管理', 'el-icon-user', 'user')"
           >
             <i class="el-icon-user"></i>
             <span slot="title">用户管理</span>
           </el-menu-item>
           <el-menu-item
-            index="2"
-            @click="addTag('借阅详情', 'el-icon-reading', 'home')"
+            index="3"
+            @click="addTag('借阅详情', 'el-icon-reading', 'borrow')"
           >
             <i class="el-icon-reading"></i>
             <span slot="title">借阅详情</span>
           </el-menu-item>
-          <el-submenu index="3">
-            <template slot="title">
-              <i class="el-icon-notebook-1"></i>
-              <span>图书管理</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item
-                index="1-1"
-                @click="addTag('图书列表', 'el-icon-reading')"
-                >图书列表</el-menu-item
-              >
-              <el-menu-item
-                index="1-2"
-                @click="addTag('添加图书', 'el-icon-reading')"
-                >添加图书</el-menu-item
-              >
-            </el-menu-item-group>
-          </el-submenu>
           <el-menu-item
             index="4"
-            @click="addTag('公告管理', 'el-icon-reading')"
+            @click="addTag('图书列表', 'el-icon-reading','books')"
           >
-            <i class="el-icon-bell"></i>
-            <span slot="title">公告管理</span>
+            <i class="el-icon-notebook-1"></i>
+            <span slot="title">图书列表</span>
           </el-menu-item>
           <el-menu-item
             index="5"
-            @click="addTag('书籍统计', 'el-icon-reading')"
+            @click="addTag('公告管理', 'el-icon-reading','notice')"
           >
-            <i class="el-icon-view"></i>
-            <span slot="title">书籍统计</span>
+            <i class="el-icon-bell"></i>
+            <span slot="title">公告管理</span>
           </el-menu-item>
         </el-menu>
       </el-col>

@@ -14,29 +14,48 @@
         :name="item.name"
         effect="dark"
       >
+        
+        <div class="iframe" v-if="item.path == 'user'"><user /></div>
+        <div class="iframe" v-if="item.path == 'borrow'"><borrow /></div>
+        <div class="iframe" v-if="item.path == 'books'"><books /></div>
+        <div class="iframe" v-if="item.path == 'notice'"><notice /></div>
+        <div class="iframe" v-if="item.path == 'home'"><home /></div>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
-
 <script>
+import User from "../views/admin/User.vue";
+import Borrow from "../views/admin/Borrow.vue";
+import Books from "../views/admin/Books.vue";
+import Notice from "../views/admin/Notice.vue";
+import Home from "../views/admin/Home.vue";
 export default {
   namne: "Tag",
+  components: {
+    User,
+    Borrow,
+    Books,
+    Notice,
+    Home,
+  },
   data() {
     return {
       editableTabsValue: "1",
       editableTabs: [
         {
-          title: "Tab 1",
+          title: "首页",
+          path: "home",
           name: "1",
         },
       ],
       tabIndex: 1,
       collapse: true,
+      icon: "",
     };
   },
   methods: {
-    addTab(tabName) {
+    addTab(tabName, path) {
       let result = 0;
       for (let i = 0; i < this.editableTabs.length; i++) {
         if (this.editableTabs[i].title == tabName) {
@@ -49,6 +68,7 @@ export default {
         this.editableTabs.push({
           title: tabName,
           name: newTabName,
+          path: path,
         });
         this.editableTabsValue = newTabName;
       }
@@ -66,24 +86,15 @@ export default {
           }
         });
       }
-
       this.editableTabsValue = activeName;
       this.editableTabs = tabs.filter((tab) => tab.name !== targetName);
     },
-    isActive(tabName, path) {
+    isActive(tabName) {
       for (let i = 0; i < this.editableTabs.length; i++) {
         if (this.editableTabs[i].title == tabName) {
           this.editableTabsValue = this.editableTabs[i].name;
-          if (this.$route && this.$route.path !== "/" + path) {
-            console.log("454545");
-            this.$router.push("/" + path);
-          }
           break;
         }
-      }
-      if (this.$route && this.$route.path !== "/home") {
-        console.log("454545");
-        this.$router.push("/home");
       }
     },
     isCollapse(val) {
@@ -95,9 +106,12 @@ export default {
       this.isCollapse(val);
     });
     this.$eventBusTag.$on("eventBusName", (val, path) => {
-      this.isActive(val, path);
-      console.log("tag99999");
+      this.isActive(val);
       this.addTab(val, path);
+    });
+    this.$eventBusiIcon.$on("eventBusName", (val, index) => {
+      console.log(val);
+      this.icon = index;
     });
   },
 };
@@ -111,17 +125,13 @@ export default {
   right: 0;
   top: 70px;
   bottom: 0;
-  height: 35px;
   padding-left: 5px;
   margin-top: 5px;
   text-align: left;
   -webkit-transition: left 0.3s ease-in-out;
   transition: left 0.3s ease-in-out;
   overflow: hidden;
-  background: #fff;
-  padding-right: 120px;
-  -webkit-box-shadow: 0 5px 10px #ddd;
-  box-shadow: 0 5px 10px #ddd;
+  background: #f0f0f0;
 }
 .content-collapse {
   left: 65px;
@@ -142,6 +152,11 @@ export default {
   width: 90px;
   margin-left: 10px;
   vertical-align: bottom;
+}
+
+.iframe {
+  height: 100%;
+  width: 100%;
 }
 </style>
 

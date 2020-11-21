@@ -1,52 +1,81 @@
 <template>
-  <div>
-    <div :class="{ 'content-box': true, 'content-collapse': collapse }">
-      <div class="content">
-        <div class="search">
-          <el-form
-            :inline="true"
-            :model="formInline"
-            class="demo-form-inline"
-            size="small"
+  <div :class="{ 'content-box': true, 'content-collapse': collapse }">
+    <div class="content">
+      <div class="screen">
+        <el-form
+          :inline="true"
+          :model="formInline"
+          class="demo-form-inline"
+          size="small"
+        >
+          <el-form-item label="分类">
+            <el-select v-model="formInline.region" placeholder="活动区域">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="出版社">
+            <el-select v-model="formInline.region" placeholder="活动区域">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="借书状态">
+            <el-select v-model="formInline.region" placeholder="所有">
+              <el-option label="所有" value="shanghai"></el-option>
+              <el-option label="未借" value="beijing"></el-option>
+              <el-option label="已借" value="beijing"></el-option>
+              <el-option label="借完" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit">查询</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div class="search">
+        <el-form
+          :inline="true"
+          :model="formInline"
+          class="demo-form-inline"
+          size="small"
+        >
+          <el-form-item>
+            <el-input v-model="formInline.user" placeholder="审批人"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit">查询</el-button>
+            <el-button type="success" class="publish" size="small" @click="dialogFormVisible = true">添加新书籍</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div class="content-body">
+        <el-table ref="filterTable" :data="tableData" style="width: 100%">
+          <el-table-column prop="name" label="书名" fixed> </el-table-column>
+          <el-table-column prop="name" label="出版社"> </el-table-column>
+          <el-table-column prop="name" label="类别"> </el-table-column>
+          <el-table-column
+            prop="date"
+            label="上架日期"
+            sortable
+            width="150"
+            column-key="date"
           >
-            <el-form-item>
-              <el-input
-                v-model="formInline.user"
-                placeholder="审批人"
-              ></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="onSubmit">查询</el-button>
-            </el-form-item>
-          </el-form>
-        </div>
-        <el-table :data="tableData" border style="width: 100%">
-          <el-table-column fixed prop="date" label="日期" >
           </el-table-column>
-          <el-table-column prop="name" label="姓名" >
-          </el-table-column>
-          <el-table-column prop="province" label="省份" >
-          </el-table-column>
-          <el-table-column prop="city" label="市区" >
-          </el-table-column>
-          <el-table-column prop="address" label="地址" >
-          </el-table-column>
-          <el-table-column prop="zip" label="邮编" >
-          </el-table-column>
-          <el-table-column fixed="right" label="操作" width="144">
+          <el-table-column prop="name" label="作者"> </el-table-column>
+          <el-table-column prop="tag" label="操作">
             <template slot-scope="scope">
               <el-button
                 @click="handleClick(scope.row)"
                 type="primary"
                 size="small"
-                >查看</el-button
+                >编辑</el-button
               >
-              <el-button type="info" size="small" @click="cancel">禁用</el-button>
             </template>
           </el-table-column>
         </el-table>
         <!-- 修改资料对话框 -->
-        <el-dialog title="用户资料" :visible.sync="dialogFormVisible">
+        <el-dialog title="书籍资料" :visible.sync="dialogFormVisible">
           <el-form :model="form">
             <el-form-item label="书名" :label-width="formLabelWidth">
               <el-input v-model="form.name" autocomplete="off"></el-input>
@@ -79,13 +108,14 @@
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
             <el-button type="primary" @click="dialogFormVisible = false"
               >确 定</el-button
             >
-            <el-button type="info" @click="dialogFormVisible = false">禁 用</el-button>
           </div>
         </el-dialog>
-        <!-- 分页 -->
+      </div>
+      <!-- 分页 -->
       <div class="page">
         <div class="block">
           <el-pagination
@@ -97,18 +127,19 @@
           </el-pagination>
         </div>
       </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "User",
+  name: "Books",
+  components: {},
   data() {
     return {
       collapse: true,
       tagName: "",
+      icon: "",
       formInline: {
         user: "",
         region: "",
@@ -117,21 +148,29 @@ export default {
         {
           date: "2016-05-02",
           name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
+          tag: "未借",
         },
         {
           date: "2016-05-04",
           name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1517 弄",
-          zip: 200333,
+          tag: "已借",
+        },
+        {
+          date: "2016-05-01",
+          name: "王小虎",
+          tag: "未借",
+        },
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          tag: "已借",
+        },
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          tag: "已借",
         },
       ],
-      
       currentPage1: 5,
       currentPage2: 5,
       currentPage3: 5,
@@ -154,49 +193,41 @@ export default {
     isCollapse(val) {
       this.collapse = val;
     },
-
     onSubmit() {
       console.log("submit!");
     },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+    },
+    
     handleClick(row) {
       console.log(row);
       this.dialogFormVisible = true;
     },
-    
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-    },
-    cancel() {
-        this.$confirm('此操作将禁用这个用户, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '禁用成功!'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消禁用'
-          });          
-        });
-      }
   },
   mounted() {
     this.$eventBus.$on("eventBusName", (val) => {
       this.isCollapse(val);
     });
     this.$eventBusTag.$on("eventBusName", (val) => {
-      console.log(val);
       this.tagName = val;
+    });
+    this.$eventBusiIcon.$on("eventBusName", (val, index) => {
+      console.log(val);
+      this.icon = index;
     });
   },
 };
 </script>
+
 <style scoped>
-.content-box {
+.container {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #f0f0f0;
+}
+.container .content-box {
   position: absolute;
   left: 0;
   width: 100%;
@@ -207,7 +238,12 @@ export default {
   -webkit-transition: left 0.3s ease-in-out;
   transition: left 0.3s ease-in-out;
 }
-.content-box .content {
+.container .content-box .crumbs {
+  margin: 10px 0;
+  text-align: left;
+  color: #606266;
+}
+.container .content-box .content {
   height: 100%;
   padding: 30px;
   background: #fff;
@@ -216,5 +252,8 @@ export default {
 }
 .container .content-box .content .search {
   padding-left: 375px;
+}
+.container .content-box .content .search .publish{
+    margin-left: 50px;
 }
 </style>

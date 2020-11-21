@@ -1,57 +1,28 @@
 <template>
-  <div>
-    <iframe
-      id="iframeId"
-      :src="url"
-      frameborder="0"
-      class="pc iframe"
-      scrolling="auto"
-      @load="loadfrom"
-    >
-    </iframe>
+  <div class="container">
+    <nav-header></nav-header>
+    <nav-right></nav-right>
+    <tag />
   </div>
 </template>
-<script>
+   <script>
+import NavHeader from "@/components/NavHeader.vue";
+import NavRight from "@/components/NavRight.vue";
+import Tag from "@/components/Tag.vue";
 export default {
-  name: "HelloWorld",
-  data() {
-    return {
-      url: "/static/xxx4.0/scene.html",
-    };
+  
+  components: {
+    NavHeader,
+    Tag,
+    NavRight,
   },
-  mounted() {},
-  methods: {
-    loadfrom(val) {
-      // console.log(val.path[0].contentWindow.location)
-      // console.log(val.path[0].contentWindow.location.href)
-      // http://localhost:8080/static/yunyaopai4.0/index.html
-      let url = val.path[0].contentWindow.location.href;
-      let urlArr = url.split("/");
-      let urlArrLength = urlArr.length;
-      if (
-        urlArr[urlArrLength - 1] === "index.html" &&
-        urlArr[urlArrLength - 2] === "yunyaopai4.0"
-      ) {
-        // console.log('ok')
-        // console.log(this.$router)
-        this.$router.push("/live");
-      }
-    },
-  },
-};
-</script>
- 
+}
+  </script>
 <style scoped>
-.iframe {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 100%;
+.container {
+  margin: 0;
+  padding: 0;
   height: 100%;
-  background: #fff;
-  overflow-y: hidden;
+  background: #f0f0f0;
 }
 </style>
-
