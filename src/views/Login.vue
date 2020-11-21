@@ -45,7 +45,9 @@ export default {
  #login {
   width: 100%;
   height: 100%;
-  background-image: url(../assets/img/bg_login.jpg);
+  /* background-image: url(../assets/img/bg_login.jpg); */
+  background-image: url(../assets/img/bg_room.jpg);
+  /* background-image: url(../assets/img/bg_lake.jpg); */
   background-size: cover;
   position: relative;
  }
@@ -72,7 +74,7 @@ background: hsla(0,0%,100%,.3);
  }
 
  .el-tabs--border-card{
-   background: hsla(0,0%,100%,.5);
+   background: hsla(0,0%,100%,.8);
    border: 0px solid white;
  }
 </style>

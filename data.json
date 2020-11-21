@@ -3,32 +3,42 @@
     {
       "id": 1,
       "userId": 1,
-      "userName": "张三",
+      "userName": "李四",
+      "userAge": "19",
       "userPassword": "aA@000000",
       "userEmail": "631253877@qq.com",
-      "userSex": "男",
+      "userSex": "shanghai",
       "userPhone": "123123123",
       "userCategory": "0"
     },
     {
-      "id": 2,
-      "userId": 2,
-      "userName": "李四",
-      "userPassword": "aA@000000",
-      "userEmail": "631253877@qq.com",
-      "userSex": "男",
-      "userPhone": "123123123",
-      "userCategory": "0"
+      "userId": "2",
+      "userName": "张三",
+      "id": 2
     },
     {
       "id": 3,
       "userId": 3,
       "userName": "王五",
       "userPassword": "aA@000000",
+      "userAge": 18,
       "userEmail": "631253877@qq.com",
       "userSex": "男",
       "userPhone": "123123123",
       "userCategory": "1"
+    },
+    {
+      "userId": "123123",
+      "userName": "李继",
+      "userPassword": "aA@000000",
+      "userAge": 18,
+      "userEmail": "123@qq.com",
+      "id": 4
+    },
+    {
+      "userId": "2",
+      "userName": "张三",
+      "id": 5
     }
   ],
   "books": [
@@ -39,7 +49,8 @@
       "bookAuthor": "吴承恩",
       "bookPub": "人民日报",
       "bookSort": "小说",
-      "bookRecord": "2020-09-22"
+      "bookRecord": "2020-09-22",
+      "isreturn": 0
     },
     {
       "id": 2,
@@ -48,7 +59,8 @@
       "bookAuthor": "吴承恩2",
       "bookPub": "人民日报2",
       "bookSort": "长篇",
-      "bookRecord": "2020-09-22"
+      "bookRecord": "2020-09-22",
+      "isreturn": 1
     },
     {
       "id": 3,
@@ -57,7 +69,8 @@
       "bookAuthor": "吴承恩",
       "bookPub": "人民日报",
       "bookSort": "小说",
-      "bookRecord": "2020-09-22"
+      "bookRecord": "2020-09-22",
+      "isreturn": 0
     },
     {
       "id": 4,
@@ -66,7 +79,48 @@
       "bookAuthor": "吴承恩",
       "bookPub": "人民日报",
       "bookSort": "小说",
-      "bookRecord": "2020-09-22"
+      "bookRecord": "2020-09-22",
+      "isreturn": 0
+    },
+    {
+      "id": 5,
+      "bookId": 5,
+      "bookName": "西游记2",
+      "bookAuthor": "吴承恩",
+      "bookPub": "人民日报",
+      "bookSort": "小说",
+      "bookRecord": "2020-09-22",
+      "isreturn": 1
+    },
+    {
+      "id": 6,
+      "bookId": 6,
+      "bookName": "三国演义2",
+      "bookAuthor": "吴承恩2",
+      "bookPub": "人民日报2",
+      "bookSort": "长篇",
+      "bookRecord": "2020-09-22",
+      "isreturn": 0
+    },
+    {
+      "id": 7,
+      "bookId": 7,
+      "bookName": "水浒传2",
+      "bookAuthor": "吴承恩",
+      "bookPub": "人民日报",
+      "bookSort": "小说",
+      "bookRecord": "2020-09-22",
+      "isreturn": 0
+    },
+    {
+      "id": 8,
+      "bookId": 8,
+      "bookName": "红楼梦2",
+      "bookAuthor": "吴承恩",
+      "bookPub": "人民日报",
+      "bookSort": "小说",
+      "bookRecord": "2020-09-22",
+      "isreturn": 0
     }
   ],
   "booksorts": [
@@ -84,6 +138,23 @@
       "id": 3,
       "sortId": 3,
       "sortName": "经济"
+    }
+  ],
+  "bookpubs": [
+    {
+      "id": 1,
+      "pubId": 1,
+      "pubName": "北京出版社"
+    },
+    {
+      "id": 2,
+      "pubId": 2,
+      "pubName": "上海出版社"
+    },
+    {
+      "id": 3,
+      "pubId": 3,
+      "pubName": "人民日报"
     }
   ],
   "borrowHistory": [
@@ -117,5 +188,144 @@
       "isreturn": 0,
       "validityDate": 20
     }
-  ]
+  ],
+  "books2": [
+    {
+      "id": 1,
+      "bookId": 1,
+      "bookName": "西游记",
+      "bookAuthor": "吴承恩",
+      "bookPub": "人民日报",
+      "bookSort": "小说",
+      "bookRecord": "2020-09-22",
+      "isreturn": 0
+    },
+    {
+      "id": 2,
+      "bookId": 2,
+      "bookName": "三国演义",
+      "bookAuthor": "吴承恩2",
+      "bookPub": "人民日报2",
+      "bookSort": "长篇",
+      "bookRecord": "2020-09-22",
+      "isreturn": 1
+    },
+    {
+      "id": 3,
+      "bookId": 3,
+      "bookName": "水浒传",
+      "bookAuthor": "吴承恩",
+      "bookPub": "人民日报",
+      "bookSort": "小说",
+      "bookRecord": "2020-09-22",
+      "isreturn": 0
+    },
+    {
+      "id": 4,
+      "bookId": 4,
+      "bookName": "红楼梦",
+      "bookAuthor": "吴承恩",
+      "bookPub": "人民日报",
+      "bookSort": "小说",
+      "bookRecord": "2020-09-22",
+      "isreturn": 1
+    },
+    {
+      "id": 5,
+      "bookId": 5,
+      "bookName": "西游记5",
+      "bookAuthor": "吴承恩",
+      "bookPub": "人民日报",
+      "bookSort": "小说",
+      "bookRecord": "2020-09-22",
+      "isreturn": 0
+    },
+    {
+      "id": 6,
+      "bookId": 6,
+      "bookName": "三国演义6",
+      "bookAuthor": "吴承恩2",
+      "bookPub": "人民日报2",
+      "bookSort": "长篇",
+      "bookRecord": "2020-09-22",
+      "isreturn": 1
+    },
+    {
+      "id": 7,
+      "bookId": 7,
+      "bookName": "水浒传7",
+      "bookAuthor": "吴承恩",
+      "bookPub": "人民日报",
+      "bookSort": "小说",
+      "bookRecord": "2020-09-22",
+      "isreturn": 0
+    },
+    {
+      "id": 8,
+      "bookId": 8,
+      "bookName": "红楼梦8",
+      "bookAuthor": "吴承恩",
+      "bookPub": "人民日报",
+      "bookSort": "小说",
+      "bookRecord": "2020-09-22",
+      "isreturn": 1
+    }
+  ],
+  "borrowHistory2": [
+    {
+      "id": 1,
+      "historyId": 1,
+      "userId": 2,
+      "bookId": 1,
+      "borrowDate": "2020-02-11",
+      "returnDate": "2020-03-12",
+      "isreturn": 0,
+      "validityDate": 20,
+      "bookName": "西游记",
+      "userName": "张三"
+    },
+    {
+      "id": 2,
+      "historyId": 2,
+      "userId": 2,
+      "bookId": 1,
+      "borrowDate": "2020-02-11",
+      "returnDate": "2020-03-12",
+      "isreturn": 0,
+      "validityDate": 20,
+      "bookName": "西游记",
+      "userName": "李四"
+    },
+    {
+      "id": 3,
+      "historyId": 3,
+      "userId": 2,
+      "bookId": 1,
+      "borrowDate": "2020-02-11",
+      "returnDate": "2020-03-12",
+      "isreturn": 1,
+      "validityDate": 20,
+      "bookName": "西游记",
+      "userName": "李四"
+    }
+  ],
+  "notice": [
+    {
+      "id": 1,
+      "noticeId": 1,
+      "noticeContent": "2每个用户最多只能同时借三本书；还在截止时间内归还书籍，超时按每周（不足一周相当于一周）1块收费，损坏书籍按不同程度赔款，丢失书籍应按书籍原价3倍赔偿!",
+      "noticeCreatedtime": "2020-11-20",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "noticeId": 1,
+      "noticeContent": "每人最多只能同时借三本书；应在截止时间内归还书籍，超时按每周（不足一周相当于一周）1块收费；损坏书籍按不同程度赔款，丢失书籍应按书籍原价3倍赔偿!",
+      "noticeCreatedtime": "2020-11-20",
+      "userId": 1
+    }
+  ],
+  "total": {
+    "num": 30
+  }
 }

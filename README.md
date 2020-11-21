@@ -41,3 +41,6 @@
 * package.json
 * README.md
 
+# 关键技术
+axios请求拦截
+router导航守卫
