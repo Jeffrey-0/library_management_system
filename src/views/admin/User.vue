@@ -11,19 +11,19 @@
           >
             <el-form-item>
               <el-input
-                v-model="formInline.userName"
+                v-model="form.userName"
                 placeholder="查找用户"
               ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="onSubmit">查询</el-button>
+              <el-button type="primary" @click="onSubmitFuzzy">查询</el-button>
             </el-form-item>
           </el-form>
         </div>
         <el-table
           :data="tableData"
           border
-          style="width: 100%; min-height: 350px; margin-bottom: 15px"
+          style="width: 100%; min-height: 330px; margin-bottom: 15px"
         >
           <el-table-column prop="userName" label="姓名"> </el-table-column>
           <el-table-column prop="userSex" label="性别"> </el-table-column>
@@ -32,14 +32,17 @@
           <el-table-column prop="userEmail" label="邮箱"> </el-table-column>
           <el-table-column fixed="right" label="操作" width="144">
             <template slot-scope="scope">
-              <el-button
+              <el-tag
                 @click="handleClick(scope.row)"
                 type="primary"
-                size="small"
-                >查看</el-button
+                class="tag-btn"
+                >查 看</el-tag
               >
-              <el-button type="info" size="small" @click="cancel"
-                >禁用</el-button
+              <el-tag
+                @click="cancel"
+                type="info"
+                class="tag-btn"
+                >删 除</el-tag
               >
             </template>
           </el-table-column>
@@ -122,14 +125,7 @@ export default {
       total: 7,
       dialogFormVisible: false,
       form: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: "",
+        userName: "",
       },
       formLabelWidth: "70px",
     };
@@ -198,6 +194,26 @@ export default {
           });
         });
     },
+    onSubmitFuzzy () {    //模糊查询
+        this.currentPage = 1
+        console.log(this.form.userName)
+        if (this.form.userName) {
+          SelectFuzzy(this.form.userName).then(res => {
+            // TODO
+            this.tableData = res
+            this.total = 7
+          })
+          this.queryModel = 2
+        } else {  //为空时切换普通查询
+          SelectUser(this.currentPage, this.pageSize).then(res => {
+            console.log(res)
+            // TODO
+            this.tableData = res
+            // this.total = res.total
+          })
+          this.queryModel = 0
+        }
+      },
 
   },
   mounted() {
@@ -232,5 +248,9 @@ export default {
 }
 .container .content-box .content .search {
   padding-left: 375px;
+}
+.tag-btn {
+  cursor: pointer;
+  margin-right: 10px;
 }
 </style>

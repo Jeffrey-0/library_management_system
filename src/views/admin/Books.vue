@@ -9,28 +9,30 @@
           size="small"
         >
           <el-form-item label="分类">
-            <el-select v-model="formInline.region" placeholder="活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="出版社">
-            <el-select v-model="formInline.region" placeholder="活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="借书状态">
-            <el-select v-model="formInline.region" placeholder="所有">
-              <el-option label="所有" value="shanghai"></el-option>
-              <el-option label="未借" value="beijing"></el-option>
-              <el-option label="已借" value="beijing"></el-option>
-              <el-option label="借完" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit">查询</el-button>
-          </el-form-item>
+        <el-select v-model="formSeletor.sort" placeholder="分类">
+          <el-option label="所有" value="所有"></el-option>
+          <el-option :label="item.sortName" :value="item.sortName" v-for="item in bookSorts" :key="item.sortId"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="出版社">
+        <el-select v-model="formSeletor.pub" placeholder="出版社">
+          <el-option label="所有" value="所有"></el-option>
+          <el-option :label="item.pubName" :value="item.pubName" v-for="item in bookPubs" :key="item.pubId"></el-option>
+        </el-select>
+      </el-form-item>
+      <!-- <el-form-item label="剩余情况">
+        <el-input v-model="formSeletor.user" placeholder="审批人"></el-input>
+      </el-form-item> -->
+      <!-- <el-form-item label="状态">
+        <el-select v-model="formSeletor.status" placeholder="剩余情况" width="50px">
+          <el-option label="所有" value="所有"></el-option>
+          <el-option label="借完" value="0"></el-option>
+          <el-option label="可借" value="1"></el-option>
+        </el-select>
+      </el-form-item> -->
+      <el-form-item>
+        <el-button type="primary" @click="onSubmitSeletor">查询</el-button>
+      </el-form-item>
         </el-form>
       </div>
       <div class="search">
@@ -41,7 +43,7 @@
           size="small"
         >
           <el-form-item>
-            <el-input v-model="formInline.bookName" placeholder="输入书名，宁少字，不多字"></el-input>
+            <el-input v-model="form.bookName" placeholder="输入书名，宁少字，不多字"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="onSubmitFuzzy">查询</el-button>
@@ -59,7 +61,7 @@
         <el-table
           ref="filterTable"
           :data="tableData"
-          style="width: 100%; min-height: 350px; margin-bottom: 15px"
+          style="width: 100%; min-height: 330px; margin-bottom: 15px"
         >
           <el-table-column prop="bookName" label="书名" fixed>
           </el-table-column>
@@ -76,18 +78,17 @@
           <el-table-column prop="bookAuthor" label="作者"> </el-table-column>
           <el-table-column prop="tag" label="操作">
             <template slot-scope="scope">
-              <el-button
+              <el-tag
                 @click="handleClick(scope.row)"
                 type="primary"
-                size="small"
-                >编辑</el-button
+                disable-transitions
+                >编辑</el-tag
               >
             </template>
           </el-table-column>
         </el-table>
         <!-- 修改资料对话框 -->
         <el-dialog title="书籍资料" :visible.sync="dialogFormVisible">
-          <el-form :model="form">
             <el-form  :model="formInline"  class="demo-form-inline" label-width="60px" style="text-align:center">
             <el-form-item label="书名" :label-width="formLabelWidth">
               <el-input v-model="formInline.bookName" placeholder="书名" ></el-input>
@@ -100,13 +101,53 @@
             </el-form-item>
             <el-form-item label="类别" :label-width="formLabelWidth">
               <el-select v-model="formInline.bookSort" placeholder="类别" >
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
+                <el-option :label="item.sortName" :value="item.sortName" v-for="item in bookSorts" :key="item.sortId"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="上架时间" :label-width="formLabelWidth">
               <el-date-picker
-                v-model="formInline.bookRecord"
+                v-model="form.bookRecord"
+                type="date"
+                placeholder="选择日期"
+                
+              >
+              </el-date-picker>
+            </el-form-item>
+            <!-- <el-form-item label="状态" :label-width="formLabelWidth">
+              <el-select v-model="formInline.isreturn" placeholder="请选择活动区域">
+                <el-option label="未借" value="shanghai"></el-option>
+                <el-option label="已借" value="beijing"></el-option>
+              </el-select>
+            </el-form-item> -->
+            </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="dialogFormVisible = false"
+              >确 定</el-button
+            >
+          </div>
+        </el-dialog>
+        <!-- 添加图书对话框 -->
+        <el-dialog title="书籍资料" :visible.sync="dialogFormVisible">
+          <el-form :model="form">
+            <el-form  :model="formNewBook"  class="demo-form-inline" label-width="60px" style="text-align:center">
+            <el-form-item label="书名" :label-width="formLabelWidth">
+              <el-input v-model="formNewBook.bookName" placeholder="书名" ></el-input>
+            </el-form-item>
+            <el-form-item label="出版社" :label-width="formLabelWidth">
+              <el-input v-model="formNewBook.bookPub" ></el-input>
+            </el-form-item>
+            <el-form-item label="作者" :label-width="formLabelWidth">
+              <el-input v-model="formNewBook.bookAuthor" ></el-input>
+            </el-form-item>
+            <el-form-item label="类别" :label-width="formLabelWidth">
+              <el-select v-model="formNewBook.bookSort" placeholder="类别" >
+                <el-option :label="item.sortName" :value="item.sortName" v-for="item in bookSorts" :key="item.sortId"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="上架时间" :label-width="formLabelWidth">
+              <el-date-picker
+                v-model="formNewBook.bookRecord"
                 type="date"
                 placeholder="选择日期"
                 
@@ -147,7 +188,7 @@
 </template>
 
 <script>
-import { SelectBook, SelectSelector, SelectFuzzy } from "../../network/book";
+import { SelectBook, SelectBookSort, SelectBookPub, SelectSelector, SelectFuzzy } from "../../network/book";
 export default {
   name: "Books",
   components: {},
@@ -157,6 +198,17 @@ export default {
       tagName: "",
       icon: "",
       formInline: {
+        // 书籍详情模态框
+        id: "",
+        bookId: "",
+        bookName: "",
+        bookAuthor: "",
+        bookPub: "",
+        bookSort: "",
+        bookRecord: "",
+        isreturn: 0,
+      },
+      formNewBook: {
         // 书籍详情模态框
         id: "",
         bookId: "",
@@ -177,16 +229,14 @@ export default {
       bookSorts: [],
       bookPubs: [],
       queryModel: 0, // 当前查询状态，用户分页切换，分页查询0， 筛选查询1， 模糊查询2
-      form: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: "",
-      },
+      form: {  // 模糊查询表单
+          bookName: ''
+        },
+      formSeletor: {  // 筛选表单
+          sort: '所有',
+          pub: '所有',
+          status: '所有'
+        },
       formLabelWidth: "70px",
     };
   },
@@ -239,11 +289,11 @@ export default {
       this.formInline = row
       // this.formInlineIsreturn = row.isreturn
     },
-    onSubmitFuzzy () {
+    onSubmitFuzzy () {   //模糊查询
         this.currentPage = 1
-        console.log(this.formInline.bookName)
-        if (this.formInline.bookName) {
-          SelectFuzzy(this.formInline.bookName).then(res => {
+        console.log(this.form.bookName)
+        if (this.form.bookName) {
+          SelectFuzzy(this.form.bookName).then(res => {
             // TODO
             this.tableData = res
             this.total = 7
@@ -259,6 +309,17 @@ export default {
           this.queryModel = 0
         }
       },
+    onSubmitSeletor () {    //筛选查询
+        
+        this.currentPage = 1
+        SelectSelector(this.formSeletor.sort, this.formSeletor.pub, this.formSeletor.status).then(res => {
+          // TODO
+          this.tableData = res
+          this.total = 6
+        })
+        console.log(this.formSeletor)
+        this.queryModel = 1
+      },
   },
   created() {
     SelectBook(this.currentPage, this.pageSize).then((res) => {
@@ -266,6 +327,12 @@ export default {
       // TODO
       this.tableData = res;
     });
+    SelectBookSort().then(res => {
+        this.bookSorts = res
+      })
+    SelectBookPub().then(res => {
+        this.bookPubs = res
+      })
   },
   mounted() {
     this.$eventBus.$on("eventBusName", (val) => {

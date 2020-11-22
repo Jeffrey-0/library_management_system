@@ -9,10 +9,10 @@
           size="small"
         >
           <el-form-item>
-            <el-input v-model="formInline.user" placeholder="查询公告"></el-input>
+            <el-input v-model="form.noticeContent" placeholder="查询公告"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">查询</el-button>
+            <el-button type="primary" @click="onSubmitFuzzy">查询</el-button>
           </el-form-item>
           <el-button
             type="success"
@@ -29,13 +29,19 @@
         <el-table-column prop="noticeCreatedtime" label="上传日期" width="120"> </el-table-column>
         <el-table-column fixed="right" label="操作" width="144">
           <template slot-scope="scope">
-            <el-button
-              @click="handleClick(scope.row)"
-              type="primary"
-              size="small"
-              >查看</el-button
-            >
-              <el-button type="info" size="small" @click="cancel">删除</el-button>
+            <el-tag
+                @click="handleClick(scope.row)"
+                type="primary"
+                class="tag-btn"
+                >查 看</el-tag
+              >
+          <el-tag
+                @click="cancel"
+                type="info"
+                class="tag-btn"
+                >删 除</el-tag
+              >
+            
           </template>
         </el-table-column>
       </el-table>
@@ -45,6 +51,7 @@
           <div class="notice-info">发布者: {{formInline.userName}}  {{formInline.noticeCreatedtime}}</div>
         </div>
         <div slot="footer" class="dialog-footer">
+          
           <el-button @click="dialogFormVisible = false">取 消</el-button>
           <el-button type="primary" @click="dialogFormVisible = false"
             >确 定</el-button
@@ -81,7 +88,7 @@
 </template>
 
 <script>
-import { SelectNotice, SelectSelector, SelectFuzzy } from "../../network/notice";
+import { SelectNotice, SelectSelector, SelectNoticeFuzzy } from "../../network/notice";
 export default {
   name: "Notice",
   data() {
@@ -105,14 +112,7 @@ export default {
       dialogFormVisible: false,
       dialogNoticeVisible: false,
       form: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: "",
+        noticeContent: ""
       },
       formLabelWidth: "70px",
     };
@@ -143,7 +143,7 @@ export default {
       this.currentPage = val;
       if (this.queryModel === 2) {
         //模糊查询
-        SelectFuzzy(this.form.bookName, this.currentPage, this.pageSize).then(
+        SelectNoticeFuzzy(this.form.bookName, this.currentPage, this.pageSize).then(
           (res) => {
             // TODO
             this.tableData = res;
@@ -174,7 +174,7 @@ export default {
         });
       }
     },
-    cancel() {
+    cancel() {   //注销禁用
       this.$confirm("此操作将删除这条公告, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -193,6 +193,26 @@ export default {
           });
         });
     },
+    onSubmitFuzzy () {    //模糊查询
+        this.currentPage = 1
+        console.log(this.form.noticeContent)
+        if (this.form.noticeContent) {
+          SelectNoticeFuzzy(this.form.noticeContent).then(res => {
+            // TODO
+            this.tableData = res
+            this.total = 7
+          })
+          this.queryModel = 2
+        } else {  //为空时切换普通查询
+          SelectNotice(this.currentPage, this.pageSize).then(res => {
+            console.log(res)
+            // TODO
+            this.tableData = res
+            // this.total = res.total
+          })
+          this.queryModel = 0
+        }
+      },
   },
   mounted() {
     this.$eventBus.$on("eventBusName", (val) => {
@@ -248,5 +268,8 @@ export default {
   text-align: right;
   margin: 10px 15px 0 0;
 }
-
+.tag-btn {
+  cursor: pointer;
+  margin-right: 10px;
+}
 </style>

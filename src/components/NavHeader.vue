@@ -14,7 +14,14 @@
         <div class="header-user-con">
           <div class="user-avator"><img src="../assets/dog.jpg" alt="" /></div>
           <div class="user-name el-dropdown">
-            <span class="el-dropdown-link el-dropdown-selfdefine">名字 </span>
+            <el-dropdown>
+              <span class="el-dropdown-link">
+                管理员名字<i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown" class="login-out">
+                <el-dropdown-item><router-link  to="/login">退出登录</router-link></el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
           </div>
         </div>
       </div>
@@ -63,7 +70,6 @@ export default {
   line-height: 70px;
 }
 .header .collapse-btn:hover {
-  
   background-color: #324157;
 }
 .header .logo {
@@ -108,5 +114,12 @@ export default {
 }
 .header .header-right .header-user-con .user-name {
   margin-left: 10px;
+}
+.el-dropdown-link {
+  cursor: pointer;
+}
+.login-out a {
+  text-decoration: none;
+  color: #666;
 }
 </style>

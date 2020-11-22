@@ -11,11 +11,11 @@ export function SelectUser (page, rows) {
 }
 
 export function SelectFuzzy (userName, page = 1, rows = 5) {
-  rows = 2
   console.log(userName, page, rows)
   return request({
     url: 'users',
     params: {
+      userName_like: userName,
       _page: page,
       _limit: rows
     }

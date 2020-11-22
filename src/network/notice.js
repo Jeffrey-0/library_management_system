@@ -44,13 +44,13 @@ export function SelectUserNotice (page = 1, rows = 6) {
     }
   })
 } */
-export function SelectNoticeFuzzy (noticeName, page = 1, rows = 6) {
+export function SelectNoticeFuzzy (noticeContent, page = 1, rows = 6) {
   // rows = 2
   // console.log(noticeName, page, rows)
   return request({
-    url: 'notices',
+    url: 'notice',
     params: {
-      noticeContent_like: noticeName,
+      noticeContent_like: noticeContent,
       _page: page,
       _limit: rows
     }
