@@ -56,3 +56,14 @@ export function SelectNoticeFuzzy (noticeName, page = 1, rows = 6) {
     }
   })
 }
+
+// 分页查找公告
+export function SelectNotice (page, rows) {
+  return request({
+    url: 'notice',
+    params: {
+      _page: page,
+      _limit: rows
+    }
+  })
+}

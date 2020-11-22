@@ -6,12 +6,13 @@ export function SelectBook (page = 1, rows = 5) {
   return request({
     url: 'SelectBook',
     params: {
-      page,
-      rows
+      _page: page,
+      _rows: rows
     }
   })
 }
-/* export function SelectBook (page, rows) {
+/*
+export function SelectBook (page, rows) {
   return request({
     url: 'books',
     method: 'get',

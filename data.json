@@ -40,12 +40,28 @@
       "userName": "张三",
       "id": 5
     },
+    
     {
-      "userId": "1123123",
-      "userName": "撒旦法",
+      "id": 6,
+      "userId": 5,
+      "userName": "王五",
       "userPassword": "aA@000000",
-      "userEmail": "sadf@qq.com",
-      "id": 6
+      "userAge": 18,
+      "userEmail": "631253877@qq.com",
+      "userSex": "男",
+      "userPhone": "123123123",
+      "userCategory": "1"
+    },
+    {
+      "id": 7,
+      "userId": 4,
+      "userName": "王五",
+      "userPassword": "aA@000000",
+      "userAge": 18,
+      "userEmail": "631253877@qq.com",
+      "userSex": "男",
+      "userPhone": "123123123",
+      "userCategory": "1"
     }
   ],
   "books": [
@@ -992,7 +1008,7 @@
       "noticeContent": "2每个用户最多只能同时借三本书；还在截止时间内归还书籍，超时按每周（不足一周相当于一周）1块收费，损坏书籍按不同程度赔款，丢失书籍应按书籍原价3倍赔偿!",
       "noticeCreatedtime": "2020-11-20",
       "userId": 1,
-      "userName": "张三"
+      "userName":"张三"
     },
     {
       "id": 2,
@@ -1000,55 +1016,39 @@
       "noticeContent": "每人最多只能同时借三本书；应在截止时间内归还书籍，超时按每周（不足一周相当于一周）1块收费；损坏书籍按不同程度赔款，丢失书籍应按书籍原价3倍赔偿!",
       "noticeCreatedtime": "2020-11-20",
       "userId": 1,
-      "userName": "李四"
+      "userName":"张三"
     },
     {
       "id": 3,
-      "noticeId": 3,
-      "noticeContent": "还在截止时间内归还书籍，超时按每周（不足一周相当于一周）1块收费，损坏书籍按不同程度赔款，丢失书籍应按书籍原价3倍赔偿!",
+      "noticeId": 1,
+      "noticeContent": "2每个用户最多只能同时借三本书；还在截止时间内归还书籍，超时按每周（不足一周相当于一周）1块收费，损坏书籍按不同程度赔款，丢失书籍应按书籍原价3倍赔偿!",
       "noticeCreatedtime": "2020-11-20",
       "userId": 1,
-      "userName": "张三"
+      "userName":"张三"
     },
     {
       "id": 4,
-      "noticeId": 4,
-      "noticeContent": "应在截止时间内归还书籍，超时按每周（不足一周相当于一周）1块收费；损坏书籍按不同程度赔款，丢失书籍应按书籍原价3倍赔偿!",
+      "noticeId": 1,
+      "noticeContent": "每人最多只能同时借三本书；应在截止时间内归还书籍，超时按每周（不足一周相当于一周）1块收费；损坏书籍按不同程度赔款，丢失书籍应按书籍原价3倍赔偿!",
       "noticeCreatedtime": "2020-11-20",
       "userId": 1,
-      "userName": "李四"
+      "userName":"张三"
     },
     {
       "id": 5,
-      "noticeId": 5,
-      "noticeContent": "损坏书籍按不同程度赔款，丢失书籍应按书籍原价3倍赔偿!",
+      "noticeId": 1,
+      "noticeContent": "2每个用户最多只能同时借三本书；还在截止时间内归还书籍，超时按每周（不足一周相当于一周）1块收费，损坏书籍按不同程度赔款，丢失书籍应按书籍原价3倍赔偿!",
       "noticeCreatedtime": "2020-11-20",
       "userId": 1,
-      "userName": "张三"
+      "userName":"张三"
     },
     {
       "id": 6,
-      "noticeId": 6,
-      "noticeContent": "损坏书籍按不同程度赔款，丢失书籍应按书籍原价3倍赔偿!",
+      "noticeId": 1,
+      "noticeContent": "每人最多只能同时借三本书；应在截止时间内归还书籍，超时按每周（不足一周相当于一周）1块收费；损坏书籍按不同程度赔款，丢失书籍应按书籍原价3倍赔偿!",
       "noticeCreatedtime": "2020-11-20",
       "userId": 1,
-      "userName": "李四"
-    },
-    {
-      "id": 7,
-      "noticeId": 7,
-      "noticeContent": "超时按每周（不足一周相当于一周）1块收费，损坏书籍按不同程度赔款，丢失书籍应按书籍原价3倍赔偿!",
-      "noticeCreatedtime": "2020-11-20",
-      "userId": 1,
-      "userName": "张三"
-    },
-    {
-      "id": 8,
-      "noticeId": 8,
-      "noticeContent": "超时按每周（不足一周相当于一周）1块收费；损坏书籍按不同程度赔款，丢失书籍应按书籍原价3倍赔偿!",
-      "noticeCreatedtime": "2020-11-20",
-      "userId": 1,
-      "userName": "李四"
+      "userName":"张三"
     }
   ],
   "total": {

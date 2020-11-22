@@ -41,28 +41,39 @@
           size="small"
         >
           <el-form-item>
-            <el-input v-model="formInline.user" placeholder="审批人"></el-input>
+            <el-input v-model="formInline.bookName" placeholder="输入书名，宁少字，不多字"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">查询</el-button>
-            <el-button type="success" class="publish" size="small" @click="dialogFormVisible = true">添加新书籍</el-button>
+            <el-button type="primary" @click="onSubmitFuzzy">查询</el-button>
+            <el-button
+              type="success"
+              class="publish"
+              size="small"
+              @click="dialogFormVisible = true"
+              >添加新书籍</el-button
+            >
           </el-form-item>
         </el-form>
       </div>
       <div class="content-body">
-        <el-table ref="filterTable" :data="tableData" style="width: 100%">
-          <el-table-column prop="name" label="书名" fixed> </el-table-column>
-          <el-table-column prop="name" label="出版社"> </el-table-column>
-          <el-table-column prop="name" label="类别"> </el-table-column>
+        <el-table
+          ref="filterTable"
+          :data="tableData"
+          style="width: 100%; min-height: 350px; margin-bottom: 15px"
+        >
+          <el-table-column prop="bookName" label="书名" fixed>
+          </el-table-column>
+          <el-table-column prop="bookPub" label="出版社"> </el-table-column>
+          <el-table-column prop="bookSort" label="类别"> </el-table-column>
           <el-table-column
-            prop="date"
+            prop="bookRecord"
             label="上架日期"
             sortable
             width="150"
             column-key="date"
           >
           </el-table-column>
-          <el-table-column prop="name" label="作者"> </el-table-column>
+          <el-table-column prop="bookAuthor" label="作者"> </el-table-column>
           <el-table-column prop="tag" label="操作">
             <template slot-scope="scope">
               <el-button
@@ -77,35 +88,38 @@
         <!-- 修改资料对话框 -->
         <el-dialog title="书籍资料" :visible.sync="dialogFormVisible">
           <el-form :model="form">
+            <el-form  :model="formInline"  class="demo-form-inline" label-width="60px" style="text-align:center">
             <el-form-item label="书名" :label-width="formLabelWidth">
-              <el-input v-model="form.name" autocomplete="off"></el-input>
+              <el-input v-model="formInline.bookName" placeholder="书名" ></el-input>
             </el-form-item>
             <el-form-item label="出版社" :label-width="formLabelWidth">
-              <el-input v-model="form.name" autocomplete="off"></el-input>
+              <el-input v-model="formInline.bookPub" ></el-input>
             </el-form-item>
             <el-form-item label="作者" :label-width="formLabelWidth">
-              <el-input v-model="form.name" autocomplete="off"></el-input>
+              <el-input v-model="formInline.bookAuthor" ></el-input>
             </el-form-item>
             <el-form-item label="类别" :label-width="formLabelWidth">
-              <el-select v-model="form.region" placeholder="请选择活动区域">
+              <el-select v-model="formInline.bookSort" placeholder="类别" >
                 <el-option label="区域一" value="shanghai"></el-option>
                 <el-option label="区域二" value="beijing"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="上架时间" :label-width="formLabelWidth">
               <el-date-picker
-                v-model="tableData.date"
+                v-model="formInline.bookRecord"
                 type="date"
                 placeholder="选择日期"
+                
               >
               </el-date-picker>
             </el-form-item>
-            <el-form-item label="状态" :label-width="formLabelWidth">
-              <el-select v-model="form.region" placeholder="请选择活动区域">
+            <!-- <el-form-item label="状态" :label-width="formLabelWidth">
+              <el-select v-model="formInline.isreturn" placeholder="请选择活动区域">
                 <el-option label="未借" value="shanghai"></el-option>
                 <el-option label="已借" value="beijing"></el-option>
               </el-select>
-            </el-form-item>
+            </el-form-item> -->
+            </el-form>
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -120,9 +134,10 @@
         <div class="block">
           <el-pagination
             @current-change="handleCurrentChange"
-            :current-page="currentPage4"
+            :current-page="currentPage"
+            :page-size="pageSize"
             layout="total, prev, pager, next, jumper"
-            :total="400"
+            :total="total"
           >
           </el-pagination>
         </div>
@@ -132,6 +147,7 @@
 </template>
 
 <script>
+import { SelectBook, SelectSelector, SelectFuzzy } from "../../network/book";
 export default {
   name: "Books",
   components: {},
@@ -141,41 +157,26 @@ export default {
       tagName: "",
       icon: "",
       formInline: {
-        user: "",
-        region: "",
+        // 书籍详情模态框
+        id: "",
+        bookId: "",
+        bookName: "",
+        bookAuthor: "",
+        bookPub: "",
+        bookSort: "",
+        bookRecord: "",
+        isreturn: 0,
       },
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          tag: "未借",
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          tag: "已借",
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          tag: "未借",
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          tag: "已借",
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          tag: "已借",
-        },
-      ],
-      currentPage1: 5,
-      currentPage2: 5,
-      currentPage3: 5,
-      currentPage4: 4,
+      tableData: [], //书籍列表
+
+      currentPage: 1,
+      pageSize: 5,
       dialogFormVisible: false,
+      formInlineIsreturn: "0",
+      total: 8,
+      bookSorts: [],
+      bookPubs: [],
+      queryModel: 0, // 当前查询状态，用户分页切换，分页查询0， 筛选查询1， 模糊查询2
       form: {
         name: "",
         region: "",
@@ -198,12 +199,73 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+      this.currentPage = val;
+      if (this.queryModel === 2) {
+        //模糊查询
+        SelectFuzzy(this.form.bookName, this.currentPage, this.pageSize).then(
+          (res) => {
+            // TODO
+            this.tableData = res;
+            this.total = 7;
+          }
+        );
+      } else if (this.queryModel === 1) {
+        // 筛选查询
+        SelectSelector(
+          this.formSeletor.sort,
+          this.formSeletor.pub,
+          this.formSeletor.isreturn,
+          this.currentPage,
+          this.pageSize
+        ).then((res) => {
+          // TODO
+          this.tableData = res;
+          this.total = 6;
+        });
+      } else {
+        // 普通查询
+        SelectBook(this.currentPage, this.pageSize).then((res) => {
+          console.log(res);
+          // TODO
+          this.tableData = res;
+          this.total = 8;
+          // this.total = res.total
+        });
+      }
     },
-    
     handleClick(row) {
       console.log(row);
       this.dialogFormVisible = true;
+      this.formInline = row
+      // this.formInlineIsreturn = row.isreturn
     },
+    onSubmitFuzzy () {
+        this.currentPage = 1
+        console.log(this.formInline.bookName)
+        if (this.formInline.bookName) {
+          SelectFuzzy(this.formInline.bookName).then(res => {
+            // TODO
+            this.tableData = res
+            this.total = 7
+          })
+          this.queryModel = 2
+        } else {  //为空时切换普通查询
+          SelectBook(this.currentPage, this.pageSize).then(res => {
+            console.log(res)
+            // TODO
+            this.tableData = res
+            // this.total = res.total
+          })
+          this.queryModel = 0
+        }
+      },
+  },
+  created() {
+    SelectBook(this.currentPage, this.pageSize).then((res) => {
+      console.log(this.currentPage);
+      // TODO
+      this.tableData = res;
+    });
   },
   mounted() {
     this.$eventBus.$on("eventBusName", (val) => {
@@ -253,7 +315,7 @@ export default {
 .container .content-box .content .search {
   padding-left: 375px;
 }
-.container .content-box .content .search .publish{
-    margin-left: 50px;
+.container .content-box .content .search .publish {
+  margin-left: 50px;
 }
 </style>
