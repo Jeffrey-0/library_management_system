@@ -41,7 +41,7 @@ const routes = [{
   name: 'index',
   component: Index
 },
-{ path: '*', redirect: '/index' },
+
 {
   path: '/login',
   name: 'login',
@@ -89,7 +89,8 @@ const routes = [{
   path: '/home',
   name: 'home',
   component: Home
-}
+},
+{ path: '*', redirect: '/login' },
 ]
 const router = new VueRouter({
   // mode: 'history',

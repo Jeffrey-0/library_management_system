@@ -2,9 +2,9 @@
   <div>
     <div class="title">历史</div>
 
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+    <el-form :inline="true" :model="formSearch" class="demo-form-inline">
       <el-form-item>
-        <el-input v-model="formInline.user" placeholder="书名"></el-input>
+        <el-input v-model="formSearch.bookName" placeholder="书名"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -16,23 +16,27 @@
     stripe
     style="width: 100%;min-height:390px;margin-bottom:15px">  
     <el-table-column
-      prop="date"
+      prop="bookName"
       label="书名">
     </el-table-column>
     <el-table-column
-      prop="name"
+      prop="bookSort"
       label="类别">
     </el-table-column>
     <el-table-column
-      prop="province"
+      prop="bookAuthor"
       label="作者">
     </el-table-column>
     <el-table-column
-      prop="date"
+      prop="borrowDate"
       label="借书时间">
     </el-table-column>
     <el-table-column
-      prop="zip"
+      prop="validityDate"
+      label="有效期">
+    </el-table-column>
+    <el-table-column
+      prop="returnDate"
       label="归还时间">
     </el-table-column>
 
@@ -40,8 +44,10 @@
       label="操作"
       width="70">
       <div slot-scope="scope">
-        <el-button @click="handleClick(scope.row)" type="text" size="small">详情</el-button>
-        <!-- <el-button type="text" size="small">编辑</el-button> -->
+        <!-- <el-button @click="handleClick(scope.row)" type="primary" size="small">详情</el-button> -->
+        <el-tag @click="handleClick(scope.row)"
+          type="primary"
+          disable-transitions>详情</el-tag>
       </div>
     </el-table-column>
   </el-table>
@@ -50,9 +56,9 @@
     <el-pagination
       @current-change="handleCurrentChange"
       :current-page="currentPage"
-      :page-size="6"
+      :page-size="pageSize"
       layout="total, prev, pager, next, jumper"
-      :total="50">
+      :total="total">
     </el-pagination>
   </div>
 
@@ -63,22 +69,22 @@
         <el-input v-model="formInline.user" placeholder="姓名" disabled></el-input>
       </el-form-item> -->
       <el-form-item label="书名">
-        <el-input v-model="formInline.user" placeholder="姓名" disabled></el-input>
+        <el-input v-model="formInline.bookName" placeholder="书名" disabled></el-input>
       </el-form-item>
       <el-form-item label="分类">
-        <el-input v-model="formInline.user" placeholder="手机" disabled></el-input>
-      </el-form-item>
-      <el-form-item label="出版社">
-        <el-input v-model="formInline.user" placeholder="年龄" disabled></el-input>
+        <el-input v-model="formInline.bookSort" placeholder="分类" disabled></el-input>
       </el-form-item>
       <el-form-item label="作者">
-        <el-input v-model="formInline.user" placeholder="手机" disabled></el-input>
+        <el-input v-model="formInline.bookAuthor" placeholder="作者" disabled></el-input>
       </el-form-item>
-      <el-form-item label="上架">
-        <el-input v-model="formInline.user" placeholder="年龄" disabled></el-input>
+      <el-form-item label="借书">
+        <el-input v-model="formInline.borrowDate" placeholder="借书时间" disabled></el-input>
       </el-form-item>
-      <el-form-item label="状态   ">
-        <el-input v-model="formInline.user" placeholder="年龄" disabled></el-input>
+      <el-form-item label="归还">
+        <el-input v-model="formInline.returnDate" placeholder="归还时间" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="有效期">
+        <el-input v-model="formInline.validityDate" placeholder="有效期" disabled></el-input>
       </el-form-item>
     </el-form>
   </el-form>
@@ -91,73 +97,65 @@
 </template>
 
 <script>
+  import {SelectUserHistory, SelectHistoryFuzzy} from '../../network/history'
   export default {
     methods: {
       handleClick(row) {
+        this.formInline = row
         this.dialogFormVisible = true
         console.log(row);
       },
        onSubmit() {
-        console.log('submit!');
-      },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+        this.currentPage = 1
+        console.log(this.formSearch.bookName)
+        if (this.formSearch.bookName) {
+          SelectHistoryFuzzy(this.$user.userId, this.formSearch.bookName).then(res => {
+            // TODO
+            this.tableData = res
+            this.total = 7
+          })
+          this.queryModel = 2
+        } else {  //为空时切换普通查询
+          SelectUserHistory(this.$user.userId, this.currentPage, this.pageSize).then(res => {
+            console.log(res)
+            // TODO
+            this.tableData = res
+            this.total = 9
+            // this.total = res.total
+          })
+          this.queryModel = 0
+        }
       },
       handleCurrentChange(val) {
+        this.currentPage = val
+        if (this.queryModel === 1) { //模糊查询
+            SelectHistoryFuzzy(this.$user.userId, this.formSearch.bookName,this.currentPage, this.pageSize).then(res => {
+            // TODO
+            this.tableData = res
+            this.total = 7
+          })
+        } else { // 普通查询
+          SelectUserHistory(this.$user.userId, this.currentPage, this.pageSize).then(res => {
+            console.log(res)
+            // TODO
+            this.tableData = res
+            this.total = 9
+            // this.total = res.total
+          })
+        }
         console.log(`当前页: ${val}`);
       }
     },
 
     data() {
       return {
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1517 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1519 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1516 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1519 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1519 弄',
-          zip: 200333
-        }],
+        tableData: [],
          formInline: {
-          user: '',
-          region: ''
         },
-        currentPage: 4,
+        formSearch: {
+          bookName: ''
+        },
+        currentPage: 1,
         dialogTableVisible: false,
         dialogFormVisible: false,
         form: {
@@ -170,9 +168,18 @@
           resource: '',
           desc: ''
         },
-        formLabelWidth: '120px'
+        formLabelWidth: '120px',
+        pageSize: 6,
+        total: 9,
+        queryModel: 0  // 当前查询状态，用户分页切换，分页查询0，  模糊查询1
       
       }
+    },
+    created () {
+      SelectUserHistory(this.$user.userId).then(res => {
+        this.tableData = res
+        // this.total = res.total
+      })
     }
   }
 </script>
