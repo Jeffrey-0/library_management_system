@@ -66,7 +66,7 @@ export default {
             } else if (value.length > 30) {
               return callback(new Error('长度不能大于30'))
             } else if (!regex.test(value)) {
-              return callback(new Error('必须有大小写字母已经特殊字符'))
+              return callback(new Error('必须有大小写字母和特殊字符'))
             } else {
               callback()
             }

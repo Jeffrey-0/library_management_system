@@ -70,7 +70,7 @@
       "bookPub": "人民日报2",
       "bookSort": "长篇",
       "bookRecord": "2020-09-22",
-      "isreturn": "1",
+      "isreturn": "0",
       "userId": "1",
       "userName": "张三",
       "id": 2
@@ -726,6 +726,38 @@
       "validityDate": "30",
       "userName": "张三",
       "id": 29
+    },
+    {
+      "historyId": "10",
+      "bookId": "2",
+      "bookName": "三国演义",
+      "borrowDate": "2020-11-22",
+      "validityDate": "30",
+      "returnDate": "2026-12-9",
+      "bookAuthor": "吴承恩2",
+      "bookPub": "人民日报2",
+      "bookSort": "长篇",
+      "bookRecord": "2020-09-22",
+      "isreturn": "1",
+      "userId": "1",
+      "userName": "张三",
+      "id": 30
+    },
+    {
+      "historyId": "10",
+      "bookId": "2",
+      "bookName": "三国演义",
+      "borrowDate": "2020-11-22",
+      "validityDate": "30",
+      "returnDate": "2026-12-9",
+      "bookAuthor": "吴承恩2",
+      "bookPub": "人民日报2",
+      "bookSort": "长篇",
+      "bookRecord": "2020-09-22",
+      "isreturn": "0",
+      "userId": "1",
+      "userName": "张三",
+      "id": 31
     }
   ],
   "notices": [
