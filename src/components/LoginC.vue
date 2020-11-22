@@ -82,8 +82,8 @@ export default {
 
               // 保存用户到sessionStorage
               // TODO res[0] => res
-              sessionStorage.setItem('user', JSON.stringify(res[0]))
-              Object.assign(this.$user, res[0])
+              sessionStorage.setItem('user', JSON.stringify(res))
+              Object.assign(this.$user, res)
 
               console.log('登录成功$user' , this.$user)
               this.$message({
@@ -93,9 +93,9 @@ export default {
                 offset: 40
               })
               // TODO
-              console.log(res[0])
-              if (res[0].userCategory == '1') {
-                this.$router.push('/helloWorld')
+              console.log(res)
+              if (res.userCategory == '1') {
+                this.$router.push('/helloworld')
               } else {
                 this.$router.push('/index') 
               }

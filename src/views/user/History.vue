@@ -111,16 +111,20 @@
         if (this.formSearch.bookName) {
           SelectHistoryFuzzy(this.$user.userId, this.formSearch.bookName).then(res => {
             // TODO
-            this.tableData = res
-            this.total = 7
+            if (res) {
+              this.tableData = res.borrowhistory
+              this.total = res.total
+            }
           })
           this.queryModel = 2
         } else {  //为空时切换普通查询
           SelectUserHistory(this.$user.userId, this.currentPage, this.pageSize).then(res => {
             console.log(res)
             // TODO
-            this.tableData = res
-            this.total = 9
+            if (res) {
+              this.tableData = res.borrowhistory
+              this.total = res.total
+            }
             // this.total = res.total
           })
           this.queryModel = 0
@@ -131,16 +135,24 @@
         if (this.queryModel === 1) { //模糊查询
             SelectHistoryFuzzy(this.$user.userId, this.formSearch.bookName,this.currentPage, this.pageSize).then(res => {
             // TODO
-            this.tableData = res
-            this.total = 7
+            /* this.tableData = res
+            this.total = 7 */
+            if (res) {
+              this.tableData = res.borrowhistory
+              this.total = res.total
+            }
           })
         } else { // 普通查询
           SelectUserHistory(this.$user.userId, this.currentPage, this.pageSize).then(res => {
             console.log(res)
             // TODO
-            this.tableData = res
-            this.total = 9
+            /* this.tableData = res
+            this.total = 9 */
             // this.total = res.total
+            if (res) {
+              this.tableData = res.borrowhistory
+              this.total = res.total
+            }
           })
         }
         console.log(`当前页: ${val}`);
@@ -177,8 +189,12 @@
     },
     created () {
       SelectUserHistory(this.$user.userId).then(res => {
-        this.tableData = res
+        // this.tableData = res
         // this.total = res.total
+        if (res) {
+          this.tableData = res.borrowhistory
+          this.total = res.total
+        }
       })
     }
   }

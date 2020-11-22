@@ -8,6 +8,7 @@ import Books from '../views/admin/Books.vue'
 import Notice from '../views/admin/Notice.vue'
 import Login from '../views/Login.vue'
 import HelloWorld from '../components/HelloWorld.vue'
+import NoFind from '../views/404.vue'
 
 Vue.use(VueRouter)
 
@@ -90,7 +91,17 @@ const routes = [{
   name: 'home',
   component: Home
 },
-{ path: '*', redirect: '/login' },
+{
+  path: '*',
+  name: '404',
+  component: NoFind
+},
+{
+  path: '/',
+  name: 'login',
+  component: Login
+}
+// { path: '*', redirect: '/login' }
 ]
 const router = new VueRouter({
   // mode: 'history',
@@ -101,7 +112,7 @@ const router = new VueRouter({
 })
 
 // 挂载路由导航守卫，如果用户未登陆，则跳转到登录页面
-router.beforeEach((to, form, next) => {
+/* router.beforeEach((to, form, next) => {
   if (to.path === '/login') {
     return next()
   }
@@ -112,5 +123,5 @@ router.beforeEach((to, form, next) => {
   } else {
     return next()
   }
-})
+}) */
 export default router

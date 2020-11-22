@@ -150,21 +150,33 @@
         if (this.queryModel === 2) { //模糊查询
             SelectFuzzy(this.form.bookName,this.currentPage, this.pageSize).then(res => {
             // TODO
-            this.tableData = res
-            this.total = 7
+            /* this.tableData = res
+            this.total = 7 */
+            if (res) {
+              this.tableData = res.book
+              this.total = res.total
+            }
           })
         } else if (this.queryModel === 1) {  // 筛选查询
           SelectSelector(this.formSeletor.sort, this.formSeletor.pub, this.formSeletor.isreturn,this.currentPage, this.pageSize).then(res => {
             // TODO
-            this.tableData = res
-            this.total = 6
+            /* this.tableData = res
+            this.total = 6 */
+            if (res) {
+              this.tableData = res.book
+              this.total = res.total
+            }
           })
         } else { // 普通查询
           SelectBook(this.currentPage, this.pageSize).then(res => {
             console.log(res)
             // TODO
-            this.tableData = res
-            this.total = 8
+            /* this.tableData = res
+            this.total = 8 */
+            if (res) {
+              this.tableData = res.book
+              this.total = res.total
+            }
             // this.total = res.total
           })
         }
@@ -178,8 +190,12 @@
         this.currentPage = 1
         SelectSelector(this.formSeletor.sort, this.formSeletor.pub, this.formSeletor.status).then(res => {
           // TODO
-          this.tableData = res
-          this.total = 6
+          /* this.tableData = res
+          this.total = 6 */
+          if (res) {
+            this.tableData = res.book
+            this.total = res.total
+          }
         })
         console.log(this.formSeletor)
         this.queryModel = 1
@@ -190,16 +206,24 @@
         if (this.form.bookName) {
           SelectFuzzy(this.form.bookName).then(res => {
             // TODO
-            this.tableData = res
-            this.total = 7
+            /* this.tableData = res
+            this.total = 7 */
+            if (res) {
+              this.tableData = res.book
+              this.total = res.total
+            }
           })
           this.queryModel = 2
         } else {  //为空时切换普通查询
           SelectBook(this.currentPage, this.pageSize).then(res => {
             console.log(res)
             // TODO
-            this.tableData = res
+            // this.tableData = res
             // this.total = res.total
+            if (res) {
+              this.tableData = res.book
+              this.total = res.total
+            }
           })
           this.queryModel = 0
         }
@@ -240,6 +264,9 @@
           }
         })
         
+      },
+      changeBookStatus (bookId) {
+        console.log('eventBus changeBookStatus ',bookId)
       }
     },
 
@@ -280,14 +307,31 @@
       SelectBook(this.currentPage, this.pageSize).then(res => {
         console.log(res)
         // TODO
-        this.tableData = res
+        // this.tableData = res
         // this.total = res.total
+        if (res) {
+          this.tableData = res.book
+          this.total = res.total
+        }        
       })
       SelectBookSort().then(res => {
         this.bookSorts = res
       })
       SelectBookPub().then(res => {
         this.bookPubs = res
+      })
+    },
+    mounted () {
+      // 书架还书后改变当前图书中该书（若有）的状态
+      this.$eventBus.$on('changeBookStatus', (bookId) => {
+        console.log('eventBus changeBookStatus ',bookId)
+        // this.tableData[1].isreturn = 1
+        for (let i = 0; i < this.tableData.length; i++) {
+          if (this.tableData[i].bookId == bookId) {
+            this.tableData[i].isreturn = 1
+            break
+          }
+        }
       })
     }
   }

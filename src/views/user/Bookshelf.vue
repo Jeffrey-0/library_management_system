@@ -54,14 +54,17 @@ export default {
         this.books[index].isreturn = 1
         returnBookChange(this.books[index])
         if (res) {
+          // console.log('changeBookStatus', history.bookId, 2)
+          this.$eventBus.$emit('changeBookStatus', history.bookId)
           Object.assign(this.books[index], {
-          historyId: '',
-          bookId: '',
-          bookName: '',
-          borrowDate: '',
-          validityDate: '',
-          returnDate: ''
-        })
+            historyId: '',
+            bookId: '',
+            bookName: '',
+            borrowDate: '',
+            validityDate: '',
+            returnDate: ''
+          })
+          
           this.$message({
             type: 'success',
             message: '归还成功!',

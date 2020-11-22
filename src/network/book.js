@@ -1,8 +1,8 @@
 import { request } from './request'
 // 书本
 
-//分页查询书本
-/* export function SelectBookAdmin (page, rows) {
+// 分页查询书本
+export function SelectBook (page = 1, rows = 5) {
   return request({
     url: 'SelectBook',
     params: {
@@ -10,7 +10,8 @@ import { request } from './request'
       _rows: rows
     }
   })
-}  */
+}
+/*
 export function SelectBook (page, rows) {
   return request({
     url: 'books',
@@ -20,7 +21,7 @@ export function SelectBook (page, rows) {
       _limit: rows
     }
   })
-}
+} */
 
 // 查询书籍所有分类
 export function SelectBookSort () {
@@ -37,20 +38,27 @@ export function SelectBookPub () {
 }
 
 // 筛选查询
-/* export function SelectSelector (bookSort, bookPub, bookIsreturn, page = 1, rows = 5) {
+export function SelectSelector (bookSort, bookPub, bookIsreturn, page = 1, rows = 5) {
+  let data = {
+    page: page,
+    rows: rows
+  }
+  if (bookSort !== '所有') {
+    data.bookSort = bookSort
+  }
+  if (bookPub !== '所有') {
+    data.bookPub = bookPub
+  }
+  if (bookIsreturn !== '所有') {
+    data.isreturn = bookIsreturn
+  }
   return request({
     url: 'SelectBookByChiose',
     method: 'post',
-    body: {
-      bookSort,
-      bookPub,
-      bookIsreturn,
-      page,
-      rows
-    }
+    data: data
   })
-} */
-export function SelectSelector (bookSort, bookPub, bookIsreturn, page = 1, rows = 5) {
+}
+/* export function SelectSelector (bookSort, bookPub, bookIsreturn, page = 1, rows = 5) {
   // rows = 3
   let params = {
     _page: page,
@@ -70,21 +78,21 @@ export function SelectSelector (bookSort, bookPub, bookIsreturn, page = 1, rows 
     url: 'books',
     params: params
   })
-}
+} */
 
 // 模糊查询
-/* export function SelectFuzzy (bookName, page = 1, rows = 5) {
+export function SelectFuzzy (bookName, page = 1, rows = 5) {
   return request({
     url: 'SelectBookBookByLike',
     method: 'post',
-    body: {
-      bookName,
+    data: {
+      bookname: bookName,
       page,
       rows
     }
   })
-} */
-export function SelectFuzzy (bookName, page = 1, rows = 5) {
+}
+/* export function SelectFuzzy (bookName, page = 1, rows = 5) {
   // rows = 2
   console.log(bookName, page, rows)
   return request({
@@ -95,26 +103,26 @@ export function SelectFuzzy (bookName, page = 1, rows = 5) {
       _limit: rows
     }
   })
-}
+} */
 
 // 查看书架书籍
-/* export function SelectBookshelf (userId) {
+export function SelectBookshelf (userId) {
   return request({
     url: '/mybook/listb',
     params: {
       userId
     }
   })
-} */
-export function SelectBookshelf (userId) {
+}
+/* export function SelectBookshelf (userId) {
   console.log(userId)
-  /* return request({
-    url: 'books',
-    params: {
-      _page: 1,
-      _limit: 2
-    }
-  }) */
+  // return request({
+  //   url: 'books',
+  //   params: {
+  //     _page: 1,
+  //     _limit: 2
+  //   }
+  // })
   return request({
     url: 'borrowHistory2',
     params: {
@@ -122,26 +130,26 @@ export function SelectBookshelf (userId) {
       isreturn: 0
     }
   })
-}
+} */
 
 // 归还图书
 // /mybook/return/{book_id}
-// export function returnBook (bookId) {
-//   return request({
-//     url: '/mybook/return/' + bookId,
-//     method: 'put',
-//     body: {
-//       bookId
-//     }
-//   })
-// }
-export function returnBook (history) {
+export function returnBook (historyId) {
   return request({
-    url: 'borrowHistory2/' + history.id,
-    method: 'put',
-    data: history
+    url: 'ReturnBookHistory',
+    method: 'post',
+    data: {
+      historyId: historyId
+    }
   })
 }
+// export function returnBook (history) {
+//   return request({
+//     url: 'borrowHistory2/' + history.id,
+//     method: 'put',
+//     data: history
+//   })
+// }
 export function returnBookChange (history) {
   return request({
     url: 'books/' + history.bookId,
@@ -151,19 +159,24 @@ export function returnBookChange (history) {
 }
 
 // 借书
-// export function borrowBook (bookId) {
-//   return request({
-//     url: 'mybook/borrow/' + bookId,
-//     method: 'post'
-//   })
-// }
-export function borrowBook (history) {
+export function borrowBook (history ) {
+  return request({
+    url: 'SaveBorrowHistory',
+    method: 'post',
+    data: {
+      userId: history.userId,
+      bookId: history.bookId,
+      validityDate: 60
+    }
+  })
+}
+/* export function borrowBook (history) {
   return request({
     url: 'borrowHistory2/',
     method: 'post',
     data: history
   })
-}
+} */
 export function borrowBookChange (history) {
   return request({
     url: 'books/' + history.bookId,

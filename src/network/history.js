@@ -2,18 +2,18 @@ import { request } from './request'
 // 借书历史
 
 // 分页查询历史
-/* export function SelectUserHistoryById (userId, page, rows) {
+export function SelectUserHistoryById (userId, page, rows) {
   return request({
     url: 'SelectUserHistoryById',
     method: 'post',
-    body: {
-      userId
+    data: {
+      userId,
       page,
       rows
     }
   })
-} */
-export function SelectUserHistory (userId, page = 1, rows = 6) {
+}
+/* export function SelectUserHistory (userId, page = 1, rows = 6) {
   return request({
     url: 'borrowHistory2',
     method: 'get',
@@ -23,21 +23,21 @@ export function SelectUserHistory (userId, page = 1, rows = 6) {
       _limit: rows
     }
   })
-}
+} */
 
-// 模糊查询
-/* export function SelectHistoryFuzzy (historyName, page = 1, rows = 5) {
+// 模糊查询某图书借阅历史
+export function SelectHistoryFuzzy (historyName, page = 1, rows = 6) {
   return request({
-    url: 'SelecthistoryhistoryByLike',
+    url: 'SelectHistoryByLike',
     method: 'post',
-    body: {
+    data: {
       historyName,
       page,
       rows
     }
   })
-} */
-export function SelectHistoryFuzzy (userId, historyName, page = 1, rows = 6) {
+}
+/* export function SelectHistoryFuzzy (userId, historyName, page = 1, rows = 6) {
   console.log(historyName, page, rows)
   return request({
     url: 'borrowHistory2',
@@ -48,7 +48,7 @@ export function SelectHistoryFuzzy (userId, historyName, page = 1, rows = 6) {
       _limit: rows
     }
   })
-}
+} */
 
 // 查看书架历史
 /* export function Selecthistoryshelf (userId) {
