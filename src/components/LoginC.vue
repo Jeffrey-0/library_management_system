@@ -95,7 +95,11 @@ export default {
               // TODO
               console.log(res[0])
               if (res[0].userCategory == '1') {
+<<<<<<< HEAD
                 this.$router.push('/helloWorld')
+=======
+                this.$router.push('/helloworld')
+>>>>>>> 55c0237b5fff457ca8341ba84517102653d7fcfa
               } else {
                 this.$router.push('/index') 
               }

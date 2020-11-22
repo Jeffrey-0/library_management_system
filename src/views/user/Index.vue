@@ -2,7 +2,7 @@
   <div id="index">
     <nav-bar></nav-bar>
     <div class="content">
-      <keep-alive>
+      <keep-alive exclude="Bookshelf">
         <router-view></router-view>
       </keep-alive>
     </div>

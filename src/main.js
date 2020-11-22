@@ -30,7 +30,7 @@ Vue.prototype.HOST = {
 }
 
 // 保存登录用户的信息
-Vue.prototype.$user = {
+Vue.prototype.$user = Object.assign({
   id: '',
   userId: '',
   userName: '',
@@ -40,4 +40,4 @@ Vue.prototype.$user = {
   userSex: '',
   userPhone: '',
   userCategory: ''
-}
+}, JSON.parse(window.sessionStorage.getItem('user')))

@@ -54,3 +54,7 @@
 .card-info .el-row {
     margin-bottom: 40px;
 }
+
+#notice .el-table .cell {
+    white-space: nowrap;
+  }

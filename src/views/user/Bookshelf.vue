@@ -7,11 +7,12 @@
 </template>
 
 <script>
-import {SelectBookshelf, returnBook} from '../../network/book'
+import {SelectBookshelf, returnBook, returnBookChange} from '../../network/book'
+// import {Selecthistoryshelf, }
 import BookshelfItem from '../../components/BookshelfItem'
 import { addDate } from '../../common/util.js'
 export default {
-  name: '',
+  name: 'Bookshelf',
   data () {
     return {
       books: [
@@ -19,8 +20,8 @@ export default {
           historyId: '',
           bookId: '',
           bookName: '',
-          borrowDate: '2020-11-20',
-          validityDate: 20,
+          borrowDate: '',
+          validityDate: '',
           returnDate: ''
         },
         {
@@ -45,8 +46,13 @@ export default {
   methods: {
     returnBook(bookId, index) {
       console.log('归还图书' , bookId, index)
-      returnBook(bookId).then(res => {
+      let history = this.books[index]
+      history.isreturn = 1
+      returnBook(history).then(res => {
         console.log('归还图书2', res)
+        // TODO
+        this.books[index].isreturn = 1
+        returnBookChange(this.books[index])
         if (res) {
           Object.assign(this.books[index], {
           historyId: '',
@@ -61,6 +67,7 @@ export default {
             message: '归还成功!',
             center: true
           })
+          
         } else {
           this.$message({
             type: 'error',
@@ -76,7 +83,10 @@ export default {
   },
   created () {
     SelectBookshelf(this.$user.userId).then(res => {
-      for(let i = 0; i < res.length; i++) {
+      console.log('获取书架请求', res)
+      if (!res) return
+      let len = res.length > 3 ? 3 : res.length
+      for(let i = 0; i < len; i++) {
         Object.assign(this.books[i], res[i])
         if (this.books[i].borrowDate && this.books[i].validityDate) {
           this.books[i].returnDate = addDate(this.books[i].borrowDate, this.books[i].validityDate)

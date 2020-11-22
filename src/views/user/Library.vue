@@ -9,7 +9,7 @@
       <el-form-item label="分类">
         <el-select v-model="formSeletor.sort" placeholder="分类">
           <el-option label="所有" value="所有"></el-option>
-          <el-option :label="item.sortName" :value="item.sortId" v-for="item in bookSorts" :key="item.sortId"></el-option>
+          <el-option :label="item.sortName" :value="item.sortName" v-for="item in bookSorts" :key="item.sortId"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="出版社">
@@ -129,7 +129,7 @@
 </template>
 
 <script>
-  import {SelectBook, SelectBookSort, SelectBookPub, SelectSelector, SelectFuzzy, borrowBook} from '../../network/book'
+  import {SelectBook, SelectBookSort, SelectBookPub, SelectSelector, SelectFuzzy, borrowBook, borrowBookChange} from '../../network/book'
   export default {
     methods: {
       handleClick(row) {
@@ -206,21 +206,40 @@
       },
       borrowBook () {
         console.log('借书1', this.formInline)
-        borrowBook(this.formInline.bookId).then(res => {
+        let newDate = new Date()
+        let curDate = newDate.getFullYear() + '-' + (newDate.getMonth() + 1) + '-' + newDate.getDate()
+        console.log('当前时间', curDate)
+        let history = Object.assign(this.formInline, {
+          "historyId": 10,
+          "userId": this.$user.userId,
+          "borrowDate": curDate,
+          "isreturn": 0,
+          "validityDate": 30,
+          "userName": this.$user.userName
+        })
+        delete history.id
+        /* borrowBook(this.formInline.bookId).then(res => {
           console.log('借书', res)
-        })
-        this.dialogFormVisible = false
-        this.$message({
-          type: 'success',
-          message: '借书成功'
-        })
-        this.tableData.map(value => {
-          console.log(value)
-          if (value.bookId == this.formInline.Id) {
-            value.isreturn = 0
+        }) */
+        borrowBook(history).then(res => {
+          console.log('借书', res)
+          if (res) {
+            this.dialogFormVisible = false
+            this.$message({
+              type: 'success',
+              message: '借书成功'
+            })
+            // TODO
+            history.isreturn = 0
+            borrowBookChange(history)
+            this.tableData.map(value => {
+              if (value.bookId == this.formInline.bookId) {
+                value.isreturn = 0
+              }
+            })
           }
         })
-        console.log(this.tableData[1])
+        
       }
     },
 

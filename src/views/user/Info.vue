@@ -160,7 +160,7 @@
             } else {
               this.$message({
                 message: '修改密码失败',
-                type: 'success',
+                type: 'error',
                 center: true
               })
             }
