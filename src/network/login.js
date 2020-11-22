@@ -2,7 +2,7 @@ import { request } from './request'
 
 // 登录
 // get请求测试
-export function login (id, password) {
+export function loginT (id, password) {
   return request({
     url: 'users',
     params: {
@@ -13,7 +13,7 @@ export function login (id, password) {
 }
 
 // post请求
-export function loginP (id, password) {
+export function login (id, password) {
   return request({
     // url: 'users',
     url: 'login',

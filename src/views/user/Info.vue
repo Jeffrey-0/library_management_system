@@ -146,7 +146,8 @@
         this.$refs[formName].validate((valid) => {
         if (valid) {
           this.user.userPassword = this.ruleForm.pass
-          updateUserPass(this.user).then(res => {
+          // updateUserPass(this.user).then(res => {
+          updateUserPass(this.user.userId, this.ruleForm.oldPass, this.ruleForm.pass).then(res => {
             if (res) {
               this.$message({
                 message: '修改密码成功',
