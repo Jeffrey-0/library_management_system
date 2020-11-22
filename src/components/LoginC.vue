@@ -95,7 +95,7 @@ export default {
               // TODO
               console.log(res[0])
               if (res[0].userCategory == '1') {
-                this.$router.push('/home')
+                this.$router.push('/helloWorld')
               } else {
                 this.$router.push('/index') 
               }

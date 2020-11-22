@@ -1,16 +1,16 @@
 import { request } from './request'
 // 书本
 
-// 分页查询书本
-/* export function SelectBook (page, rows) {
+//分页查询书本
+/* export function SelectBookAdmin (page, rows) {
   return request({
     url: 'SelectBook',
     params: {
-      page,
-      rows
+      _page: page,
+      _rows: rows
     }
   })
-} */
+}  */
 export function SelectBook (page, rows) {
   return request({
     url: 'books',

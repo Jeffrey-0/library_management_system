@@ -11,8 +11,8 @@
           >
             <el-form-item>
               <el-input
-                v-model="formInline.user"
-                placeholder="审批人"
+                v-model="formInline.userName"
+                placeholder="查找用户"
               ></el-input>
             </el-form-item>
             <el-form-item>
@@ -20,19 +20,16 @@
             </el-form-item>
           </el-form>
         </div>
-        <el-table :data="tableData" border style="width: 100%">
-          <el-table-column fixed prop="date" label="日期" >
-          </el-table-column>
-          <el-table-column prop="name" label="姓名" >
-          </el-table-column>
-          <el-table-column prop="province" label="省份" >
-          </el-table-column>
-          <el-table-column prop="city" label="市区" >
-          </el-table-column>
-          <el-table-column prop="address" label="地址" >
-          </el-table-column>
-          <el-table-column prop="zip" label="邮编" >
-          </el-table-column>
+        <el-table
+          :data="tableData"
+          border
+          style="width: 100%; min-height: 350px; margin-bottom: 15px"
+        >
+          <el-table-column prop="userName" label="姓名"> </el-table-column>
+          <el-table-column prop="userSex" label="性别"> </el-table-column>
+          <el-table-column prop="userPhone" label="手机"> </el-table-column>
+          <el-table-column prop="userAge" label="年龄"> </el-table-column>
+          <el-table-column prop="userEmail" label="邮箱"> </el-table-column>
           <el-table-column fixed="right" label="操作" width="144">
             <template slot-scope="scope">
               <el-button
@@ -41,68 +38,62 @@
                 size="small"
                 >查看</el-button
               >
-              <el-button type="info" size="small" @click="cancel">禁用</el-button>
+              <el-button type="info" size="small" @click="cancel"
+                >禁用</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
         <!-- 修改资料对话框 -->
         <el-dialog title="用户资料" :visible.sync="dialogFormVisible">
           <el-form :model="form">
-            <el-form-item label="书名" :label-width="formLabelWidth">
-              <el-input v-model="form.name" autocomplete="off"></el-input>
+            <el-form  :model="user"  class="demo-form-inline" label-width="60px" style="text-align:center">
+            <el-form-item label="用户姓名" :label-width="formLabelWidth">
+              <el-input v-model="user.userName" disabled></el-input>
             </el-form-item>
-            <el-form-item label="出版社" :label-width="formLabelWidth">
-              <el-input v-model="form.name" autocomplete="off"></el-input>
+            <el-form-item label="性别" :label-width="formLabelWidth">
+              <el-input v-model="user.userSex" disabled></el-input>
             </el-form-item>
-            <el-form-item label="作者" :label-width="formLabelWidth">
-              <el-input v-model="form.name" autocomplete="off"></el-input>
+            <el-form-item label="手机" :label-width="formLabelWidth">
+              <el-input v-model="user.userPhone" disabled></el-input>
             </el-form-item>
-            <el-form-item label="类别" :label-width="formLabelWidth">
-              <el-select v-model="form.region" placeholder="请选择活动区域">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
-              </el-select>
+            <el-form-item label="邮箱" :label-width="formLabelWidth">
+              <el-input v-model="user.userEmail" disabled></el-input>
             </el-form-item>
-            <el-form-item label="上架时间" :label-width="formLabelWidth">
-              <el-date-picker
-                v-model="tableData.date"
-                type="date"
-                placeholder="选择日期"
-              >
-              </el-date-picker>
+            <el-form-item label="借阅详情" :label-width="formLabelWidth">
+              <el-input v-model="user.user" disabled></el-input>
             </el-form-item>
-            <el-form-item label="状态" :label-width="formLabelWidth">
-              <el-select v-model="form.region" placeholder="请选择活动区域">
-                <el-option label="未借" value="shanghai"></el-option>
-                <el-option label="已借" value="beijing"></el-option>
-              </el-select>
-            </el-form-item>
+          </el-form>
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button type="primary" @click="dialogFormVisible = false"
               >确 定</el-button
             >
-            <el-button type="info" @click="dialogFormVisible = false">禁 用</el-button>
+            <el-button type="info" @click="dialogFormVisible = false"
+              >禁 用</el-button
+            >
           </div>
         </el-dialog>
         <!-- 分页 -->
-      <div class="page">
-        <div class="block">
-          <el-pagination
-            @current-change="handleCurrentChange"
-            :current-page="currentPage4"
-            layout="total, prev, pager, next, jumper"
-            :total="400"
-          >
-          </el-pagination>
+        <div class="page">
+          <div class="block">
+            <el-pagination
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :page-size="pageSize"
+              layout="total, prev, pager, next, jumper"
+              :total="total"
+            >
+            </el-pagination>
+          </div>
         </div>
-      </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import {SelectUser,SelectFuzzy} from "../../network/user";
 export default {
   name: "User",
   data() {
@@ -113,29 +104,22 @@ export default {
         user: "",
         region: "",
       },
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1517 弄",
-          zip: 200333,
-        },
-      ],
-      
-      currentPage1: 5,
-      currentPage2: 5,
-      currentPage3: 5,
-      currentPage4: 4,
+      tableData: [],
+
+      user: {
+        id: "",
+        userId: "",
+        userName: "",
+        userAge: "",
+        userPassword: "",
+        userEmail: "",
+        userSex: "",
+        userPhone: "",
+        userCategory: "",
+      },
+      currentPage: 1,
+      pageSize: 5,
+      total: 7,
       dialogFormVisible: false,
       form: {
         name: "",
@@ -150,6 +134,13 @@ export default {
       formLabelWidth: "70px",
     };
   },
+  created() {
+    SelectUser(this.currentPage, this.pageSize).then((res) => {
+      console.log(this.currentPage);
+      // TODO
+      this.tableData = res;
+    });
+  },
   methods: {
     isCollapse(val) {
       this.collapse = val;
@@ -161,28 +152,53 @@ export default {
     handleClick(row) {
       console.log(row);
       this.dialogFormVisible = true;
+      this.user = row
     },
-    
+
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
-    },
-    cancel() {
-        this.$confirm('此操作将禁用这个用户, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '禁用成功!'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消禁用'
-          });          
+      this.currentPage = val;
+      if (this.queryModel === 2) {
+        //模糊查询
+        SelectFuzzy(this.user.userName, this.currentPage, this.pageSize).then(
+          (res) => {
+            // TODO
+            this.tableData = res;
+            this.total = 7;
+          }
+        );
+      } else {
+        // 普通查询
+        SelectUser(this.currentPage, this.pageSize).then((res) => {
+          console.log(res);
+          // TODO
+          this.tableData = res;
+          this.total = 8;
+          // this.total = res.total
         });
       }
+    },
+
+    cancel() {
+      this.$confirm("此操作将禁用这个用户, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "禁用成功!",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消禁用",
+          });
+        });
+    },
+
   },
   mounted() {
     this.$eventBus.$on("eventBusName", (val) => {

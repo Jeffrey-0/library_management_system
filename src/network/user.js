@@ -1,5 +1,27 @@
 import { request } from './request'
-// 用户
+// 分页查找用户
+export function SelectUser (page, rows) {
+  return request({
+    url: 'users',
+    params: {
+      _page: page,
+      _limit: rows
+    }
+  })
+}
+
+export function SelectFuzzy (userName, page = 1, rows = 5) {
+  rows = 2
+  console.log(userName, page, rows)
+  return request({
+    url: 'users',
+    params: {
+      _page: page,
+      _limit: rows
+    }
+  })
+}
+
 
 // 修改用户信息
 export function updateUser (user) {
