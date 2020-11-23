@@ -12,13 +12,16 @@
           text-color="#fff"
           active-text-color="#ffd04b"
         >
-          <el-menu-item index="1" @click="addTag('用户管理', 'el-icon-user')">
+          <el-menu-item
+            index="1"
+            @click="addTag('用户管理', 'el-icon-user', 'user')"
+          >
             <i class="el-icon-user"></i>
             <span slot="title">用户管理</span>
           </el-menu-item>
           <el-menu-item
             index="2"
-            @click="addTag('借阅详情', 'el-icon-reading')"
+            @click="addTag('借阅详情', 'el-icon-reading', 'home')"
           >
             <i class="el-icon-reading"></i>
             <span slot="title">借阅详情</span>
@@ -78,9 +81,9 @@ export default {
     isCollapse() {
       this.collapse = !this.collapse;
     },
-    addTag(val, two) {
-      this.$eventBusTag.$emit("eventBusName", val);
-      this.$eventBusiIcon.$emit("eventBusName", val, two);
+    addTag(val, two, path) {
+      this.$eventBusTag.$emit("eventBusName", val, path);
+      this.$eventBusiIcon.$emit("eventBusName", val, two, path);
     },
   },
   mounted() {
