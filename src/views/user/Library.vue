@@ -15,7 +15,7 @@
       <el-form-item label="出版社">
         <el-select v-model="formSeletor.pub" placeholder="出版社">
           <el-option label="所有" value="所有"></el-option>
-          <el-option :label="item.pubName" :value="item.pubName" v-for="item in bookPubs" :key="item.pubId"></el-option>
+          <el-option :label="item" :value="item" v-for="item in bookPubs" :key="item"></el-option>
         </el-select>
       </el-form-item>
       <!-- <el-form-item label="剩余情况">
@@ -153,7 +153,7 @@
             /* this.tableData = res
             this.total = 7 */
             if (res) {
-              this.tableData = res.book
+              this.tableData = res.data
               this.total = res.total
             }
           })
@@ -163,7 +163,7 @@
             /* this.tableData = res
             this.total = 6 */
             if (res) {
-              this.tableData = res.book
+              this.tableData = res.data
               this.total = res.total
             }
           })
@@ -174,7 +174,7 @@
             /* this.tableData = res
             this.total = 8 */
             if (res) {
-              this.tableData = res.book
+              this.tableData = res.data
               this.total = res.total
             }
             // this.total = res.total
@@ -193,7 +193,7 @@
           /* this.tableData = res
           this.total = 6 */
           if (res) {
-            this.tableData = res.book
+            this.tableData = res.data
             this.total = res.total
           }
         })
@@ -209,7 +209,7 @@
             /* this.tableData = res
             this.total = 7 */
             if (res) {
-              this.tableData = res.book
+              this.tableData = res.data
               this.total = res.total
             }
           })
@@ -221,7 +221,7 @@
             // this.tableData = res
             // this.total = res.total
             if (res) {
-              this.tableData = res.book
+              this.tableData = res.data
               this.total = res.total
             }
           })
@@ -310,15 +310,15 @@
         // this.tableData = res
         // this.total = res.total
         if (res) {
-          this.tableData = res.book
+          this.tableData = res.data
           this.total = res.total
         }        
       })
       SelectBookSort().then(res => {
-        this.bookSorts = res
+        this.bookSorts = res.data
       })
       SelectBookPub().then(res => {
-        this.bookPubs = res
+        this.bookPubs = res.data
       })
     },
     mounted () {
