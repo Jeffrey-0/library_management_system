@@ -116,6 +116,9 @@
             if (res) {
               this.tableData = res.data
               this.total = res.total
+            } else {
+              this.tableData = []
+              this.total = 0
             }
           })
           this.queryModel = 2
@@ -126,6 +129,9 @@
             if (res) {
               this.tableData = res.borrowhistory
               this.total = res.total
+            } else {
+              this.tableData = []
+              this.total = 0
             }
             // this.total = res.total
           })
@@ -143,6 +149,9 @@
             if (res) {
               this.tableData = res.data
               this.total = res.total
+            } else {
+              this.tableData = []
+              this.total = 0
             }
           })
         } else { // 普通查询
@@ -155,6 +164,9 @@
             if (res) {
               this.tableData = res.borrowhistory
               this.total = res.total
+            } else {
+              this.tableData = []
+              this.total = 0
             }
           })
         }
@@ -201,7 +213,10 @@
         if (res) {
           this.tableData = res.data
           this.total = res.total
-        }
+        } else {
+              this.tableData = []
+              this.total = 0
+            }
       })
     }
   }

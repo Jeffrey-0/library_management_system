@@ -161,6 +161,9 @@
             if (res) {
               this.tableData = res.data
               this.total = res.total
+            } else {
+              this.tableData = []
+              this.total = 0
             }
           })
         } else if (this.queryModel === 1) {  // 筛选查询
@@ -171,6 +174,9 @@
             if (res) {
               this.tableData = res.data
               this.total = res.total
+            } else {
+              this.tableData = []
+              this.total = 0
             }
           })
         } else { // 普通查询
@@ -182,6 +188,9 @@
             if (res) {
               this.tableData = res.data
               this.total = res.total
+            } else {
+              this.tableData = []
+              this.total = 0
             }
             // this.total = res.total
           })
@@ -201,7 +210,10 @@
           if (res) {
             this.tableData = res.data
             this.total = res.total
-          }
+          } else {
+              this.tableData = []
+              this.total = 0
+            }
         })
         console.log(this.formSeletor)
         this.queryModel = 1
@@ -217,6 +229,9 @@
             if (res) {
               this.tableData = res.data
               this.total = res.total
+            } else {
+              this.tableData = []
+              this.total = 0
             }
           })
           this.queryModel = 2
@@ -229,6 +244,9 @@
             if (res) {
               this.tableData = res.data
               this.total = res.total
+            } else {
+              this.tableData = []
+              this.total = 0
             }
           })
           this.queryModel = 0
@@ -318,7 +336,10 @@
         if (res) {
           this.tableData = res.data
           this.total = res.total
-        }        
+        } else {
+              this.tableData = []
+              this.total = 0
+        }      
       })
       SelectBookSort().then(res => {
         this.bookSorts = res.data

@@ -90,18 +90,30 @@
           SelectNoticeFuzzy(this.formSearch.noticeContent).then(res => {
             // TODO
             // let res2 = JSON.parse(res)
-            console.log('模糊历史' ,res)
-            this.tableData = res.data
-            this.total = res.total
+            if (res) {
+              console.log('模糊历史' ,res)
+              this.tableData = res.data
+              this.total = res.total
+
+            } else {
+              this.tableData = []
+              this.total = 0
+            }
           })
           this.queryModel = 2
         } else {  //为空时切换普通查询
           SelectUserNotice(this.currentPage, this.pageSize).then(res => {
             console.log(res)
             // TODO
-            this.tableData = res.data
-            // this.total = 9
-            this.total = res.total
+            if (res) {
+              this.tableData = res.data
+              // this.total = 9
+              this.total = res.total
+
+            } else {
+              this.tableData = []
+              this.total = 0
+            }
           })
           this.queryModel = 0
         }
@@ -111,16 +123,28 @@
         if (this.queryModel === 1) { //模糊查询
             SelectNoticeFuzzy(this.formSearch.noticeContent,this.currentPage, this.pageSize).then(res => {
             // TODO
-            this.tableData = res.data
-            this.total = res.total
+            if (res) {
+
+              this.tableData = res.data
+              this.total = res.total
+            } else {
+              this.tableData = []
+              this.total = 0
+            }
           })
         } else { // 普通查询
           SelectUserNotice(this.currentPage, this.pageSize).then(res => {
             console.log(res)
             // TODO
-            this.tableData = res.data
-            // this.total = 9
-            this.total = res.total
+            if (res) {
+              this.tableData = res.data
+              // this.total = 9
+              this.total = res.total
+
+            } else {
+              this.tableData = []
+              this.total = 0
+            }
           })
         }
         console.log(`当前页: ${val}`);
@@ -153,8 +177,14 @@
     },
     created () {
       SelectUserNotice().then(res => {
-        this.tableData = res.data
-        this.total = res.total
+        if (res) {
+          this.tableData = res.data
+          this.total = res.total
+          }  else {
+              this.tableData = []
+              this.total = 0
+            }
+          
       })
     },
     filters: {
