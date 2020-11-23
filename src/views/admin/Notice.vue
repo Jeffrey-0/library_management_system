@@ -114,7 +114,7 @@
 <script>
 import {
   SelectNotice,
-  SelectSelector,
+  // SelectSelector,
   SelectNoticeFuzzy,
 } from "../../network/notice";
 export default {
@@ -180,7 +180,7 @@ export default {
           this.tableData = res;
           this.total = 7;
         });
-      } else if (this.queryModel === 1) {
+      }/*  else if (this.queryModel === 1) {
         // 筛选查询
         SelectSelector(
           this.formSeletor.sort,
@@ -193,7 +193,7 @@ export default {
           this.tableData = res;
           this.total = 6;
         });
-      } else {
+      }  */else {
         // 普通查询
         SelectNotice(this.currentPage, this.pageSize).then((res) => {
           console.log(res);

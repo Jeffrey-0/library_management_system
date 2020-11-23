@@ -65,7 +65,6 @@
     <el-table-column
       prop="bookRecord"
       label="上架时间"
-      :formatter=formatDate
       >
       <!-- {{ $moment().format('YYYY-MM-DD') }} -->
     </el-table-column>
@@ -114,7 +113,7 @@
         <el-input v-model="formInline.bookAuthor" placeholder="作者" disabled></el-input>
       </el-form-item>
       <el-form-item label="上架">
-        <el-input v-model="formInline.bookRecord" placeholder="上架" disabled :formatter=formatDate>
+        <el-input v-model="formInline.bookRecord" placeholder="上架" disabled>
           <!-- {{ $moment().format('YYYY-MM-DD') }} -->
           <!-- {{ 123 }} -->
         </el-input>
@@ -127,7 +126,7 @@
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false">取 消</el-button>
-    <el-button v-if="formInlineIsreturn" type="primary" @click="borrowBook">确定借阅</el-button>
+    <el-button v-if="formInlineIsreturn" type="primary" @click="borrowBookClick">确定借阅</el-button>
     <el-button v-else type="info" @click="dialogFormVisible = false" disabled>借完</el-button>
   </div>
 </el-dialog>
@@ -135,7 +134,7 @@
 </template>
 
 <script>
-  import {SelectBook, SelectBookSort, SelectBookPub, SelectSelector, SelectFuzzy, borrowBook, borrowBookChange} from '../../network/book'
+  import {SelectBook, SelectBookSort, SelectBookPub, SelectSelector, SelectFuzzy, borrowBook} from '../../network/book'
   export default {
     methods: {
       handleClick(row) {
@@ -165,7 +164,7 @@
             }
           })
         } else if (this.queryModel === 1) {  // 筛选查询
-          SelectSelector(this.formSeletor.sort, this.formSeletor.pub, this.formSeletor.isreturn,this.currentPage, this.pageSize).then(res => {
+          SelectSelector(this.formSeletor.sort, this.formSeletor.pub, this.formSeletor.status,this.currentPage, this.pageSize).then(res => {
             // TODO
             /* this.tableData = res
             this.total = 6 */
@@ -235,7 +234,7 @@
           this.queryModel = 0
         }
       },
-      borrowBook () {
+      borrowBookClick () {
         console.log('借书1', this.formInline)
         let newDate = new Date()
         let curDate = newDate.getFullYear() + '-' + (newDate.getMonth() + 1) + '-' + newDate.getDate()
@@ -262,22 +261,18 @@
             })
             // TODO
             history.isreturn = 0
-            borrowBookChange(history)
+            /* borrowBookChange(history)
             this.tableData.map(value => {
               if (value.bookId == this.formInline.bookId) {
                 value.isreturn = 0
               }
-            })
+            }) */
           }
         })
         
       },
       changeBookStatus (bookId) {
         console.log('eventBus changeBookStatus ',bookId)
-      },
-      formatDate(row, col) {
-        console.log('格式化时间', row, col)
-        return this.$moment(row).format('YYYY-MM-DD')
       }
     },
 

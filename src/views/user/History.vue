@@ -83,7 +83,7 @@
         <el-input v-model="formInline.borrowDate" placeholder="借书时间" disabled></el-input>
       </el-form-item>
       <el-form-item label="归还">
-        <el-input v-model="formInline.returnDate" placeholder="归还时间" disabled></el-input>
+        <el-input v-model="formInline.returnDate" placeholder="暂未归还" disabled></el-input>
       </el-form-item>
       <!-- <el-form-item label="有效期">
         <el-input v-model="formInline.validityDate" placeholder="有效期" disabled></el-input>
@@ -114,7 +114,7 @@
           SelectHistoryFuzzy(this.$user.userId, this.formSearch.bookName).then(res => {
             // TODO
             if (res) {
-              this.tableData = res.borrowhistory
+              this.tableData = res.data
               this.total = res.total
             }
           })
@@ -139,8 +139,9 @@
             // TODO
             /* this.tableData = res
             this.total = 7 */
+            console.log('模糊历史',res)
             if (res) {
-              this.tableData = res.borrowhistory
+              this.tableData = res.data
               this.total = res.total
             }
           })
