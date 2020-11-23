@@ -9,30 +9,44 @@
           size="small"
         >
           <el-form-item label="分类">
-        <el-select v-model="formSeletor.sort" placeholder="分类">
-          <el-option label="所有" value="所有"></el-option>
-          <el-option :label="item.sortName" :value="item.sortName" v-for="item in bookSorts" :key="item.sortId"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="出版社">
-        <el-select v-model="formSeletor.pub" placeholder="出版社">
-          <el-option label="所有" value="所有"></el-option>
-          <el-option :label="item.pubName" :value="item.pubName" v-for="item in bookPubs" :key="item.pubId"></el-option>
-        </el-select>
-      </el-form-item>
-      <!-- <el-form-item label="剩余情况">
+            <el-select v-model="formSeletor.sort" placeholder="分类">
+              <el-option label="所有" value="所有"></el-option>
+              <el-option
+                :label="item.sortName"
+                :value="item.sortName"
+                v-for="item in bookSorts"
+                :key="item.sortId"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="出版社">
+            <el-select v-model="formSeletor.pub" placeholder="出版社">
+              <el-option label="所有" value="所有"></el-option>
+              <el-option
+                :label="item.pubName"
+                :value="item.pubName"
+                v-for="item in bookPubs"
+                :key="item.pubId"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <!-- <el-form-item label="剩余情况">
         <el-input v-model="formSeletor.user" placeholder="审批人"></el-input>
       </el-form-item> -->
-      <el-form-item label="状态">
-        <el-select v-model="formSeletor.status" placeholder="剩余情况" width="50px">
-          <el-option label="所有" value="所有"></el-option>
-          <el-option label="借完" value="0"></el-option>
-          <el-option label="可借" value="1"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmitSeletor">查询</el-button>
-      </el-form-item>
+          <el-form-item label="状态">
+            <el-select
+              v-model="formSeletor.status"
+              placeholder="剩余情况"
+              width="50px"
+            >
+              <el-option label="所有" value="所有"></el-option>
+              <el-option label="借完" value="0"></el-option>
+              <el-option label="可借" value="1"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onSubmitSeletor">查询</el-button>
+          </el-form-item>
         </el-form>
       </div>
       <div class="search">
@@ -58,7 +72,7 @@
           border
           stripe
           :data="tableData"
-          style="width: 100%; min-height: 330px; margin-bottom: 15px"
+          style="width: 100%; min-height: 300px; margin-bottom: 15px"
         >
           <el-table-column prop="bookName" label="书名" fixed>
           </el-table-column>
@@ -157,7 +171,13 @@
 </template>
 
 <script>
-import { SelectBook, SelectBookSort, SelectBookPub, SelectSelector, SelectFuzzy } from "../../network/book";
+import {
+  SelectBook,
+  SelectBookSort,
+  SelectBookPub,
+  SelectSelector,
+  SelectFuzzy,
+} from "../../network/book";
 export default {
   name: "Borrow",
   components: {},
@@ -186,14 +206,16 @@ export default {
       bookSorts: [],
       bookPubs: [],
       queryModel: 0, // 当前查询状态，用户分页切换，分页查询0， 筛选查询1， 模糊查询2
-      form: {  // 模糊查询表单
-          bookName: ''
-        },
-      formSeletor: {  // 筛选表单
-          sort: '所有',
-          pub: '所有',
-          status: '所有'
-        },
+      form: {
+        // 模糊查询表单
+        bookName: "",
+      },
+      formSeletor: {
+        // 筛选表单
+        sort: "所有",
+        pub: "所有",
+        status: "所有",
+      },
       formLabelWidth: "70px",
     };
   },
@@ -203,12 +225,12 @@ export default {
       // TODO
       this.tableData = res;
     });
-    SelectBookSort().then(res => {
-        this.bookSorts = res
-      })
-    SelectBookPub().then(res => {
-        this.bookPubs = res
-      })
+    SelectBookSort().then((res) => {
+      this.bookSorts = res;
+    });
+    SelectBookPub().then((res) => {
+      this.bookPubs = res;
+    });
   },
   methods: {
     isCollapse(val) {
@@ -262,37 +284,44 @@ export default {
         });
       }
     },
-    onSubmitFuzzy () {    //模糊查询
-        this.currentPage = 1
-        console.log(this.form.bookName)
-        if (this.form.bookName) {
-          SelectFuzzy(this.form.bookName).then(res => {
-            // TODO
-            this.tableData = res
-            this.total = 7
-          })
-          this.queryModel = 2
-        } else {  //为空时切换普通查询
-          SelectBook(this.currentPage, this.pageSize).then(res => {
-            console.log(res)
-            // TODO
-            this.tableData = res
-            // this.total = res.total
-          })
-          this.queryModel = 0
-        }
-      },
-      onSubmitSeletor () {    //筛选查询
-        
-        this.currentPage = 1
-        SelectSelector(this.formSeletor.sort, this.formSeletor.pub, this.formSeletor.status).then(res => {
+    onSubmitFuzzy() {
+      //模糊查询
+      this.currentPage = 1;
+      console.log(this.form.bookName);
+      if (this.form.bookName) {
+        SelectFuzzy(this.form.bookName).then((res) => {
           // TODO
-          this.tableData = res
-          this.total = 6
-        })
-        console.log(this.formSeletor)
-        this.queryModel = 1
-      },
+          this.tableData = res;
+          this.total = 7;
+        });
+        this.queryModel = 2;
+      } else {
+        //为空时切换普通查询
+        SelectBook(this.currentPage, this.pageSize).then((res) => {
+          console.log(res);
+          // TODO
+          this.tableData = res;
+          // this.total = res.total
+        });
+        this.queryModel = 0;
+      }
+    },
+    onSubmitSeletor() {
+      //筛选查询
+
+      this.currentPage = 1;
+      SelectSelector(
+        this.formSeletor.sort,
+        this.formSeletor.pub,
+        this.formSeletor.status
+      ).then((res) => {
+        // TODO
+        this.tableData = res;
+        this.total = 6;
+      });
+      console.log(this.formSeletor);
+      this.queryModel = 1;
+    },
   },
   mounted() {
     this.$eventBus.$on("eventBusName", (val) => {
@@ -340,6 +369,6 @@ export default {
   border-radius: 5px;
 }
 .container .content-box .content .search {
-  padding-left: 375px;
+  padding-left: 347px;
 }
 </style>

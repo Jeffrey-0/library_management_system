@@ -88,20 +88,12 @@ export default {
       this.editableTabsValue = activeName;
       this.editableTabs = tabs.filter((tab) => tab.name !== targetName);
     },
-    isActive(tabName, path) {
+    isActive(tabName) {
       for (let i = 0; i < this.editableTabs.length; i++) {
         if (this.editableTabs[i].title == tabName) {
           this.editableTabsValue = this.editableTabs[i].name;
-          if (this.$route && this.$route.path !== "/" + path) {
-            console.log("454545");
-            this.$router.push("/" + path);
-          }
           break;
         }
-      }
-      if (this.$route && this.$route.path !== "/home") {
-        console.log("454545");
-        this.$router.push("/home");
       }
     },
     isCollapse(val) {

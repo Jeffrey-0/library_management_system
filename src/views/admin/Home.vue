@@ -9,8 +9,8 @@
                 <i class="el-icon-notebook-2"></i>
               </div>
               <div class="info">
-                <div class="num">46546</div>
-                <div>用户数</div>
+                <div class="num">{{ borrowTotal.num }}</div>
+                <div>今日借出数</div>
               </div>
             </el-card>
           </el-col>
@@ -20,8 +20,8 @@
                 <i class="el-icon-notebook-2"></i>
               </div>
               <div class="info">
-                <div class="num">46546</div>
-                <div>用户数</div>
+                <div class="num">{{ borrowTotal.num }}</div>
+                <div>本月借出数</div>
               </div>
             </el-card>
           </el-col>
@@ -31,8 +31,8 @@
                 <i class="el-icon-notebook-2"></i>
               </div>
               <div class="info">
-                <div class="num">46546</div>
-                <div>用户数</div>
+                <div class="num">{{ borrowTotal.num }}</div>
+                <div>年度借出数</div>
               </div>
             </el-card>
           </el-col>
@@ -44,8 +44,8 @@
                 <i class="el-icon-collection"></i>
               </div>
               <div class="info">
-                <div class="num">46546</div>
-                <div>用户数</div>
+                <div class="num">{{ borrowTotal.num }}</div>
+                <div>今日归还数</div>
               </div>
             </el-card>
           </el-col>
@@ -55,8 +55,8 @@
                 <i class="el-icon-collection"></i>
               </div>
               <div class="info">
-                <div class="num">46546</div>
-                <div>用户数</div>
+                <div class="num">{{ borrowTotal.num }}</div>
+                <div>本月归还数</div>
               </div>
             </el-card>
           </el-col>
@@ -66,8 +66,8 @@
                 <i class="el-icon-collection"></i>
               </div>
               <div class="info">
-                <div class="num">46546</div>
-                <div>用户数</div>
+                <div class="num">{{ borrowTotal.num }}</div>
+                <div>年度归还数</div>
               </div>
             </el-card>
           </el-col>
@@ -85,8 +85,21 @@
 </template>
 
 <script>
+import { borrowTotal } from "../../network/history";
 export default {
   name: "Home",
+  data() {
+    return {
+      borrowTotal: {
+        num: 0,
+      },
+    };
+  },
+  created() {
+    borrowTotal().then((res) => {
+      this.borrowTotal = res;
+    });
+  },
 };
 </script>
 
@@ -111,22 +124,22 @@ export default {
 
 .content-box .content {
   height: 100%;
-  padding: 30px 30px;
+  padding: 10px 30px;
 }
 .content-box .content .icons {
-  height: 100px;
-  width: 100px;
+  height: 80px;
+  width: 80px;
   color: #fff;
   display: inline-block;
-  line-height: 100px;
-  font-size: 50px;
+  line-height: 80px;
+  font-size: 40px;
   text-align: center;
   background: #2d8cf0;
 }
 .content-box .content .info {
   width: 60%;
-  text-align: center;
   color: #666;
+  text-align: center;
   display: inline-block;
 }
 

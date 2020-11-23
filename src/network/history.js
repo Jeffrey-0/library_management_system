@@ -2,16 +2,16 @@ import { request } from './request'
 // 借书历史
 
 // 分页查询历史
-export function SelectUserHistoryById (userId, page, rows) {
-  return request({
-    url: 'SelectUserHistoryById',
-    method: 'post',
-    data: {
-      userId,
-      page,
-      rows
-    }
-  })
+export function SelectUserHistoryById(userId, page, rows) {
+    return request({
+        url: 'SelectUserHistoryById',
+        method: 'post',
+        data: {
+            userId,
+            page,
+            rows
+        }
+    })
 }
 /* export function SelectUserHistory (userId, page = 1, rows = 6) {
   return request({
@@ -26,16 +26,16 @@ export function SelectUserHistoryById (userId, page, rows) {
 } */
 
 // 模糊查询某图书借阅历史
-export function SelectHistoryFuzzy (historyName, page = 1, rows = 6) {
-  return request({
-    url: 'SelectHistoryByLike',
-    method: 'post',
-    data: {
-      historyName,
-      page,
-      rows
-    }
-  })
+export function SelectHistoryFuzzy(historyName, page = 1, rows = 6) {
+    return request({
+        url: 'SelectHistoryByLike',
+        method: 'post',
+        data: {
+            historyName,
+            page,
+            rows
+        }
+    })
 }
 /* export function SelectHistoryFuzzy (userId, historyName, page = 1, rows = 6) {
   console.log(historyName, page, rows)
@@ -59,15 +59,15 @@ export function SelectHistoryFuzzy (historyName, page = 1, rows = 6) {
     }
   })
 } */
-export function Selecthistoryshelf (userId) {
-  console.log(userId)
-  return request({
-    url: 'borrowHistory2',
-    params: {
-      userId,
-      isreturn: 0
-    }
-  })
+export function Selecthistoryshelf(userId) {
+    console.log(userId)
+    return request({
+        url: 'borrowHistory2',
+        params: {
+            userId,
+            isreturn: 0
+        }
+    })
 }
 
 // 归还图书
@@ -81,11 +81,11 @@ export function Selecthistoryshelf (userId) {
 //     }
 //   })
 // }
-export function returnhistory (historyId) {
-  return request({
-    url: 'borrowHistory2/' + historyId,
-    method: 'get'
-  })
+export function returnhistory(historyId) {
+    return request({
+        url: 'borrowHistory2/' + historyId,
+        method: 'get'
+    })
 }
 
 // 借书
@@ -95,9 +95,17 @@ export function returnhistory (historyId) {
 //     method: 'post'
 //   })
 // }
-export function borrowhistory (historyId) {
-  return request({
-    url: 'borrowHistory2/' + historyId,
-    method: 'get'
-  })
+export function borrowhistory(historyId) {
+    return request({
+        url: 'borrowHistory2/' + historyId,
+        method: 'get'
+    })
+}
+
+//查询借出数
+export function borrowTotal() {
+    return request({
+        url: "total",
+        methods: 'get'
+    })
 }

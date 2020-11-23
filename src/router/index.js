@@ -18,11 +18,6 @@ const routes = [{
         component: UserList
     },
     {
-        path: '/home',
-        name: 'home',
-        component: Home
-    },
-    {
         path: '/books',
         name: 'books',
         component: Books
