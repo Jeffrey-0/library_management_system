@@ -5,7 +5,7 @@
     <tag />
   </div>
 </template>
-   <script>
+<script>
 import NavHeader from "@/components/NavHeader.vue";
 import NavRight from "@/components/NavRight.vue";
 import Tag from "@/components/Tag.vue";

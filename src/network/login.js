@@ -41,8 +41,8 @@ export function login (id, password) {
 export function logon (id, username, password, email) {
   return request({
     // TODO
-    url: 'users',
-    // url: 'logon',
+    // url: 'users',
+    url: 'logon',
     method: 'post',
     data: {
       userId: id,

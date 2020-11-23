@@ -78,7 +78,7 @@ export default {
           login(this.ruleForm.id, this.ruleForm.pass).then(res => {
             console.log(res)
             // TODO ---res.userId
-            if(res && res.length > 0) {
+            if(res) {
 
               // 保存用户到sessionStorage
               // TODO res[0] => res

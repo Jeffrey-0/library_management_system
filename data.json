@@ -2,9 +2,9 @@
   "users": [
     {
       "id": 1,
-      "userId": 1,
+      "userId": "1",
       "userName": "李四",
-      "userAge": "19",
+      "userAge": "20",
       "userPassword": "aA@000000",
       "userEmail": "631253877@qq.com",
       "userSex": "shanghai",
@@ -78,14 +78,14 @@
       "historyId": "10",
       "bookId": "2",
       "bookName": "三国演义",
-      "borrowDate": "2020-11-22",
+      "borrowDate": "2020-11-23",
       "validityDate": "30",
       "returnDate": "2026-12-9",
       "bookAuthor": "吴承恩2",
       "bookPub": "人民日报2",
       "bookSort": "长篇",
       "bookRecord": "2020-09-22",
-      "isreturn": "1",
+      "isreturn": "0",
       "userId": "1",
       "userName": "李四",
       "id": 2
@@ -101,13 +101,8 @@
       "isreturn": 0
     },
     {
-<<<<<<< HEAD
-      "id": 4,
-      "bookId": 4,
-=======
       "historyId": "10",
       "bookId": "4",
->>>>>>> 15fe4f3b41d0bb749075816de74f65b3c1a67664
       "bookName": "红楼梦",
       "borrowDate": "2020-11-22",
       "validityDate": "30",
@@ -116,14 +111,10 @@
       "bookPub": "人民日报",
       "bookSort": "小说",
       "bookRecord": "2020-09-22",
-<<<<<<< HEAD
-      "isreturn": 0
-=======
-      "isreturn": "0",
+      "isreturn": "1",
       "userId": "1",
       "userName": "张三",
       "id": 4
->>>>>>> 15fe4f3b41d0bb749075816de74f65b3c1a67664
     },
     {
       "historyId": "10",
@@ -159,17 +150,12 @@
       "bookPub": "人民日报",
       "bookSort": "小说",
       "bookRecord": "2020-09-22",
-<<<<<<< HEAD
-      "isreturn": 0
-=======
       "isreturn": "0",
       "historyId": "10",
       "userId": "1",
       "borrowDate": "2020-11-22",
       "validityDate": "30",
-      "userName": "张三",
-      "id": 7
->>>>>>> 15fe4f3b41d0bb749075816de74f65b3c1a67664
+      "userName": "张三"
     },
     {
       "id": 8,
@@ -442,12 +428,6 @@
       "bookPub": "人民日报",
       "bookSort": "小说",
       "bookRecord": "2020-09-22",
-<<<<<<< HEAD
-      "isreturn": "0",
-      "userId": "1",
-      "userName": "李四",
-      "id": 8
-=======
       "isreturn": "1",
       "userId": "1123123",
       "userName": "撒旦法",
@@ -704,7 +684,7 @@
       "bookPub": "人民日报2",
       "bookSort": "长篇",
       "bookRecord": "2020-09-22",
-      "isreturn": "0",
+      "isreturn": "1",
       "userId": "1",
       "userName": "张三",
       "id": 43
@@ -735,14 +715,29 @@
       "bookPub": "人民日报",
       "bookSort": "小说",
       "bookRecord": "2020-09-22",
-      "isreturn": "0",
+      "isreturn": "1",
       "userId": "1",
       "userName": "张三",
       "id": 45
->>>>>>> 15fe4f3b41d0bb749075816de74f65b3c1a67664
+    },
+    {
+      "historyId": "10",
+      "bookId": "2",
+      "bookName": "三国演义",
+      "borrowDate": "2020-11-23",
+      "validityDate": "30",
+      "returnDate": "2026-12-9",
+      "bookAuthor": "吴承恩2",
+      "bookPub": "人民日报2",
+      "bookSort": "长篇",
+      "bookRecord": "2020-09-22",
+      "isreturn": "0",
+      "userId": "1",
+      "userName": "李四",
+      "id": 46
     }
   ],
-  "notice": [
+  "notices": [
     {
       "id": 1,
       "noticeId": 1,
