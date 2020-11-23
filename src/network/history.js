@@ -2,7 +2,7 @@ import { request } from './request'
 // 借书历史
 
 // 分页查询历史
-export function SelectUserHistoryById(userId, page, rows) {
+export function SelectUserHistoryById(userId, page = 1, rows = 6) {
     return request({
         url: 'SelectUserHistoryById',
         method: 'post',

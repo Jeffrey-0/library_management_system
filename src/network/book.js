@@ -4,8 +4,10 @@ import { request } from './request'
 // 分页查询书本
 export function SelectBook(page = 1, rows = 5) {
     return request({
-        url: 'SelectBook',
-        params: {
+        // url: 'SelectBook',
+        method: 'post',
+        url: 'SelectBookHistoryByChioseDescRecord',
+        data: {
             page: page,
             rows: rows
         }
@@ -89,10 +91,10 @@ export function SelectSelector(bookSort, bookPub, bookIsreturn, page = 1, rows =
 // 模糊查询
 export function SelectFuzzy(bookName, page = 1, rows = 5) {
     return request({
-        url: 'SelectBookBookByLike',
-        method: 'get',
+        url: 'SearchBookByLike',
+        method: 'post',
         data: {
-            bookname: bookName,
+            bookName: bookName,
             page,
             rows
         }

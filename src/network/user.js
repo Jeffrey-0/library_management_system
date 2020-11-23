@@ -39,7 +39,19 @@ export function updateUser(user) {
             userSex: user.userSex,
             userPhone: user.userPhone,
             userCategory: user.userCategory
-        }
+        },
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+                // 设置未form-data数据
+        },
+        // 格式化数据
+        transformRequest: [function(data) {
+            let ret = ''
+            for (const it in data) {
+                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+            }
+            return ret
+        }]
     })
 }
 
@@ -47,7 +59,7 @@ export function updateUser(user) {
 export function updateUserPass(userId, oldPassword, newPassword) {
     return request({
         url: 'update/userpassword',
-        method: 'put',
+        method: 'post',
         data: {
             userId,
             userPassword: oldPassword,
