@@ -29,8 +29,9 @@
           <el-table-column prop="userSex" label="性别"> </el-table-column>
           <el-table-column prop="userPhone" label="手机"> </el-table-column>
           <el-table-column prop="userAge" label="年龄"> </el-table-column>
-          <el-table-column prop="userEmail" label="邮箱"> </el-table-column>
-          <el-table-column fixed="right" label="操作" width="144">
+          <el-table-column prop="userEmail" label="邮箱" width="200">
+          </el-table-column>
+          <el-table-column fixed="right" label="操作" width="170">
             <template slot-scope="scope">
               <el-tag
                 @click="handleClick(scope.row)"
@@ -38,7 +39,14 @@
                 class="tag-btn"
                 >查 看</el-tag
               >
-              <el-tag @click="cancel" type="info" class="tag-btn">删 除</el-tag>
+              <el-tag
+                @click="cancel(scope.row)"
+                :type="scope.row.userCategory == '-1' ? 'success' : 'info'"
+                class="tag-btn"
+                >{{
+                  scope.row.userCategory == "-1" ? "解除禁用" : "禁用"
+                }}</el-tag
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -63,19 +71,31 @@
               <el-form-item label="邮箱" :label-width="formLabelWidth">
                 <el-input v-model="user.userEmail" disabled></el-input>
               </el-form-item>
-              <el-form-item label="借阅详情" :label-width="formLabelWidth">
-                <el-input v-model="user.user" disabled></el-input>
+              <el-form-item label="借阅历史" :label-width="formLabelWidth">
+                <el-table
+                  :data="tableHistory"
+                  max-height="200"
+                  style="
+                    width: 100%;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                  "
+                >
+                  <el-table-column prop="bookName" label="书名">
+                  </el-table-column>
+                  <el-table-column prop="borrowDate" label="借阅">
+                  </el-table-column>
+                  <el-table-column prop="returnDate" label="归还">
+                  </el-table-column>
+                  <el-table-column prop="isreturn" label="状态"
+                    >{{ tableHistory.isreturn == 0 ? "未还" : "已还" }}
+                  </el-table-column>
+                  <el-table-column prop="validityDate" label="剩余时间">
+                  </el-table-column>
+                </el-table>
               </el-form-item>
             </el-form>
           </el-form>
-          <div slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="dialogFormVisible = false"
-              >确 定</el-button
-            >
-            <el-button type="info" @click="dialogFormVisible = false"
-              >禁 用</el-button
-            >
-          </div>
         </el-dialog>
         <!-- 分页 -->
         <div class="page">
@@ -97,7 +117,11 @@
 </template>
 
 <script>
-import { SelectUser, SelectFuzzy } from "../../network/user";
+import {
+  SelectUser,
+  SelectFuzzy,
+  searchBorrowHistory,
+} from "../../network/user";
 export default {
   name: "User",
   data() {
@@ -109,7 +133,7 @@ export default {
         region: "",
       },
       tableData: [],
-
+      tableHistory: [], //借阅历史
       user: {
         id: "",
         userId: "",
@@ -121,9 +145,16 @@ export default {
         userPhone: "",
         userCategory: "",
       },
+      borrowHistory: {
+        bookName: "",
+        borrowDate: "",
+        returnDate: "",
+        isreturn: 0,
+        validityDate: 0,
+      },
       currentPage: 1,
       pageSize: 5,
-      total: 7,
+      total: 0,
       dialogFormVisible: false,
       form: {
         userName: "",
@@ -135,7 +166,9 @@ export default {
     SelectUser(this.currentPage, this.pageSize).then((res) => {
       console.log(this.currentPage);
       // TODO
-      this.tableData = res;
+      this.tableData = res.data;
+      this.total = res.total;
+      console.log(res, "6666");
     });
   },
   methods: {
@@ -147,9 +180,11 @@ export default {
       console.log("submit!");
     },
     handleClick(row) {
-      console.log(row);
       this.dialogFormVisible = true;
       this.user = row;
+      searchBorrowHistory(this.user.userId).then((res) => {
+        this.tableHistory = res;
+      });
     },
 
     handleCurrentChange(val) {
@@ -176,24 +211,35 @@ export default {
       }
     },
 
-    cancel() {
-      this.$confirm("此操作将禁用这个用户, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          this.$message({
-            type: "success",
-            message: "禁用成功!",
-          });
+    cancel(row) {
+      if (row.userCategory != "-1") {
+        this.$confirm("此操作将禁用这个用户, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
         })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消禁用",
+          .then(() => {
+            this.user = row;
+            this.user.userCategory = "-1";
+            this.$message({
+              type: "success",
+              message: "禁用成功!",
+            });
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消禁用",
+            });
           });
+      } else {
+        this.user = row;
+        this.user.userCategory = "1";
+        this.$message({
+          type: "success",
+          message: "已解除禁用",
         });
+      }
     },
     onSubmitFuzzy() {
       //模糊查询

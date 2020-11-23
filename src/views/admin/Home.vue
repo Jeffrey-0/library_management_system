@@ -9,7 +9,7 @@
                 <i class="el-icon-notebook-2"></i>
               </div>
               <div class="info">
-                <div class="num">{{ borrowTotal.num }}</div>
+                <div class="num">{{ borrowToday }}</div>
                 <div>今日借出数</div>
               </div>
             </el-card>
@@ -20,7 +20,7 @@
                 <i class="el-icon-notebook-2"></i>
               </div>
               <div class="info">
-                <div class="num">{{ borrowTotal.num }}</div>
+                <div class="num">{{ borrowThisMonth }}</div>
                 <div>本月借出数</div>
               </div>
             </el-card>
@@ -31,7 +31,7 @@
                 <i class="el-icon-notebook-2"></i>
               </div>
               <div class="info">
-                <div class="num">{{ borrowTotal.num }}</div>
+                <div class="num">{{ borrowThisYear }}</div>
                 <div>年度借出数</div>
               </div>
             </el-card>
@@ -44,7 +44,7 @@
                 <i class="el-icon-collection"></i>
               </div>
               <div class="info">
-                <div class="num">{{ borrowTotal.num }}</div>
+                <div class="num">{{ backToday }}</div>
                 <div>今日归还数</div>
               </div>
             </el-card>
@@ -55,7 +55,7 @@
                 <i class="el-icon-collection"></i>
               </div>
               <div class="info">
-                <div class="num">{{ borrowTotal.num }}</div>
+                <div class="num">{{ backThisMonth }}</div>
                 <div>本月归还数</div>
               </div>
             </el-card>
@@ -66,7 +66,7 @@
                 <i class="el-icon-collection"></i>
               </div>
               <div class="info">
-                <div class="num">{{ borrowTotal.num }}</div>
+                <div class="num">{{ backThisYear }}</div>
                 <div>年度归还数</div>
               </div>
             </el-card>
@@ -78,26 +78,58 @@
         <div slot="header" class="clearfix">
           <span>最新公告</span>
         </div>
-        <div class="new">最新公告</div>
+        <div class="new">{{ getNewNotice.noticeContent }}</div>
       </el-card>
     </div>
   </div>
 </template>
 
 <script>
-import { borrowTotal } from "../../network/history";
+import {
+  borrowToday,
+  backToday,
+  borrowThisMonth,
+  backThisMonth,
+  borrowThisYear,
+  backThisYear,
+  getNewNotice,
+} from "../../network/history";
 export default {
   name: "Home",
   data() {
     return {
-      borrowTotal: {
-        num: 0,
+      borrowToday: 0,
+      backToday: 0,
+      borrowThisMonth: 0,
+      backThisMonth: 0,
+      borrowThisYear: 0,
+      backThisYear: 0,
+      getNewNotice: {
+        noticeContent: "",
       },
     };
   },
   created() {
-    borrowTotal().then((res) => {
-      this.borrowTotal = res;
+    borrowToday().then((res) => {
+      this.borrowToday = res;
+    });
+    backToday().then((res) => {
+      this.backToday = res;
+    });
+    borrowThisMonth().then((res) => {
+      this.borrowThisMonth = res;
+    });
+    backThisMonth().then((res) => {
+      this.backThisMonth = res;
+    });
+    borrowThisYear().then((res) => {
+      this.borrowThisYear = res;
+    });
+    backThisYear().then((res) => {
+      this.backThisYear = res;
+    });
+    getNewNotice().then((res) => {
+      this.getNewNotice.noticeContent = res.noticeContent;
     });
   },
 };

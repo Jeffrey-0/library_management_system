@@ -64,7 +64,7 @@
               type="success"
               class="publish"
               size="small"
-              @click="dialogFormVisible = true"
+              @click="dialogNewBookVisible = true"
               >添加新书籍</el-button
             >
           </el-form-item>
@@ -74,7 +74,7 @@
         <el-table
           ref="filterTable"
           :data="tableData"
-          style="width: 100%; min-height: 300px; margin-bottom: 15px"
+          style="width: 100%; min-height: 300px"
         >
           <el-table-column prop="bookName" label="书名" fixed>
           </el-table-column>
@@ -97,6 +97,7 @@
                 disable-transitions
                 >编辑</el-tag
               >
+              <el-tag @click="cancel" type="info" class="tag-btn">删 除</el-tag>
             </template>
           </el-table-column>
         </el-table>
@@ -132,7 +133,7 @@
             </el-form-item>
             <el-form-item label="上架时间" :label-width="formLabelWidth">
               <el-date-picker
-                v-model="form.bookRecord"
+                v-model="formInline.bookRecord"
                 type="date"
                 placeholder="选择日期"
               >
@@ -153,7 +154,7 @@
           </div>
         </el-dialog>
         <!-- 添加图书对话框 -->
-        <el-dialog title="书籍资料" :visible.sync="dialogFormVisible">
+        <el-dialog title="书籍资料" :visible.sync="dialogNewBookVisible">
           <el-form :model="form">
             <el-form
               :model="formNewBook"
@@ -200,8 +201,8 @@
             </el-form>
           </el-form>
           <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogFormVisible = false"
+            <el-button @click="dialogNewBookVisible = false">取 消</el-button>
+            <el-button type="primary" @click="dialogNewBookVisible = false"
               >确 定</el-button
             >
           </div>
@@ -252,7 +253,7 @@ export default {
         isreturn: 0,
       },
       formNewBook: {
-        // 书籍详情模态框
+        // 添加书籍模态框
         id: "",
         bookId: "",
         bookName: "",
@@ -267,6 +268,7 @@ export default {
       currentPage: 1,
       pageSize: 5,
       dialogFormVisible: false,
+      dialogNewBookVisible: false,
       formInlineIsreturn: "0",
       total: 8,
       bookSorts: [],
@@ -332,17 +334,18 @@ export default {
       console.log(row);
       this.dialogFormVisible = true;
       this.formInline = row;
+      console.log(this.formInline);
       // this.formInlineIsreturn = row.isreturn
     },
     onSubmitFuzzy() {
       //模糊查询
       this.currentPage = 1;
-      console.log(this.form.bookName);
       if (this.form.bookName) {
         SelectFuzzy(this.form.bookName).then((res) => {
           // TODO
-          this.tableData = res;
-          this.total = 7;
+          this.tableData = res.data;
+          this.total = res.total;
+          console.log(res, "9999");
         });
         this.queryModel = 2;
       } else {
@@ -350,8 +353,8 @@ export default {
         SelectBook(this.currentPage, this.pageSize).then((res) => {
           console.log(res);
           // TODO
-          this.tableData = res;
-          // this.total = res.total
+          this.tableData = res.data;
+          this.total = res.total;
         });
         this.queryModel = 0;
       }
@@ -372,12 +375,32 @@ export default {
       console.log(this.formSeletor);
       this.queryModel = 1;
     },
+    cancel() {
+      //删除书籍
+      this.$confirm("此操作将删除这本书籍数据, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
   },
   created() {
     SelectBook(this.currentPage, this.pageSize).then((res) => {
       console.log(this.currentPage);
       // TODO
-      this.tableData = res;
+      this.tableData = res.data;
     });
     SelectBookSort().then((res) => {
       this.bookSorts = res;
@@ -426,7 +449,7 @@ export default {
 }
 .container .content-box .content {
   height: 100%;
-  padding: 30px;
+  padding: 10px 30px;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 5px;

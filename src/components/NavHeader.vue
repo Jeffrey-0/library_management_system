@@ -19,7 +19,11 @@
                 管理员名字<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown" class="login-out">
-                <el-dropdown-item><router-link  to="/login">退出登录</router-link></el-dropdown-item>
+                <el-dropdown-item
+                  ><router-link to="/login"
+                    >退出登录</router-link
+                  ></el-dropdown-item
+                >
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -70,7 +74,7 @@ export default {
   line-height: 70px;
 }
 .header .collapse-btn:hover {
-  background-color: #324157;
+  background-color: #2c3a50;
 }
 .header .logo {
   float: left;

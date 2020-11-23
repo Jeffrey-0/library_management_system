@@ -11,9 +11,10 @@
             "userCategory": "0"
         },
         {
-            "userId": "2",
+            "userId": 2,
             "userName": "张三",
-            "id": 2
+            "id": 2,
+            "userCategory": "0"
         },
         {
             "id": 3,
@@ -32,12 +33,14 @@
             "userPassword": "aA@000000",
             "userAge": 18,
             "userEmail": "123@qq.com",
-            "id": 4
+            "id": 4,
+            "userCategory": "0"
         },
         {
             "userId": "2",
             "userName": "张三",
-            "id": 5
+            "id": 5,
+            "userCategory": "0"
         },
         {
             "id": 6,
@@ -337,7 +340,7 @@
         {
             "id": 3,
             "historyId": 3,
-            "userId": 2,
+            "userId": 1,
             "bookId": 1,
             "borrowDate": "2020-02-11",
             "returnDate": "2020-03-12",
@@ -358,7 +361,7 @@
             "bookSort": "长篇",
             "bookRecord": "2020-09-22",
             "isreturn": "1",
-            "userId": "1",
+            "userId": 2,
             "userName": "李四",
             "id": 4
         },
@@ -374,7 +377,7 @@
             "bookSort": "小说",
             "bookRecord": "2020-09-22",
             "isreturn": "1",
-            "userId": "1",
+            "userId": 2,
             "userName": "李四",
             "id": 5
         },
@@ -390,7 +393,7 @@
             "bookSort": "长篇",
             "bookRecord": "2020-09-22",
             "isreturn": "1",
-            "userId": "1",
+            "userId": 1,
             "userName": "李四",
             "id": 6
         },
@@ -406,7 +409,7 @@
             "bookSort": "长篇",
             "bookRecord": "2020-09-22",
             "isreturn": "1",
-            "userId": "1",
+            "userId": 1,
             "userName": "李四",
             "id": 7
         },
@@ -422,7 +425,7 @@
             "bookSort": "小说",
             "bookRecord": "2020-09-22",
             "isreturn": "1",
-            "userId": "1123123",
+            "userId": 1,
             "userName": "撒旦法",
             "id": 27
         },

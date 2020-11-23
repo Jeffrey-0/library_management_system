@@ -72,7 +72,7 @@
           border
           stripe
           :data="tableData"
-          style="width: 100%; min-height: 300px; margin-bottom: 15px"
+          style="width: 100%; min-height: 300px"
         >
           <el-table-column prop="bookName" label="书名" fixed>
           </el-table-column>
@@ -108,42 +108,44 @@
         </el-table>
         <!-- 修改资料对话框 -->
         <el-dialog title="借阅详情" :visible.sync="dialogFormVisible">
-          <el-form :model="form">
-            <el-form
-              :model="formInline"
-              class="demo-form-inline"
-              label-width="60px"
-              style="text-align: center"
-            >
-              <el-form-item label="书名" :label-width="formLabelWidth">
-                <el-input v-model="formInline.bookName"></el-input>
-              </el-form-item>
-              <el-form-item label="分类" :label-width="formLabelWidth">
-                <el-select v-model="formInline.region" placeholder="图书分类">
-                  <el-option label="分类一" value="shanghai"></el-option>
-                  <el-option label="分类二" value="beijing"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="作者" :label-width="formLabelWidth">
-                <el-input v-model="formInline.bookAuthor"></el-input>
-              </el-form-item>
-              <el-form-item label="借书" :label-width="formLabelWidth">
-                <el-date-picker
-                  v-model="formInline.bookRecord"
-                  type="date"
-                  placeholder="选择日期"
-                >
-                </el-date-picker>
-              </el-form-item>
-              <el-form-item label="归还" :label-width="formLabelWidth">
-                <el-date-picker
-                  v-model="formInline.bookRecord"
-                  type="date"
-                  placeholder="选择日期"
-                >
-                </el-date-picker>
-              </el-form-item>
-            </el-form>
+          <el-form
+            :model="formInline"
+            class="demo-form-inline"
+            label-width="60px"
+            style="text-align: center"
+          >
+            <el-form-item label="书名" :label-width="formLabelWidth">
+              <el-input v-model="formInline.bookName"></el-input>
+            </el-form-item>
+            <el-form-item label="分类" :label-width="formLabelWidth">
+              <el-select v-model="formInline.bookSort" placeholder="图书分类">
+                <el-option
+                  :label="item.sortName"
+                  :value="item.sortName"
+                  v-for="item in bookSorts"
+                  :key="item.sortId"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="作者" :label-width="formLabelWidth">
+              <el-input v-model="formInline.bookAuthor"></el-input>
+            </el-form-item>
+            <el-form-item label="借书" :label-width="formLabelWidth">
+              <el-date-picker
+                v-model="formInline.bookRecord"
+                type="date"
+                placeholder="选择日期"
+              >
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item label="归还" :label-width="formLabelWidth">
+              <el-date-picker
+                v-model="formInline.bookRecord"
+                type="date"
+                placeholder="选择日期"
+              >
+              </el-date-picker>
+            </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -363,7 +365,7 @@ export default {
 }
 .container .content-box .content {
   height: 100%;
-  padding: 30px;
+  padding: 10px 30px;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 5px;

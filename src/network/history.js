@@ -102,10 +102,47 @@ export function borrowhistory(historyId) {
     })
 }
 
-//查询借出数
-export function borrowTotal() {
+//今日借出数
+export function borrowToday() {
     return request({
-        url: "total",
+        url: "/BorrowCollection/borrowtoday",
+        methods: 'get'
+    })
+}
+export function backToday() {
+    return request({
+        url: "/BorrowCollection/backtoday",
+        methods: 'get'
+    })
+}
+export function borrowThisMonth() {
+    return request({
+        url: "/BorrowCollection/borrowthismonth",
+        methods: 'get'
+    })
+}
+export function backThisMonth() {
+    return request({
+        url: "/BorrowCollection/backthismonth",
+        methods: 'get'
+    })
+}
+export function borrowThisYear() {
+    return request({
+        url: "/BorrowCollection/borrowthisyear",
+        methods: 'get'
+    })
+}
+export function backThisYear() {
+    return request({
+        url: "/BorrowCollection/backthisyear",
+        methods: 'get'
+    })
+}
+
+export function getNewNotice() {
+    return request({
+        url: "admin/notice/select",
         methods: 'get'
     })
 }
