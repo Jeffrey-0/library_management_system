@@ -141,6 +141,7 @@ export default {
                 })
                 // this.$router.go(0)
                 // this.$router.replace('/login')
+                res.userPassword = this.ruleForm.pass
                 this.$emit('logonSuccess', res)
               }
             })
