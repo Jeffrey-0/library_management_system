@@ -1,24 +1,37 @@
 <template>
   <div id="container">
-    <div class="portrait" title="进入个人信息" @click="toInfo"></div>
-    <div class="username"  @click="toInfo">小疯子</div>
+    <img class="portrait" title="点击切换头像" @click="changeAvatar" :src='avatarUrl'>
+    <div class="username"  @click="toInfo">{{ $user && $user.userName ? $user.userName : '无名氏'}}</div>
     <div class="nav">
       <router-link  to="/index/library">书库</router-link>
       <router-link  to="/index/bookshelf">书架</router-link>
       <router-link  to="/index/history">历史</router-link>
     </div>
     <div class="notice_head" @click="toNotice">公告</div>
-    <div class="notice">公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容公告内容</div>
+    <div class="notice">{{ notice ? notice.noticeContent : '暂无新公告'}}</div>
     <!-- <div class="notice">公告内容</div> -->
-    <el-button type="info" class="exit">退出登录</el-button>
+    <el-button type="info" class="exit" @click="signOut">退出登录</el-button>
   </div>
 </template>
 
 <script>
+import {getNewNotice} from '../network/notice'
 export default {
   name: '',
   data () {
     return {
+      user: {
+
+      },
+      notice: {
+
+      },
+      avatar: 0
+    }
+  },
+  computed: {
+    avatarUrl () {
+      return require('../assets/img/avatar/' + this.avatar + '.jpg')
     }
   },
   methods: {
@@ -31,7 +44,27 @@ export default {
       if (this.$route && this.$route.path !== '/index/notice') {
         this.$router.push('/index/notice')
       }
+    },
+    signOut () {
+      if (this.$route && this.$route.path !== '/login') {
+        this.$router.push('/login')
+      }
+    },
+    changeAvatar () {
+      this.avatar = (this.avatar + 1) % 10
+      localStorage.setItem('avatar', this.avatar)
     }
+  },
+  created () {
+    // this.user = JSON.parse(sessionStorage.getItem('user'))
+    // this.user = this.$user
+    this.user = this.$user
+    console.log('this.$user', this.$user)
+    getNewNotice().then(res => {
+      this.notice = res
+      console.log(this.notice)
+    })
+    this.avatar = localStorage.getItem('avatar') || 0
   }
 }
 </script>
@@ -54,7 +87,7 @@ export default {
   border-radius: 50%;
   width: 100px;
   height: 100px;
-  background-image: url(../assets/img/avatar.png);
+  /* background-image: url(../assets/img/avatar/0.jpg); */
   background-size: 100%;
 }
 .portrait:hover {
@@ -102,6 +135,8 @@ export default {
   overflow-y: scroll;
   line-height: 20px;
   padding: 5px;
+  text-align: left;
+  /* text-indent: 2em; */
 }
 .notice_head {
   font-size: 18px;

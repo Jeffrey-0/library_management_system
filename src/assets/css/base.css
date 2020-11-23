@@ -1,11 +1,11 @@
 @import "./normalize.css";
 .el-tabs__item {
-    height: 28px;
-    line-height: 25px;
+    height: 32px;
+    line-height: 32px;
     border-radius: 5px;
 }
 
-.el-tabs__item.is-active {
+.tags .el-tabs__item.is-active {
     color: #fff;
     background-color: #409eff;
     padding: 0 2px;
@@ -26,7 +26,35 @@
 .el-input.is-disabled .el-input__inner {
     cursor: default;
 }
-
-.info .el-select {
+ .el-select {
     width: 100%;
 }
+.tags .el-tabs__content {
+    color: #666;
+    position: unset; 
+}
+.el-tabs__header{
+    background-color: #fff;
+    height: 35px;
+  -webkit-box-shadow: 0 5px 10px #ddd;
+  box-shadow: 0 5px 10px #ddd;
+}
+.el-tabs__nav .el-tabs__item:first-child .el-icon-close{
+    display: none;
+}
+.tags .el-date-editor.el-input, .el-date-editor.el-input__inner{
+    width: 100%;
+}
+.el-card__body{
+    padding: 0;
+}
+.card-info .el-col-6 {
+    margin-left: 6%;
+}
+.card-info .el-row {
+    margin-bottom: 40px;
+}
+
+#notice .el-table .cell {
+    white-space: nowrap;
+  }

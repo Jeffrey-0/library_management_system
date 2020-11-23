@@ -2,7 +2,7 @@
   <div id="loginC">
     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="40px" class="demo-ruleForm">
       <el-form-item label="ID" prop="id">
-        <el-input v-model.number="ruleForm.id" maxlength="30"></el-input>
+        <el-input v-model="ruleForm.id" maxlength="30"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pass">
         <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
@@ -16,8 +16,9 @@
 
 <script>
 
-// import {login} from '../network/login'
-import {loginP} from '../network/login'
+import {login} from '../network/login'
+// TODO
+// import {loginP} from '../network/login'
 export default {
   props: [
     'toLoginC'
@@ -42,7 +43,7 @@ export default {
           } else if (value.length > 30) {
             return callback(new Error('长度不能大于30'))
           } else if (!regex.test(value)) {
-            return callback(new Error('必须有大小写字母已经特殊字符'))
+            return callback(new Error('必须有大小写字母和特殊字符'))
           } else {
             callback()
           }
@@ -73,16 +74,31 @@ export default {
           console.log('login---')
           console.log(this.ruleForm.id, this.ruleForm.pass)
           // 发起登录请求
-          loginP(this.ruleForm.id, this.ruleForm.pass).then(res => {
-            if(res && res.userId) {
-              console.log('登录成功')
+          // TODO  ----loginP
+          login(this.ruleForm.id, this.ruleForm.pass).then(res => {
+            console.log(res)
+            // TODO ---res.userId
+            if(res && res.length > 0) {
+
+              // 保存用户到sessionStorage
+              // TODO res[0] => res
+              sessionStorage.setItem('user', JSON.stringify(res))
+              Object.assign(this.$user, res)
+
+              console.log('登录成功$user' , this.$user)
               this.$message({
                 message: '登录成功',
                 type: 'success',
                 center: true,
                 offset: 40
               })
-              this.$router.push('/index')
+              // TODO
+              console.log(res)
+              if (res.userCategory == '1') {
+                this.$router.push('/helloworld')
+              } else {
+                this.$router.push('/index') 
+              }
             } else {
               console.log('登录失败')
               this.$message({

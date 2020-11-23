@@ -2,7 +2,7 @@
   <div id="index">
     <nav-bar></nav-bar>
     <div class="content">
-      <keep-alive>
+      <keep-alive exclude="Bookshelf">
         <router-view></router-view>
       </keep-alive>
     </div>
@@ -23,11 +23,17 @@ export default {
   components: {
     NavBar,
   },
+  created () {
+    let user = JSON.parse(sessionStorage.getItem('user'))
+    console.log('sessionStorage', sessionStorage.getItem('user'))
+    console.log(user && user.userName, user && user.userId)
+  }
 };
 </script>
 
 <style scoped>
 #index {
+  color: black;
   width: 100%;
   height: 100%;
   background-image: url(../../assets/img/bg_index.jpg);

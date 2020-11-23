@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <div class="title">公告管理</div>
+  <div id="notice">
+    <div class="title">公告</div>
 
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+    <el-form :inline="true" :model="formSearch" class="demo-form-inline">
       <el-form-item>
-        <el-input v-model="formInline.user" placeholder="书名"></el-input>
+        <el-input v-model="formSearch.noticeContent" placeholder="公告内容"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -16,37 +16,29 @@
     stripe
     style="width: 100%;min-height:390px;margin-bottom:15px">  
     <el-table-column
-      prop="date"
-      label="书名"
-      width="160">
+      prop="userName"
+      label="发布人"
+      width="80">
     </el-table-column>
     <el-table-column
-      prop="name"
-      label="类别"
-      width="150">
+      prop="noticeContent"
+      label="公告内容">
     </el-table-column>
     <el-table-column
-      prop="province"
-      label="作者"
-      width="150">
-    </el-table-column>
-    <el-table-column
-      prop="date"
-      label="借书时间"
-      width="200">
-    </el-table-column>
-    <el-table-column
-      prop="zip"
-      label="归还时间"
+      prop="noticeCreatedtime"
+      label="发表时间"
       width="120">
     </el-table-column>
 
     <el-table-column
-      label="操作">
-      <!-- <template slot-scope="scope"> -->
-        <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-        <!-- <el-button type="text" size="small">编辑</el-button> -->
-      <!-- </template> -->
+      label="操作"
+      width="70">
+      <div slot-scope="scope">
+        <!-- <el-button @click="handleClick(scope.row)" type="text" size="small">详情</el-button> -->
+        <el-tag @click="handleClick(scope.row)"
+          type="primary"
+          disable-transitions>详情</el-tag>
+      </div>
     </el-table-column>
   </el-table>
 
@@ -54,82 +46,106 @@
     <el-pagination
       @current-change="handleCurrentChange"
       :current-page="currentPage"
-      :page-size="6"
+      :page-size="pageSize"
       layout="total, prev, pager, next, jumper"
-      :total="50">
+      :total="total">
     </el-pagination>
   </div>
+
+  <el-dialog title="公告" :visible.sync="dialogFormVisible">
+  <el-form :model="form">
+      <el-form  :model="formInline"  class="demo-form-inline" label-width="80px" style="text-align:center">
+      <el-form-item label="发布人">
+        <el-input v-model="formInline.userName" placeholder="发布人" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="发表时间">
+        <el-input v-model="formInline.noticeCreatedtime" placeholder="时间" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="公告内容">
+        <el-input v-model="formInline.noticeContent" placeholder="内容" disabled type="textarea"></el-input>
+      </el-form-item>
+    </el-form>
+  </el-form>
+</el-dialog>
   </div>
 </template>
 
 <script>
+  import {SelectUserNotice, SelectNoticeFuzzy} from '../../network/notice'
   export default {
     methods: {
       handleClick(row) {
+        this.formInline = row
+        this.dialogFormVisible = true
         console.log(row);
       },
        onSubmit() {
-        console.log('submit!');
-      },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+        this.currentPage = 1
+        console.log(this.formSearch.noticeContent)
+        if (this.formSearch.noticeContent) {
+          SelectNoticeFuzzy(this.formSearch.noticeContent).then(res => {
+            // TODO
+            this.tableData = res
+            this.total = 7
+          })
+          this.queryModel = 2
+        } else {  //为空时切换普通查询
+          SelectUserNotice(this.currentPage, this.pageSize).then(res => {
+            console.log(res)
+            // TODO
+            this.tableData = res
+            this.total = 9
+            // this.total = res.total
+          })
+          this.queryModel = 0
+        }
       },
       handleCurrentChange(val) {
+        this.currentPage = val
+        if (this.queryModel === 1) { //模糊查询
+            SelectNoticeFuzzy(this.formSearch.noticeContent,this.currentPage, this.pageSize).then(res => {
+            // TODO
+            this.tableData = res
+            this.total = 7
+          })
+        } else { // 普通查询
+          SelectUserNotice(this.currentPage, this.pageSize).then(res => {
+            console.log(res)
+            // TODO
+            this.tableData = res
+            this.total = 9
+            // this.total = res.total
+          })
+        }
         console.log(`当前页: ${val}`);
       }
     },
 
     data() {
       return {
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1517 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1519 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1516 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1519 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1519 弄',
-          zip: 200333
-        }],
+        tableData: [],
          formInline: {
-          user: '',
-          region: ''
         },
-        currentPage: 4
+        formSearch: {
+          noticeContent: ''
+        },
+        currentPage: 1,
+        dialogTableVisible: false,
+        dialogFormVisible: false,
+        form: {
+        },
+        formLabelWidth: '120px',
+        pageSize: 6,
+        total: 9,
+        queryModel: 0  // 当前查询状态，用户分页切换，分页查询0，  模糊查询1
+      
       }
+    },
+    created () {
+      SelectUserNotice().then(res => {
+        this.tableData = res
+        // this.total = res.total
+      })
     }
   }
 </script>
@@ -142,5 +158,9 @@
  }
  .demo-form-inline {
    text-align: right;
+ }
+
+ #notice .el-table .cell {
+   white-space: nowrap;
  }
 </style>

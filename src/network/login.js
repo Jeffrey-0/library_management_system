@@ -2,10 +2,10 @@ import { request } from './request'
 
 // 登录
 // get请求测试
-export function login (id, password) {
+export function loginT (id, password) {
   return request({
-    url:'users',
-    params:{
+    url: 'users',
+    params: {
       userId: id,
       userPassword: password
     }
@@ -13,7 +13,7 @@ export function login (id, password) {
 }
 
 // post请求
-export function loginP (id, password) {
+export function login (id, password) {
   return request({
     // url: 'users',
     url: 'login',
@@ -40,8 +40,9 @@ export function loginP (id, password) {
 // post请求
 export function logon (id, username, password, email) {
   return request({
-    // url: 'users',
-    url: 'logon',
+    // TODO
+    url: 'users',
+    // url: 'logon',
     method: 'post',
     data: {
       userId: id,
