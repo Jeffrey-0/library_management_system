@@ -28,10 +28,10 @@ export function SelectFuzzy(userName, page = 1, rows = 5) {
 export function updateUser(user) {
     return request({
         // url: 'users/' + user.userId,
-        url: 'update/user/' + user.userId,
-        method: 'put',
+        url: 'update/user/',
+        method: 'post',
         data: {
-            id: user.id,
+            // id: user.id,
             userId: user.userId,
             userName: user.userName,
             userAge: user.userAge,
@@ -40,15 +40,26 @@ export function updateUser(user) {
             userSex: user.userSex,
             userPhone: user.userPhone,
             userCategory: user.userCategory
-        }
+        },
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+                // 设置未form-data数据
+        },
+        // 格式化数据
+        transformRequest: [function(data) {
+            let ret = ''
+            for (const it in data) {
+                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+            }
+            return ret
+        }]
     })
 }
-
 // 修改密码
 export function updateUserPass(userId, oldPassword, newPassword) {
     return request({
         url: 'update/userpassword',
-        method: 'put',
+        method: 'post',
         data: {
             userId,
             userPassword: oldPassword,

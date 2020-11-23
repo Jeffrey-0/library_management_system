@@ -5,7 +5,8 @@ import { request } from './request'
 // 查找最新公告
 export function getNewNotice() {
     return request({
-        url: 'notices/2'
+        // url: 'notices/2'
+        url: 'admin/notice/select'
     })
 }
 

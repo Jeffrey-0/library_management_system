@@ -31,13 +31,15 @@
       prop="borrowDate"
       label="借书时间">
     </el-table-column>
-    <el-table-column
+    <!-- <el-table-column
       prop="validityDate"
       label="有效期">
-    </el-table-column>
+    </el-table-column> -->
     <el-table-column
       prop="returnDate"
-      label="归还时间">
+      label="归还时间"
+      :formatter=foReturnDate
+    >
     </el-table-column>
 
     <el-table-column
@@ -64,7 +66,7 @@
 
   <el-dialog title="借阅历史" :visible.sync="dialogFormVisible">
   <el-form :model="form">
-        <el-form :inline="true" :model="formInline"  class="demo-form-inline" label-width="60px" style="text-align:center">
+        <el-form  :model="formInline"  class="demo-form-inline" label-width="60px" style="text-align:center">
       <!-- <el-form-item label="图书ID">
         <el-input v-model="formInline.user" placeholder="姓名" disabled></el-input>
       </el-form-item> -->
@@ -83,9 +85,9 @@
       <el-form-item label="归还">
         <el-input v-model="formInline.returnDate" placeholder="归还时间" disabled></el-input>
       </el-form-item>
-      <el-form-item label="有效期">
+      <!-- <el-form-item label="有效期">
         <el-input v-model="formInline.validityDate" placeholder="有效期" disabled></el-input>
-      </el-form-item>
+      </el-form-item> -->
     </el-form>
   </el-form>
   <!-- -<div slot="footer" class="dialog-footer">
@@ -97,7 +99,7 @@
 </template>
 
 <script>
-  import {SelectUserHistory, SelectHistoryFuzzy} from '../../network/history'
+  import {SelectUserHistoryById, SelectHistoryFuzzy} from '../../network/history'
   export default {
     methods: {
       handleClick(row) {
@@ -118,7 +120,7 @@
           })
           this.queryModel = 2
         } else {  //为空时切换普通查询
-          SelectUserHistory(this.$user.userId, this.currentPage, this.pageSize).then(res => {
+          SelectUserHistoryById(this.$user.userId, this.currentPage, this.pageSize).then(res => {
             console.log(res)
             // TODO
             if (res) {
@@ -143,7 +145,7 @@
             }
           })
         } else { // 普通查询
-          SelectUserHistory(this.$user.userId, this.currentPage, this.pageSize).then(res => {
+          SelectUserHistoryById(this.$user.userId, this.currentPage, this.pageSize).then(res => {
             console.log(res)
             // TODO
             /* this.tableData = res
@@ -156,6 +158,9 @@
           })
         }
         console.log(`当前页: ${val}`);
+      },
+      foReturnDate (row) {
+        return row.returnDate ? row.returnDate : '暂未归还';
       }
     },
 
@@ -188,11 +193,12 @@
       }
     },
     created () {
-      SelectUserHistory(this.$user.userId).then(res => {
+      SelectUserHistoryById(this.$user.userId).then(res => {
         // this.tableData = res
+          console.log('历史', res)
         // this.total = res.total
         if (res) {
-          this.tableData = res.borrowhistory
+          this.tableData = res.data
           this.total = res.total
         }
       })

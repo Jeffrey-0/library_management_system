@@ -4,8 +4,10 @@ import { request } from './request'
 // 分页查询书本
 export function SelectBook(page = 1, rows = 5) {
     return request({
-        url: 'SelectBook',
-        params: {
+        // url: 'SelectBook',
+        method: 'post',
+        url: 'SelectBookHistoryByChioseDescRecord',
+        data: {
             page: page,
             rows: rows
         }
@@ -24,16 +26,22 @@ export function SelectBook(page, rows) {
 } */
 
 // 查询书籍所有分类
-export function SelectBookSort() {
+export function SelectBookSort(page = 1, rows = 100) {
     return request({
-        url: 'booksorts'
+        // url: 'booksorts'
+        url: 'SelectSort',
+        params: {
+            page,
+            rows
+        }
     })
 }
 
 // 查询书籍所有出版社
 export function SelectBookPub() {
     return request({
-        url: 'bookpubs'
+        // url: 'bookpubs'
+        url: 'GetPub'
     })
 }
 
@@ -83,7 +91,7 @@ export function SelectSelector(bookSort, bookPub, bookIsreturn, page = 1, rows =
 // 模糊查询
 export function SelectFuzzy(bookName, page = 1, rows = 5) {
     return request({
-        url: 'SelectBookBookByLike',
+        url: 'SearchBookByLike',
         method: 'post',
         data: {
             bookName: bookName,

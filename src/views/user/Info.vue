@@ -136,7 +136,7 @@
           } else {
             this.$message({
               message: '修改失败',
-              type: 'success',
+              type: 'error',
               center: true
             })
           }

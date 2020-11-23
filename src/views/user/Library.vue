@@ -15,7 +15,7 @@
       <el-form-item label="出版社">
         <el-select v-model="formSeletor.pub" placeholder="出版社">
           <el-option label="所有" value="所有"></el-option>
-          <el-option :label="item.pubName" :value="item.pubName" v-for="item in bookPubs" :key="item.pubId"></el-option>
+          <el-option :label="item" :value="item" v-for="item in bookPubs" :key="item"></el-option>
         </el-select>
       </el-form-item>
       <!-- <el-form-item label="剩余情况">
@@ -64,7 +64,10 @@
     </el-table-column>
     <el-table-column
       prop="bookRecord"
-      label="上架时间">
+      label="上架时间"
+      :formatter=formatDate
+      >
+      <!-- {{ $moment().format('YYYY-MM-DD') }} -->
     </el-table-column>
 
     <el-table-column
@@ -111,7 +114,10 @@
         <el-input v-model="formInline.bookAuthor" placeholder="作者" disabled></el-input>
       </el-form-item>
       <el-form-item label="上架">
-        <el-input v-model="formInline.bookRecord" placeholder="上架" disabled></el-input>
+        <el-input v-model="formInline.bookRecord" placeholder="上架" disabled :formatter=formatDate>
+          <!-- {{ $moment().format('YYYY-MM-DD') }} -->
+          <!-- {{ 123 }} -->
+        </el-input>
       </el-form-item>
       <el-form-item label="状态   ">
         <el-input v-model="formInline.isreturn" placeholder="状态" disabled></el-input>
@@ -136,7 +142,8 @@
         this.dialogFormVisible = true
         console.log(row);
         this.formInline = row
-        this.formInlineIsreturn = row.isreturn
+        // TODO
+        this.formInlineIsreturn = row.isreturn === 0? 0 :1
       },
        onSubmit() {
         console.log('submit!');
@@ -153,7 +160,7 @@
             /* this.tableData = res
             this.total = 7 */
             if (res) {
-              this.tableData = res.book
+              this.tableData = res.data
               this.total = res.total
             }
           })
@@ -163,7 +170,7 @@
             /* this.tableData = res
             this.total = 6 */
             if (res) {
-              this.tableData = res.book
+              this.tableData = res.data
               this.total = res.total
             }
           })
@@ -174,7 +181,7 @@
             /* this.tableData = res
             this.total = 8 */
             if (res) {
-              this.tableData = res.book
+              this.tableData = res.data
               this.total = res.total
             }
             // this.total = res.total
@@ -193,7 +200,7 @@
           /* this.tableData = res
           this.total = 6 */
           if (res) {
-            this.tableData = res.book
+            this.tableData = res.data
             this.total = res.total
           }
         })
@@ -209,7 +216,7 @@
             /* this.tableData = res
             this.total = 7 */
             if (res) {
-              this.tableData = res.book
+              this.tableData = res.data
               this.total = res.total
             }
           })
@@ -221,7 +228,7 @@
             // this.tableData = res
             // this.total = res.total
             if (res) {
-              this.tableData = res.book
+              this.tableData = res.data
               this.total = res.total
             }
           })
@@ -267,6 +274,10 @@
       },
       changeBookStatus (bookId) {
         console.log('eventBus changeBookStatus ',bookId)
+      },
+      formatDate(row, col) {
+        console.log('格式化时间', row, col)
+        return this.$moment(row).format('YYYY-MM-DD')
       }
     },
 
@@ -310,15 +321,15 @@
         // this.tableData = res
         // this.total = res.total
         if (res) {
-          this.tableData = res.book
+          this.tableData = res.data
           this.total = res.total
         }        
       })
       SelectBookSort().then(res => {
-        this.bookSorts = res
+        this.bookSorts = res.data
       })
       SelectBookPub().then(res => {
-        this.bookPubs = res
+        this.bookPubs = res.data
       })
     },
     mounted () {
