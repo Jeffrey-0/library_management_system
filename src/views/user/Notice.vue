@@ -177,7 +177,9 @@
     },
     created () {
       SelectUserNotice().then(res => {
+        console.log('公告结果' , res)
         if (res) {
+          console.log('公告结果' , res)
           this.tableData = res.data
           this.total = res.total
           }  else {

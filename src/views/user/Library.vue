@@ -1,16 +1,9 @@
 <template>
   <div class="library">
     <div class="title">书库</div>
-    <el-form :inline="true" :model="form" class="demo-form-inline demo-form-inline2" size="mini">
-      <el-form-item>
-        <el-input v-model="form.bookName" placeholder="书名"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmitFuzzy">查询</el-button>
-      </el-form-item>
-    </el-form>
+    
 
-    <el-form :inline="true" :model="formSeletor" class="demo-form-inline demo-form-inline1" size="mini">
+    <el-form :inline="true" :model="formSeletor" class="demo-form-inline demo-form-inline1">
       <!-- <el-form-item label="书名">
         <el-input v-model="formSeletor.user" placeholder="审批人"></el-input>
       </el-form-item> -->
@@ -40,13 +33,20 @@
         <el-button type="primary" @click="onSubmitSeletor">查询</el-button>
       </el-form-item>
     </el-form>
-
+<el-form :inline="true" :model="form" class="demo-form-inline demo-form-inline2">
+      <el-form-item>
+        <el-input v-model="form.bookName" placeholder="书名"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmitFuzzy">查询</el-button>
+      </el-form-item>
+    </el-form>
     
   <el-table
     :data="tableData"
     border
     stripe
-    style="width: 100%;min-height:420px;margin-bottom:15px">  
+    style="width: 100%;min-height:330px;margin-bottom:15px">  
     <el-table-column
       prop="bookName"
       label="书名">
@@ -403,6 +403,6 @@
    width: 100px;
  }*/
 .demo-form-inline2 {
-  position: absolute;
+  /* position: absolute; */
 }
 </style>
