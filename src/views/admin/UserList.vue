@@ -85,7 +85,11 @@
                   </el-table-column>
                   <el-table-column prop="borrowDate" label="借阅" width="120">
                   </el-table-column>
-                  <el-table-column prop="returnDate" label="归还" width="120">
+                  <el-table-column 
+                    prop="returnDate" 
+                    label="归还" 
+                    :formatter="forReturnDate" 
+                    width="120">
                   </el-table-column>
                   <el-table-column prop="isreturn" label="状态"
                     >{{ tableHistory.isreturn == 0 ? "未还" : "已还" }}
@@ -274,8 +278,8 @@ export default {
         this.queryModel = 0;
       }
     },
-    forIsreturn(row) {
-      return row.validityDate ? row.validityDate : "0";
+    forReturnDate(row) {
+      return row.returnDate ? row.returnDate : "暂未归还";
     },
   },
   mounted() {

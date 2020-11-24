@@ -285,6 +285,11 @@ export default {
       this.publishNotice.noticeCreatetime = new Date().format("yyyy-MM-dd");
       addNotice(this.publishNotice);
       this.dialogNoticeVisible = false;
+      this.$message({
+            type: "success",
+            message: "发布成功!",
+          });
+          
     },
   },
   mounted() {

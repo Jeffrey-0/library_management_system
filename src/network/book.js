@@ -257,3 +257,14 @@ export function selectBookById(Book) {
         method: 'get'
     })
 }
+
+// 修改图书
+export function updateBook(Book) {
+    console.log(Book)
+    return request({
+        // url: 'booksorts'
+        url: '/UpdateBook',
+        method: 'post',
+        params: Book
+    })
+}

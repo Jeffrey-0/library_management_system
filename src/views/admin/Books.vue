@@ -95,6 +95,7 @@
                 @click="handleClick(scope.row)"
                 type="primary"
                 disable-transitions
+                class="tag-btn "
                 >编辑</el-tag
               >
               <el-tag @click="cancel(scope.row)" type="info" class="tag-btn"
@@ -117,7 +118,7 @@
                 placeholder="书名"
               ></el-input>
             </el-form-item>
-            <el-form-item label="出版社">
+            <el-form-item label="出版社" :label-width="formLabelWidth">
               <el-select v-model="formInline.bookPub" placeholder="出版社">
                 <el-option
                   :label="item"
@@ -157,14 +158,13 @@
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogFormVisible = false"
+            <el-button type="primary" @click="updateBookInfo"
               >确 定</el-button
             >
           </div>
         </el-dialog>
         <!-- 添加图书对话框 -->
         <el-dialog title="书籍资料" :visible.sync="dialogNewBookVisible">
-          <el-form :model="form">
             <el-form
               :model="formNewBook"
               class="demo-form-inline"
@@ -209,7 +209,6 @@
               </el-select>
             </el-form-item> -->
             </el-form>
-          </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogNewBookVisible = false">取 消</el-button>
             <el-button type="primary" @click="addBook">确 定</el-button>
@@ -242,6 +241,7 @@ import {
   SelectFuzzy,
   DeleteBook,
   saveBook,
+  updateBook,
 } from "../../network/book";
 export default {
   name: "Books",
@@ -401,6 +401,7 @@ export default {
             message: "已取消删除",
           });
         });
+        
     },
     addBook() {
       this.dialogNewBookVisible = false;
@@ -408,7 +409,16 @@ export default {
       this.formNewBook.bookPub = this.formSeletor.pub;
       saveBook(this.formNewBook);
       console.log(this.formNewBook);
+      this.$message({
+            type: "success",
+            message: "发布成功!",
+          });
     },
+    updateBookInfo() {   //修改图书信息
+            this.dialogFormVisible = false;
+            this.formInline.bookRecord = this.$moment(new Date(this.formInline.bookRecord).getTime()).format('YYYY-MM-DD');
+            updateBook(this.formInline);
+        }
   },
   created() {
     SelectBook(this.currentPage, this.pageSize).then((res) => {
@@ -474,5 +484,9 @@ export default {
 }
 .container .content-box .content .search .publish {
   margin-left: 50px;
+}
+.tag-btn {
+  cursor: pointer;
+  margin-right: 10px;
 }
 </style>

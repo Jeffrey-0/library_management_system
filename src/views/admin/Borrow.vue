@@ -122,10 +122,10 @@
             style="text-align: center"
           >
             <el-form-item label="书名" :label-width="formLabelWidth">
-              <el-input v-model="formInline.bookName"></el-input>
+              <el-input v-model="formInline.bookName" disabled></el-input>
             </el-form-item>
             <el-form-item label="分类" :label-width="formLabelWidth">
-              <el-select v-model="formInline.bookSort" placeholder="图书分类">
+              <el-select v-model="formInline.bookSort" placeholder="图书分类" disabled>
                 <el-option
                   :label="item.sortName"
                   :value="item.sortName"
@@ -135,21 +135,23 @@
               </el-select>
             </el-form-item>
             <el-form-item label="作者" :label-width="formLabelWidth">
-              <el-input v-model="formInline.bookAuthor"></el-input>
+              <el-input v-model="formInline.bookAuthor" disabled></el-input>
             </el-form-item>
             <el-form-item label="借书" :label-width="formLabelWidth">
               <el-date-picker
-                v-model="formInline.bookRecord"
+                v-model="formInline.borrowDate"
                 type="date"
                 placeholder="选择日期"
+                disabled
               >
               </el-date-picker>
             </el-form-item>
             <el-form-item label="归还" :label-width="formLabelWidth">
               <el-date-picker
-                v-model="formInline.bookRecord"
+                v-model="formInline.returnDate"
                 type="date"
                 placeholder="选择日期"
+                disabled
               >
               </el-date-picker>
             </el-form-item>
