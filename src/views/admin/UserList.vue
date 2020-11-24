@@ -50,7 +50,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <!-- 修改资料对话框 -->
+        <!-- 查看资料对话框 -->
         <el-dialog title="用户资料" :visible.sync="dialogFormVisible">
           <el-form :model="form">
             <el-form
@@ -83,14 +83,14 @@
                 >
                   <el-table-column prop="bookName" label="书名">
                   </el-table-column>
-                  <el-table-column prop="borrowDate" label="借阅">
+                  <el-table-column prop="borrowDate" label="借阅" width="120">
                   </el-table-column>
-                  <el-table-column prop="returnDate" label="归还">
+                  <el-table-column prop="returnDate" label="归还" width="120">
                   </el-table-column>
                   <el-table-column prop="isreturn" label="状态"
                     >{{ tableHistory.isreturn == 0 ? "未还" : "已还" }}
                   </el-table-column>
-                  <el-table-column prop="validityDate" label="剩余时间">
+                  <el-table-column prop="validityDate" label="剩余">
                   </el-table-column>
                 </el-table>
               </el-form-item>
@@ -156,6 +156,7 @@ export default {
       currentPage: 1,
       pageSize: 5,
       total: 0,
+      queryModel: 0,
       dialogFormVisible: false,
       form: {
         userName: "",
@@ -183,7 +184,12 @@ export default {
       this.dialogFormVisible = true;
       this.user = row;
       searchBorrowHistory(this.user.userId, 1, 100).then((res) => {
-        this.tableHistory = res.data;
+        if (res) {
+          console.log(res);
+          this.tableHistory = res.data;
+        } else {
+          this.tableHistory = [];
+        }
       });
     },
 
@@ -192,9 +198,10 @@ export default {
       this.currentPage = val;
       if (this.queryModel === 2) {
         //模糊查询
-        SelectFuzzy(this.user.userName, this.currentPage, this.pageSize).then(
+        SelectFuzzy(this.form.userName, this.currentPage, this.pageSize).then(
           (res) => {
             // TODO
+            console.log(res, "+++");
             this.tableData = res.data;
             this.total = res.total;
           }
@@ -202,7 +209,7 @@ export default {
       } else {
         // 普通查询
         SelectUser(this.currentPage, this.pageSize).then((res) => {
-          console.log(res);
+          console.log("普通查询");
           // TODO
           this.tableData = res.data;
           this.total = res.total;
@@ -266,6 +273,9 @@ export default {
         });
         this.queryModel = 0;
       }
+    },
+    forIsreturn(row) {
+      return row.validityDate ? row.validityDate : "0";
     },
   },
   mounted() {

@@ -50,7 +50,7 @@ export function SelectNoticeFuzzy(noticeContent, page = 1, rows = 5) {
     // console.log(noticeName, page, rows)
     return request({
         url: 'admin/notice/findNoticeByLike',
-        method: 'post',
+        method: 'get',
         params: {
             noticeContent: noticeContent,
             page: page,

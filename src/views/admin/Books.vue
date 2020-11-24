@@ -310,6 +310,7 @@ export default {
         SelectFuzzy(this.form.bookName, this.currentPage, this.pageSize).then(
           (res) => {
             // TODO
+            console.log("****");
             this.tableData = res.data;
             this.total = res.total;
           }

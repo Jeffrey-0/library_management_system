@@ -36,7 +36,7 @@
           prop="noticeContent"
           label="公告内容"
         ></el-table-column>
-        <el-table-column prop="userId" label="上传人" width="120">
+        <el-table-column prop="userName" label="上传人" width="120">
         </el-table-column>
         <el-table-column prop="noticeCreatetime" label="上传日期" width="140">
         </el-table-column>
@@ -132,7 +132,7 @@ export default {
       publishNotice: {
         noticeContent: "",
         noticeCreatetime: "",
-        userId: "",
+        userAuthor: "",
       },
       tableData: [],
       currentPage: 1,

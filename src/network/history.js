@@ -153,7 +153,7 @@ export function getNewNotice() {
 export function selectHistory(page = 1, rows = 5) {
     return request({
         url: '/SelectHistoryAll',
-        method: 'get',
+        method: 'post',
         params: {
             page: page,
             rows: rows
@@ -171,5 +171,26 @@ export function selectHistoryByLike(bookName, page = 1, rows = 5) {
             page: page,
             rows: rows
         }
+    })
+}
+// 筛选查询
+export function SelectSelectorHistory(bookSort, bookPub, bookIsreturn, page = 1, rows = 5) {
+    const data = {
+        page: page,
+        rows: rows
+    }
+    if (bookSort !== '所有') {
+        data.bookSort = bookSort
+    }
+    if (bookPub !== '所有') {
+        data.bookPub = bookPub
+    }
+    if (bookIsreturn !== '所有') {
+        data.isreturn = bookIsreturn
+    }
+    return request({
+        url: 'SelectHistoryAllDesc',
+        method: 'post',
+        data: data
     })
 }

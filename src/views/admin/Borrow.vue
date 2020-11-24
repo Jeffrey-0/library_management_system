@@ -84,9 +84,14 @@
             sortable
             width="150"
             column-key="date"
+            :formatter="forBorrowDate"
           >
           </el-table-column>
-          <el-table-column prop="validityDate" label="有效期">
+          <el-table-column
+            prop="validityDate"
+            :formatter="forValidityDate"
+            label="有效期"
+          >
           </el-table-column>
           <el-table-column
             prop="returnDate"
@@ -94,6 +99,7 @@
             sortable
             width="150"
             column-key="date"
+            :formatter="foReturnDate"
           >
           </el-table-column>
           <el-table-column prop="isreturn" label="状态">
@@ -230,7 +236,9 @@ export default {
   created() {
     selectHistory(this.currentPage, this.pageSize).then((res) => {
       // TODO
-      console.log(res.data, "++++");
+      if (res.data.borrowDate == false) {
+        console.log(res.data.borrowDate, "****----");
+      }
       this.tableData = res.data;
       this.total = res.total;
     });
@@ -331,6 +339,15 @@ export default {
       });
       console.log(this.formSeletor);
       this.queryModel = 1;
+    },
+    foReturnDate(row) {
+      return row.returnDate ? row.returnDate : "暂未归还";
+    },
+    forBorrowDate(row) {
+      return row.borrowDate ? row.borrowDate : "暂未借阅";
+    },
+    forValidityDate(row) {
+      return row.validityDate ? row.validityDate : "0";
     },
   },
   mounted() {
