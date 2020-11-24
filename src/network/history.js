@@ -134,6 +134,7 @@ export function borrowThisYear() {
         methods: 'get'
     })
 }
+//年度归还数
 export function backThisYear() {
     return request({
         url: '/BorrowCollection/backthisyear',
@@ -141,18 +142,32 @@ export function backThisYear() {
     })
 }
 
+//获取最新的一条公告
 export function getNewNotice() {
     return request({
         url: 'admin/notice/select',
         methods: 'get'
     })
 }
+//分页查询所有借阅历史
 export function selectHistory(page = 1, rows = 5) {
-    console.log(rows)
     return request({
         url: '/SelectHistoryAll',
-        methods: 'get',
+        method: 'get',
         params: {
+            page: page,
+            rows: rows
+        }
+    })
+}
+//模糊查找借阅历史
+export function selectHistoryByLike(bookName, page = 1, rows = 5) {
+    console.log(rows)
+    return request({
+        url: '/SelectHistoryAllByLike',
+        method: 'post',
+        params: {
+            bookName: bookName,
             page: page,
             rows: rows
         }

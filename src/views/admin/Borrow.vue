@@ -175,13 +175,11 @@
 
 <script>
 import {
-  SelectBook,
   SelectBookSort,
   SelectBookPub,
   SelectSelector,
-  SelectFuzzy,
 } from "../../network/book";
-import { selectHistory } from "../../network/history";
+import { selectHistory, selectHistoryByLike } from "../../network/history";
 export default {
   name: "Borrow",
   components: {},
@@ -264,13 +262,15 @@ export default {
       this.currentPage = val;
       if (this.queryModel === 2) {
         //模糊查询
-        SelectFuzzy(this.form.bookName, this.currentPage, this.pageSize).then(
-          (res) => {
-            // TODO
-            this.tableData = res.data;
-            this.total = res.total;
-          }
-        );
+        selectHistoryByLike(
+          this.form.bookName,
+          this.currentPage,
+          this.pageSize
+        ).then((res) => {
+          // TODO
+          this.tableData = res.data;
+          this.total = res.total;
+        });
       } else if (this.queryModel === 1) {
         // 筛选查询
         SelectSelector(
@@ -286,7 +286,7 @@ export default {
         });
       } else {
         // 普通查询
-        SelectBook(this.currentPage, this.pageSize).then((res) => {
+        selectHistory(this.currentPage, this.pageSize).then((res) => {
           console.log(res);
           // TODO
           this.tableData = res.data;
@@ -298,9 +298,8 @@ export default {
     onSubmitFuzzy() {
       //模糊查询
       this.currentPage = 1;
-      console.log(this.form.bookName);
       if (this.form.bookName) {
-        SelectFuzzy(this.form.bookName).then((res) => {
+        selectHistoryByLike(this.form.bookName).then((res) => {
           // TODO
           this.tableData = res.data;
           this.total = res.total;

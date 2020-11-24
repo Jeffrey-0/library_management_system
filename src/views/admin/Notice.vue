@@ -38,7 +38,7 @@
         ></el-table-column>
         <el-table-column prop="userId" label="上传人" width="120">
         </el-table-column>
-        <el-table-column prop="noticeCreatetime" label="上传日期" width="120">
+        <el-table-column prop="noticeCreatetime" label="上传日期" width="140">
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="144">
           <template slot-scope="scope">
