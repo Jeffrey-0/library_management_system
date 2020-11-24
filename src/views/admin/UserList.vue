@@ -121,6 +121,7 @@ import {
   SelectUser,
   SelectFuzzy,
   searchBorrowHistory,
+  forbiddenUser,
 } from "../../network/user";
 export default {
   name: "User",
@@ -168,7 +169,6 @@ export default {
       // TODO
       this.tableData = res.data;
       this.total = res.total;
-      console.log(res, "6666");
     });
   },
   methods: {
@@ -182,8 +182,8 @@ export default {
     handleClick(row) {
       this.dialogFormVisible = true;
       this.user = row;
-      searchBorrowHistory(this.user.userId).then((res) => {
-        this.tableHistory = res;
+      searchBorrowHistory(this.user.userId, 1, 100).then((res) => {
+        this.tableHistory = res.data;
       });
     },
 
@@ -195,8 +195,8 @@ export default {
         SelectFuzzy(this.user.userName, this.currentPage, this.pageSize).then(
           (res) => {
             // TODO
-            this.tableData = res;
-            this.total = 7;
+            this.tableData = res.data;
+            this.total = res.total;
           }
         );
       } else {
@@ -204,8 +204,8 @@ export default {
         SelectUser(this.currentPage, this.pageSize).then((res) => {
           console.log(res);
           // TODO
-          this.tableData = res;
-          this.total = 8;
+          this.tableData = res.data;
+          this.total = res.total;
           // this.total = res.total
         });
       }
@@ -221,6 +221,7 @@ export default {
           .then(() => {
             this.user = row;
             this.user.userCategory = "-1";
+            forbiddenUser(this.user.userId, this.user.userCategory);
             this.$message({
               type: "success",
               message: "禁用成功!",
@@ -235,6 +236,7 @@ export default {
       } else {
         this.user = row;
         this.user.userCategory = "1";
+        forbiddenUser(this.user.userId, this.user.userCategory);
         this.$message({
           type: "success",
           message: "已解除禁用",
@@ -244,12 +246,14 @@ export default {
     onSubmitFuzzy() {
       //模糊查询
       this.currentPage = 1;
-      console.log(this.form.userName);
+      console.log(this.form.userName, "++++");
       if (this.form.userName) {
         SelectFuzzy(this.form.userName).then((res) => {
           // TODO
-          this.tableData = res;
-          this.total = 7;
+          console.log(res, "99999996666");
+
+          this.tableData = res.data;
+          this.total = res.total;
         });
         this.queryModel = 2;
       } else {
@@ -257,8 +261,8 @@ export default {
         SelectUser(this.currentPage, this.pageSize).then((res) => {
           console.log(res);
           // TODO
-          this.tableData = res;
-          // this.total = res.total
+          this.tableData = res.data;
+          this.total = res.total;
         });
         this.queryModel = 0;
       }

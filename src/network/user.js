@@ -12,13 +12,13 @@ export function SelectUser(page, rows) {
 }
 
 export function SelectFuzzy(userName, page = 1, rows = 5) {
-    console.log(userName, page, rows)
     return request({
-        url: 'users',
+        url: '/SelectUserByLike',
+        method: 'post',
         params: {
-            userName_like: userName,
-            _page: page,
-            _limit: rows
+            userName: userName,
+            page: page,
+            rows: rows
         }
     })
 }
@@ -68,15 +68,30 @@ export function updateUserPass(userId, oldPassword, newPassword) {
     })
 }
 //根据userId查找借书历史
-export function searchBorrowHistory(userId) {
+export function searchBorrowHistory(userId, page = 1, rows = 100) {
     return request({
-        url: 'borrowHistory2',
-        method: 'get',
+        url: '/SelectUserHistoryById',
+        method: 'post',
         params: {
-            userId: userId
+            userId: userId,
+            page: page,
+            rows: rows
         }
     })
 }
+
+//根据userId禁用用户
+export function forbiddenUser(userId, userCategory) {
+    return request({
+        url: '/UpdateUser',
+        method: 'post',
+        params: {
+            userId: userId,
+            userCategory: userCategory
+        }
+    })
+}
+
 
 // export function updateUserPass (user) {
 //   return request({

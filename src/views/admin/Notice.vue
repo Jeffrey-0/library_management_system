@@ -48,7 +48,9 @@
               class="tag-btn"
               >查 看</el-tag
             >
-            <el-tag @click="cancel(scope.row)" type="info" class="tag-btn">删 除</el-tag>
+            <el-tag @click="cancel(scope.row)" type="info" class="tag-btn"
+              >删 除</el-tag
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -86,10 +88,7 @@
           <el-button size="small" @click="dialogNoticeVisible = false"
             >取 消</el-button
           >
-          <el-button
-            type="primary"
-            size="small"
-            @click="dialogNoticeVisible = false"
+          <el-button type="primary" size="small" @click="addNotice"
             >确 定</el-button
           >
         </div>
@@ -117,6 +116,7 @@ import {
   // SelectSelector,
   SelectNoticeFuzzy,
   deleteNotice,
+  addNotice,
 } from "../../network/notice";
 export default {
   name: "Notice",
@@ -149,7 +149,7 @@ export default {
   created() {
     SelectNotice(this.currentPage, this.pageSize).then((res) => {
       // TODO
-      console.log(res)
+      console.log(res);
       this.tableData = res.data;
       this.total = res.total;
     });
@@ -182,7 +182,7 @@ export default {
           this.tableData = res.data;
           this.total = res.total;
         });
-      }/*  else if (this.queryModel === 1) {
+      } /*  else if (this.queryModel === 1) {
         // 筛选查询
         SelectSelector(
           this.formSeletor.sort,
@@ -195,7 +195,7 @@ export default {
           this.tableData = res;
           this.total = 6;
         });
-      }  */else {
+      }  */ else {
         // 普通查询
         SelectNotice(this.currentPage, this.pageSize).then((res) => {
           console.log(res);
@@ -214,7 +214,7 @@ export default {
         type: "warning",
       })
         .then(() => {
-          console.log(row.noticeId,999)
+          console.log(row.noticeId, 999);
           deleteNotice(row.noticeId);
           this.$message({
             type: "success",
@@ -234,6 +234,7 @@ export default {
       if (this.form.noticeContent) {
         SelectNoticeFuzzy(this.form.noticeContent).then((res) => {
           // TODO
+          console.log(res);
           this.tableData = res.data;
           this.total = res.total;
         });
@@ -243,10 +244,47 @@ export default {
         SelectNotice(this.currentPage, this.pageSize).then((res) => {
           // TODO
           this.tableData = res.data;
-          this.total = res.total
+          this.total = res.total;
         });
         this.queryModel = 0;
       }
+    },
+    addNotice() {
+      Date.prototype.format = function (fmt) {
+        var o = {
+          "M+": this.getMonth() + 1, //月份
+          "d+": this.getDate(), //日
+          "h+": this.getHours(), //小时
+          "m+": this.getMinutes(), //分
+          "s+": this.getSeconds(), //秒
+          "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+          S: this.getMilliseconds(), //毫秒
+        };
+
+        if (/(y+)/.test(fmt)) {
+          fmt = fmt.replace(
+            RegExp.$1,
+            (this.getFullYear() + "").substr(4 - RegExp.$1.length)
+          );
+        }
+
+        for (var k in o) {
+          if (new RegExp("(" + k + ")").test(fmt)) {
+            fmt = fmt.replace(
+              RegExp.$1,
+              RegExp.$1.length == 1
+                ? o[k]
+                : ("00" + o[k]).substr(("" + o[k]).length)
+            );
+          }
+        }
+
+        return fmt;
+      };
+      this.publishNotice.userId = this.$user.userId;
+      this.publishNotice.noticeCreatetime = new Date().format("yyyy-MM-dd");
+      addNotice(this.publishNotice);
+      this.dialogNoticeVisible = false;
     },
   },
   mounted() {

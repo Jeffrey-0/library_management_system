@@ -16,6 +16,19 @@ Vue.prototype.$eventBusiIcon = new Vue()
 Vue.prototype.$moment = moment
 Vue.config.productionTip = false
 
+Vue.prototype.$user = Object.assign({
+    id: '',
+    userId: '',
+    userName: '',
+    userAge: '',
+    userPassword: '',
+    userEmail: '',
+    userSex: '',
+    userPhone: '',
+    userCategory: ''
+}, JSON.parse(window.sessionStorage.getItem('user')))
+
+
 new Vue({
     router,
     render: h => h(App)
@@ -31,14 +44,3 @@ Vue.prototype.HOST = {
 }
 
 // 保存登录用户的信息
-Vue.prototype.$user = Object.assign({
-    id: '',
-    userId: '',
-    userName: '',
-    userAge: '',
-    userPassword: '',
-    userEmail: '',
-    userSex: '',
-    userPhone: '',
-    userCategory: ''
-}, JSON.parse(window.sessionStorage.getItem('user')))

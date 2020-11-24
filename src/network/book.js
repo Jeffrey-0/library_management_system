@@ -2,16 +2,16 @@ import { request } from './request'
 // 书本
 
 // 分页查询书本
-export function SelectBook (page = 1, rows = 5) {
-  return request({
-    // url: 'SelectBook',
-    method: 'post',
-    url: 'SelectBookHistoryByChioseDescRecord',
-    data: {
-      page: page,
-      rows: rows
-    }
-  })
+export function SelectBook(page = 1, rows = 5) {
+    return request({
+        // url: 'SelectBook',
+        method: 'post',
+        url: 'SelectBookHistoryByChioseDescRecord',
+        data: {
+            page: page,
+            rows: rows
+        }
+    })
 }
 /*
 export function SelectBook(page, rows) {
@@ -26,45 +26,45 @@ export function SelectBook(page, rows) {
 } */
 
 // 查询书籍所有分类
-export function SelectBookSort (page = 1, rows = 100) {
-  return request({
-    // url: 'booksorts'
-    url: 'SelectSort',
-    params: {
-      page,
-      rows
-    }
-  })
+export function SelectBookSort(page = 1, rows = 100) {
+    return request({
+        // url: 'booksorts'
+        url: 'SelectSort',
+        params: {
+            page,
+            rows
+        }
+    })
 }
 
 // 查询书籍所有出版社
-export function SelectBookPub () {
-  return request({
-    // url: 'bookpubs'
-    url: 'GetPub'
-  })
+export function SelectBookPub() {
+    return request({
+        // url: 'bookpubs'
+        url: 'GetPub'
+    })
 }
 
 // 筛选查询
-export function SelectSelector (bookSort, bookPub, bookIsreturn, page = 1, rows = 5) {
-  const data = {
-    page: page,
-    rows: rows
-  }
-  if (bookSort !== '所有') {
-    data.bookSort = bookSort
-  }
-  if (bookPub !== '所有') {
-    data.bookPub = bookPub
-  }
-  if (bookIsreturn !== '所有') {
-    data.isreturn = bookIsreturn
-  }
-  return request({
-    url: 'SelectBookHistoryByChioseDescRecord',
-    method: 'post',
-    data: data
-  })
+export function SelectSelector(bookSort, bookPub, bookIsreturn, page = 1, rows = 5) {
+    const data = {
+        page: page,
+        rows: rows
+    }
+    if (bookSort !== '所有') {
+        data.bookSort = bookSort
+    }
+    if (bookPub !== '所有') {
+        data.bookPub = bookPub
+    }
+    if (bookIsreturn !== '所有') {
+        data.isreturn = bookIsreturn
+    }
+    return request({
+        url: 'SelectBookHistoryByChioseDescRecord',
+        method: 'post',
+        data: data
+    })
 }
 /* export function SelectSelector (bookSort, bookPub, bookIsreturn, page = 1, rows = 5) {
   // rows = 3
@@ -89,16 +89,16 @@ export function SelectSelector (bookSort, bookPub, bookIsreturn, page = 1, rows 
 } */
 
 // 模糊查询
-export function SelectFuzzy (bookName, page = 1, rows = 5) {
-  return request({
-    url: 'SearchBookByLike',
-    method: 'post',
-    data: {
-      bookName: bookName,
-      page,
-      rows
-    }
-  })
+export function SelectFuzzy(bookName, page = 1, rows = 5) {
+    return request({
+        url: 'SearchBookByLike',
+        method: 'post',
+        data: {
+            bookName: bookName,
+            page,
+            rows
+        }
+    })
 }
 /* export function SelectFuzzyAdmin (bookName, page = 1, rows = 5) {
   // rows = 2
@@ -114,13 +114,13 @@ export function SelectFuzzy (bookName, page = 1, rows = 5) {
 } */
 
 // 查看书架书籍
-export function SelectBookshelf (userId) {
-  return request({
-    url: '/mybook/listb',
-    params: {
-      userId
-    }
-  })
+export function SelectBookshelf(userId) {
+    return request({
+        url: '/mybook/listb',
+        params: {
+            userId
+        }
+    })
 }
 /* export function SelectBookshelf (userId) {
   console.log(userId)
@@ -142,14 +142,14 @@ export function SelectBookshelf (userId) {
 
 // 归还图书
 // /mybook/return/{book_id}
-export function returnBook (historyId) {
-  return request({
-    url: 'ReturnBookHistory',
-    method: 'post',
-    data: {
-      historyId: historyId
-    }
-  })
+export function returnBook(historyId) {
+    return request({
+        url: 'ReturnBookHistory',
+        method: 'post',
+        data: {
+            historyId: historyId
+        }
+    })
 }
 // export function returnBook (history) {
 //   return request({
@@ -167,16 +167,16 @@ export function returnBook (historyId) {
 } */
 
 // 借书
-export function borrowBook (history) {
-  return request({
-    url: 'SaveBorrowHistory',
-    method: 'post',
-    data: {
-      userId: history.userId,
-      bookId: history.bookId,
-      validityDate: 60
-    }
-  })
+export function borrowBook(history) {
+    return request({
+        url: 'SaveBorrowHistory',
+        method: 'post',
+        data: {
+            userId: history.userId,
+            bookId: history.bookId,
+            validityDate: 60
+        }
+    })
 }
 
 /* export function borrowBook (history) {
@@ -198,7 +198,7 @@ export function DeleteBook(bookId) {
     return request({
         url: '/DeleteBook',
         method: 'get',
-        params:{
+        params: {
             bookId: bookId
         }
     })
@@ -227,5 +227,29 @@ export function getPub(page = 1, rows = 100) {
             page,
             rows
         }
+    })
+}
+
+// 添加新图书
+export function saveBook(Book) {
+    return request({
+        // url: 'booksorts'
+        url: '/SaveBook',
+        method: 'post',
+        params: {
+            bookName: Book.bookName,
+            bookAuthor: Book.bookAuthor,
+            bookPub: Book.bookPub,
+            bookSort: Book.bookSort
+        }
+    })
+}
+
+// 根据bookId查找图书
+export function selectBookById(Book) {
+    return request({
+        // url: 'booksorts'
+        url: '/library/bookInfo/' + Book.book_id,
+        method: 'get'
     })
 }

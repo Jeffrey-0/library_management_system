@@ -2,16 +2,16 @@ import { request } from './request'
 // 借书历史
 
 // 分页查询历史
-export function SelectUserHistoryById (userId, page = 1, rows = 6) {
-  return request({
-    url: 'SelectUserHistoryById',
-    method: 'post',
-    data: {
-      userId,
-      page,
-      rows
-    }
-  })
+export function SelectUserHistoryById(userId, page = 1, rows = 6) {
+    return request({
+        url: 'SelectUserHistoryById',
+        method: 'post',
+        data: {
+            userId,
+            page,
+            rows
+        }
+    })
 }
 /* export function SelectUserHistory (userId, page = 1, rows = 6) {
   return request({
@@ -26,17 +26,17 @@ export function SelectUserHistoryById (userId, page = 1, rows = 6) {
 } */
 
 // 模糊查询某图书借阅历史
-export function SelectHistoryFuzzy (userId, historyName, page = 1, rows = 6) {
-  return request({
-    url: 'SelectUserHistoryByIdLikeName',
-    method: 'post',
-    data: {
-      userId,
-      bookName: historyName,
-      page,
-      rows
-    }
-  })
+export function SelectHistoryFuzzy(userId, historyName, page = 1, rows = 6) {
+    return request({
+        url: 'SelectUserHistoryByIdLikeName',
+        method: 'post',
+        data: {
+            userId,
+            bookName: historyName,
+            page,
+            rows
+        }
+    })
 }
 /* export function SelectHistoryFuzzy (userId, historyName, page = 1, rows = 6) {
   console.log(historyName, page, rows)
@@ -60,15 +60,15 @@ export function SelectHistoryFuzzy (userId, historyName, page = 1, rows = 6) {
     }
   })
 } */
-export function Selecthistoryshelf (userId) {
-  console.log(userId)
-  return request({
-    url: 'borrowHistory2',
-    params: {
-      userId,
-      isreturn: 0
-    }
-  })
+export function Selecthistoryshelf(userId) {
+    console.log(userId)
+    return request({
+        url: 'borrowHistory2',
+        params: {
+            userId,
+            isreturn: 0
+        }
+    })
 }
 
 // 归还图书
@@ -82,11 +82,11 @@ export function Selecthistoryshelf (userId) {
 //     }
 //   })
 // }
-export function returnhistory (historyId) {
-  return request({
-    url: 'borrowHistory2/' + historyId,
-    method: 'get'
-  })
+export function returnhistory(historyId) {
+    return request({
+        url: 'borrowHistory2/' + historyId,
+        method: 'get'
+    })
 }
 
 // 借书
@@ -96,54 +96,65 @@ export function returnhistory (historyId) {
 //     method: 'post'
 //   })
 // }
-export function borrowhistory (historyId) {
-  return request({
-    url: 'borrowHistory2/' + historyId,
-    method: 'get'
-  })
+export function borrowhistory(historyId) {
+    return request({
+        url: 'borrowHistory2/' + historyId,
+        method: 'get'
+    })
 }
 
 // 今日借出数
-export function borrowToday () {
-  return request({
-    url: '/BorrowCollection/borrowtoday',
-    methods: 'get'
-  })
+export function borrowToday() {
+    return request({
+        url: '/BorrowCollection/borrowtoday',
+        methods: 'get'
+    })
 }
-export function backToday () {
-  return request({
-    url: '/BorrowCollection/backtoday',
-    methods: 'get'
-  })
+export function backToday() {
+    return request({
+        url: '/BorrowCollection/backtoday',
+        methods: 'get'
+    })
 }
-export function borrowThisMonth () {
-  return request({
-    url: '/BorrowCollection/borrowthismonth',
-    methods: 'get'
-  })
+export function borrowThisMonth() {
+    return request({
+        url: '/BorrowCollection/borrowthismonth',
+        methods: 'get'
+    })
 }
-export function backThisMonth () {
-  return request({
-    url: '/BorrowCollection/backthismonth',
-    methods: 'get'
-  })
+export function backThisMonth() {
+    return request({
+        url: '/BorrowCollection/backthismonth',
+        methods: 'get'
+    })
 }
-export function borrowThisYear () {
-  return request({
-    url: '/BorrowCollection/borrowthisyear',
-    methods: 'get'
-  })
+export function borrowThisYear() {
+    return request({
+        url: '/BorrowCollection/borrowthisyear',
+        methods: 'get'
+    })
 }
-export function backThisYear () {
-  return request({
-    url: '/BorrowCollection/backthisyear',
-    methods: 'get'
-  })
+export function backThisYear() {
+    return request({
+        url: '/BorrowCollection/backthisyear',
+        methods: 'get'
+    })
 }
 
-export function getNewNotice () {
-  return request({
-    url: 'admin/notice/select',
-    methods: 'get'
-  })
+export function getNewNotice() {
+    return request({
+        url: 'admin/notice/select',
+        methods: 'get'
+    })
+}
+export function selectHistory(page = 1, rows = 5) {
+    console.log(rows)
+    return request({
+        url: '/SelectHistoryAll',
+        methods: 'get',
+        params: {
+            page: page,
+            rows: rows
+        }
+    })
 }

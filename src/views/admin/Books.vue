@@ -64,7 +64,7 @@
               type="success"
               class="publish"
               size="small"
-              @click="addBook"
+              @click="dialogNewBookVisible = true"
               >添加新书籍</el-button
             >
           </el-form-item>
@@ -97,7 +97,9 @@
                 disable-transitions
                 >编辑</el-tag
               >
-              <el-tag @click="cancel(scope.row)" type="info" class="tag-btn">删 除</el-tag>
+              <el-tag @click="cancel(scope.row)" type="info" class="tag-btn"
+                >删 除</el-tag
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -116,16 +118,15 @@
               ></el-input>
             </el-form-item>
             <el-form-item label="出版社">
-            <el-select v-model="formSeletor.pub" placeholder="出版社">
-              <el-option label="所有" value="所有"></el-option>
-              <el-option
-                :label="item"
-                :value="item"
-                v-for="item in bookPubs"
-                :key="item.pubId"
-              ></el-option>
-            </el-select>
-          </el-form-item>
+              <el-select v-model="formInline.bookPub" placeholder="出版社">
+                <el-option
+                  :label="item"
+                  :value="item"
+                  v-for="item in bookPubs"
+                  :key="item.pubId"
+                ></el-option>
+              </el-select>
+            </el-form-item>
             <el-form-item label="作者" :label-width="formLabelWidth">
               <el-input v-model="formInline.bookAuthor"></el-input>
             </el-form-item>
@@ -177,37 +178,29 @@
                 ></el-input>
               </el-form-item>
               <el-form-item label="出版社" :label-width="formLabelWidth">
-            <el-select v-model="formSeletor.pub" placeholder="出版社">
-              <el-option label="所有" value="所有"></el-option>
-              <el-option
-                :label="item"
-                :value="item"
-                v-for="item in bookPubs"
-                :key="item.pubId"
-              ></el-option>
-            </el-select>
-          </el-form-item>
+                <el-select v-model="formSeletor.pub" placeholder="出版社">
+                  <el-option label="所有" value="所有"></el-option>
+                  <el-option
+                    :label="item"
+                    :value="item"
+                    v-for="item in bookPubs"
+                    :key="item"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
               <el-form-item label="作者" :label-width="formLabelWidth">
                 <el-input v-model="formNewBook.bookAuthor"></el-input>
               </el-form-item>
               <el-form-item label="分类" :label-width="formLabelWidth">
-            <el-select v-model="formSeletor.sort" placeholder="分类">
-              <el-option label="所有" value="所有"></el-option>
-              <el-option
-                :label="item"
-                :value="item"
-                v-for="item in bookSorts"
-                :key="item.sortId"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-              <el-form-item label="上架时间" :label-width="formLabelWidth">
-                <el-date-picker
-                  v-model="formNewBook.bookRecord"
-                  type="date"
-                  placeholder="选择日期"
-                >
-                </el-date-picker>
+                <el-select v-model="formSeletor.sort" placeholder="分类">
+                  <el-option label="所有" value="所有"></el-option>
+                  <el-option
+                    :label="item"
+                    :value="item"
+                    v-for="item in bookSorts"
+                    :key="item.sortId"
+                  ></el-option>
+                </el-select>
               </el-form-item>
               <!-- <el-form-item label="状态" :label-width="formLabelWidth">
               <el-select v-model="formInline.isreturn" placeholder="请选择活动区域">
@@ -219,9 +212,7 @@
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogNewBookVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogNewBookVisible = false"
-              >确 定</el-button
-            >
+            <el-button type="primary" @click="addBook">确 定</el-button>
           </div>
         </el-dialog>
       </div>
@@ -250,6 +241,7 @@ import {
   SelectSelector,
   SelectFuzzy,
   DeleteBook,
+  saveBook,
 } from "../../network/book";
 export default {
   name: "Books",
@@ -347,10 +339,8 @@ export default {
       }
     },
     handleClick(row) {
-      console.log(row);
       this.dialogFormVisible = true;
       this.formInline = row;
-      console.log(this.formInline);
       // this.formInlineIsreturn = row.isreturn
     },
     onSubmitFuzzy() {
@@ -411,21 +401,23 @@ export default {
           });
         });
     },
-    addBook(){
-      this.dialogNewBookVisible = true;
-
+    addBook() {
+      this.dialogNewBookVisible = false;
+      this.formNewBook.bookSort = this.formSeletor.sort;
+      this.formNewBook.bookPub = this.formSeletor.pub;
+      saveBook(this.formNewBook);
+      console.log(this.formNewBook);
     },
   },
   created() {
     SelectBook(this.currentPage, this.pageSize).then((res) => {
-      console.log(this.currentPage);
       // TODO
       this.tableData = res.data;
-      this.total=res.total
+      this.total = res.total;
     });
     getPub().then((res) => {
       this.bookPubs = res.data;
-      console.log(this.bookSorts,"99999")
+      console.log(this.bookSorts, "99999");
     });
     getSort().then((res) => {
       this.bookSorts = res.data;

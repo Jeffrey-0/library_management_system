@@ -12,11 +12,13 @@
       <div class="logo">图书管理系统</div>
       <div class="header-right">
         <div class="header-user-con">
-          <div class="user-avator"><img src="../assets/dog.jpg" alt="" /></div>
+          <div class="user-avator">
+            <img src="../assets/img/avatar.png" alt="" />
+          </div>
           <div class="user-name el-dropdown">
             <el-dropdown>
               <span class="el-dropdown-link">
-                管理员名字<i class="el-icon-arrow-down el-icon--right"></i>
+                {{ userName }}<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown" class="login-out">
                 <el-dropdown-item
@@ -39,7 +41,11 @@ export default {
   data() {
     return {
       collapse: true,
+      userName: "",
     };
+  },
+  created() {
+    this.userName = this.$user.userName;
   },
   methods: {
     handleOpen(key, keyPath) {

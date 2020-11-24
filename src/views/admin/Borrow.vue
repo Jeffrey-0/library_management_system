@@ -23,10 +23,10 @@
             <el-select v-model="formSeletor.pub" placeholder="出版社">
               <el-option label="所有" value="所有"></el-option>
               <el-option
-                :label="item.pubName"
-                :value="item.pubName"
+                :label="item"
+                :value="item"
                 v-for="item in bookPubs"
-                :key="item.pubId"
+                :key="item"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -77,18 +77,19 @@
           <el-table-column prop="bookName" label="书名" fixed>
           </el-table-column>
           <el-table-column prop="bookSort" label="类别"> </el-table-column>
-          <el-table-column prop="bookPub" label="作者"> </el-table-column>
+          <el-table-column prop="bookAuthor" label="作者"> </el-table-column>
           <el-table-column
-            prop="bookRecord"
+            prop="borrowDate"
             label="借书时间"
             sortable
             width="150"
             column-key="date"
           >
           </el-table-column>
-          <el-table-column prop="bookPub" label="有效期"> </el-table-column>
+          <el-table-column prop="validityDate" label="有效期">
+          </el-table-column>
           <el-table-column
-            prop="bookRecord"
+            prop="returnDate"
             label="归还时间"
             sortable
             width="150"
@@ -180,6 +181,7 @@ import {
   SelectSelector,
   SelectFuzzy,
 } from "../../network/book";
+import { selectHistory } from "../../network/history";
 export default {
   name: "Borrow",
   components: {},
@@ -193,13 +195,19 @@ export default {
       formInline: {
         // 书籍详情模态框
         id: "",
+        userId: "",
         bookId: "",
         bookName: "",
         bookAuthor: "",
         bookPub: "",
         bookSort: "",
-        bookRecord: "",
+        borrowDate: "",
+        returnDate: "",
+        validityDate: "",
         isreturn: 0,
+      },
+      formBook: {
+        bookId: "",
       },
       currentPage: 1,
       pageSize: 5,
@@ -222,16 +230,17 @@ export default {
     };
   },
   created() {
-    SelectBook(this.currentPage, this.pageSize).then((res) => {
-      console.log(this.currentPage);
+    selectHistory(this.currentPage, this.pageSize).then((res) => {
       // TODO
-      this.tableData = res;
+      console.log(res.data, "++++");
+      this.tableData = res.data;
+      this.total = res.total;
     });
     SelectBookSort().then((res) => {
-      this.bookSorts = res;
+      this.bookSorts = res.data;
     });
     SelectBookPub().then((res) => {
-      this.bookPubs = res;
+      this.bookPubs = res.data;
     });
   },
   methods: {
@@ -258,8 +267,8 @@ export default {
         SelectFuzzy(this.form.bookName, this.currentPage, this.pageSize).then(
           (res) => {
             // TODO
-            this.tableData = res;
-            this.total = 7;
+            this.tableData = res.data;
+            this.total = res.total;
           }
         );
       } else if (this.queryModel === 1) {
@@ -272,16 +281,16 @@ export default {
           this.pageSize
         ).then((res) => {
           // TODO
-          this.tableData = res;
-          this.total = 6;
+          this.tableData = res.data;
+          this.total = res.total;
         });
       } else {
         // 普通查询
         SelectBook(this.currentPage, this.pageSize).then((res) => {
           console.log(res);
           // TODO
-          this.tableData = res;
-          this.total = 8;
+          this.tableData = res.data;
+          this.total = res.total;
           // this.total = res.total
         });
       }
@@ -293,17 +302,17 @@ export default {
       if (this.form.bookName) {
         SelectFuzzy(this.form.bookName).then((res) => {
           // TODO
-          this.tableData = res;
-          this.total = 7;
+          this.tableData = res.data;
+          this.total = res.total;
         });
         this.queryModel = 2;
       } else {
         //为空时切换普通查询
-        SelectBook(this.currentPage, this.pageSize).then((res) => {
+        selectHistory(this.currentPage, this.pageSize).then((res) => {
           console.log(res);
           // TODO
-          this.tableData = res;
-          // this.total = res.total
+          this.tableData = res.data;
+          this.total = res.total;
         });
         this.queryModel = 0;
       }
@@ -318,8 +327,8 @@ export default {
         this.formSeletor.status
       ).then((res) => {
         // TODO
-        this.tableData = res;
-        this.total = 6;
+        this.tableData = res.data;
+        this.total = res.total;
       });
       console.log(this.formSeletor);
       this.queryModel = 1;
