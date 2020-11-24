@@ -87,13 +87,12 @@ export default {
   created () {
     SelectBookshelf(this.$user.userId).then(res => {
       console.log('获取书架请求', res)
-      if (!res) return
-      let len = res.length > 3 ? 3 : res.length
-      for(let i = 0; i < len; i++) {
-        Object.assign(this.books[i], res[i])
-        if (this.books[i].borrowDate && this.books[i].validityDate) {
-          this.books[i].returnDate = addDate(this.books[i].borrowDate, this.books[i].validityDate)
-        }
+      if (!res || !res.data) return
+      let len = res.data.length > 3 ? 3 : res.data.length
+      for (let i = 0; i < len; i++) {
+        if (res.data[i].borrowDate && res.data[i].validityDate)
+        res.data[i].returnDate = addDate(res.data[i].borrowDate, res.data[i].validityDate)
+        Object.assign(this.books[i], res.data[i])
       }
       
       console.log('书架', res, this.books)

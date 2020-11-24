@@ -1,16 +1,9 @@
 <template>
   <div class="library">
     <div class="title">书库</div>
-    <el-form :inline="true" :model="form" class="demo-form-inline demo-form-inline2" size="mini">
-      <el-form-item>
-        <el-input v-model="form.bookName" placeholder="书名"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmitFuzzy">查询</el-button>
-      </el-form-item>
-    </el-form>
+    
 
-    <el-form :inline="true" :model="formSeletor" class="demo-form-inline demo-form-inline1" size="mini">
+    <el-form :inline="true" :model="formSeletor" class="demo-form-inline demo-form-inline1">
       <!-- <el-form-item label="书名">
         <el-input v-model="formSeletor.user" placeholder="审批人"></el-input>
       </el-form-item> -->
@@ -40,13 +33,20 @@
         <el-button type="primary" @click="onSubmitSeletor">查询</el-button>
       </el-form-item>
     </el-form>
-
+<el-form :inline="true" :model="form" class="demo-form-inline demo-form-inline2">
+      <el-form-item>
+        <el-input v-model="form.bookName" placeholder="书名"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmitFuzzy">查询</el-button>
+      </el-form-item>
+    </el-form>
     
   <el-table
     :data="tableData"
     border
     stripe
-    style="width: 100%;min-height:420px;margin-bottom:15px">  
+    style="width: 100%;min-height:330px;margin-bottom:15px">  
     <el-table-column
       prop="bookName"
       label="书名">
@@ -73,14 +73,12 @@
     <el-table-column
       label="状态"
       width="70"> 
-        <!-- <el-button @click="dialogFormVisible = true" type="text" size="small">借阅</el-button> -->
         <div slot-scope="scope">
-          <!-- <el-button @click="handleClick(scope.row)" type="text" size="small" class="primary">借阅</el-button> -->
         <el-tag @click="handleClick(scope.row)"
-          :type="scope.row.isreturn === 0 ? 'info' : 'primary'"
-          disable-transitions>{{scope.row.isreturn === 0 ? '借完' : '借阅'}}</el-tag>
+          :type="scope.row.isreturn != 1 ? 'info' : 'primary'"
+          disable-transitions>{{scope.row.isreturn != 1 ? '借完' : '借阅'}}</el-tag>
         </div>
-     </el-table-column> 
+     </el-table-column>
   </el-table>
 
   <div class="block">
@@ -135,15 +133,18 @@
 </template>
 
 <script>
-  import {SelectBook, SelectBookSort, SelectBookPub, SelectSelector, SelectFuzzy, borrowBook} from '../../network/book'
+  import {SelectBook, SelectBookSort, SelectBookPub, SelectSelector, SelectFuzzy, borrowBook, SelectBookshelf} from '../../network/book'
   export default {
     methods: {
       handleClick(row) {
+        
         this.dialogFormVisible = true
-        console.log('点击状态', row)
         this.formInline = row
         // TODO
         this.formInlineIsreturn = row.isreturn === 0 ? 0 :1
+      },
+      isreturn(row) {
+        return row.isreturn ? '可借' : '借完'
       },
        onSubmit() {
         console.log('submit!');
@@ -163,10 +164,10 @@
               this.tableData = res.data
               this.total = res.total
               // 最后要删
-              for (let i = 0; i < this.tableData.length; i++) {
-                if (this.tableData[i].isreturn === undefined)
-                this.tableData[i].isreturn = 1
-              }
+              // for (let i = 0; i < this.tableData.length; i++) {
+              //   if (this.tableData[i].isreturn === undefined)
+              //   this.tableData[i].isreturn = 1
+              // }
             } else {
               this.tableData = []
               this.total = 0
@@ -229,6 +230,7 @@
         console.log(this.form.bookName)
         if (this.form.bookName) {
           SelectFuzzy(this.form.bookName).then(res => {
+            
             // TODO
             /* this.tableData = res
             this.total = 7 */
@@ -237,12 +239,13 @@
               this.tableData = res.data
               this.total = res.total
 // 最后要删
-              for (let i = 0; i < this.tableData.length; i++) {
-                if (this.tableData[i].isreturn === undefined)
-                this.tableData[i].isreturn = 1
-              }
-              
-              console.log('模糊查询', this.tableData, 'this.tableDate')
+
+              // for (var i = 0; i < this.tableData.length; i++) {
+              //   if (this.tableData[i].isreturn === undefined)
+              //   this.tableData[i].isreturn = 1
+              // }
+              // this.tableData[1].isreturn = 0
+              // console.log('模糊查询', this.tableData, 'this.tableDate')
             } else {
               this.tableData = []
               this.total = 0
@@ -267,46 +270,34 @@
         }
       },
       borrowBookClick () {
-        console.log('借书1', this.formInline)
-        let newDate = new Date()
-        let curDate = newDate.getFullYear() + '-' + (newDate.getMonth() + 1) + '-' + newDate.getDate()
-        console.log('当前时间', curDate)
-        let history = Object.assign(this.formInline, {
-          // "historyId": 10,
-          "userId": this.$user.userId,
-          "borrowDate": curDate,
-          "isreturn": 0,
-          "validityDate": 30,
-          "userName": this.$user.userName
-        })
-        delete history.id
-        /* borrowBook(this.formInline.bookId).then(res => {
-          console.log('借书', res)
-        }) */
-        borrowBook(history).then(res => {
-          console.log('借书', res)
-          if (res) {
-            this.dialogFormVisible = false
+        SelectBookshelf(this.$user.userId).then(res => {
+          if (res && res.total >= 3) {
             this.$message({
-              type: 'success',
-              message: '借书成功'
+              type: 'error',
+              message: '每个用户最多同时借三本书',
+              center: true
             })
-            // TODO
-            this.formInline.isreturn = 0
-            for (let i = 0; i < this.tableData.length; i++) {
-              console.log('借书' + i, history.bookId)
-              if (this.tableData[i].bookId == history.bookId) {
-                this.tableData[i].isreturn = 0
-                break
+            this.dialogFormVisible = false
+          } else {
+            let history = Object.assign( {
+              "userId": this.$user.userId,
+              "isreturn": 0,
+              "validityDate": 60,
+              "userName": this.$user.userName
+            }, this.formInline)
+            
+            borrowBook(history).then(res => {
+              if (res) {
+                this.dialogFormVisible = false
+                this.$message({
+                  type: 'success',
+                  message: '借书成功'
+                })
+                this.formInline.isreturn = 0
+              
               }
-            }
-            /* borrowBookChange(history)
-            this.tableData.map(value => {
-              if (value.bookId == this.formInline.bookId) {
-                value.isreturn = 0
-              }
-            }) */
-          }
+            })
+          }          
         })
         
       },
@@ -349,18 +340,24 @@
       }
     },
     created () {
-      SelectBook(this.currentPage, this.pageSize).then(res => {
-        console.log('书库',res.data)
+      SelectBook( this.currentPage, this.pageSize).then(res => {
+        // console.log('书库',res.data)
         // TODO
         // this.tableData = res
         // this.total = res.total
         if (res) {
+          // for (let i = 0; i < res.data.length; i++) {
+          //   res.data[i].isreturn = 1
+          // }
           this.tableData = res.data
           this.total = res.total
+          
         } else {
               this.tableData = []
               this.total = 0
-        }      
+        }
+        
+        
       })
       SelectBookSort().then(res => {
         this.bookSorts = res.data
@@ -381,6 +378,7 @@
           }
         }
       })
+      
     }
   }
 </script>
@@ -405,6 +403,6 @@
    width: 100px;
  }*/
 .demo-form-inline2 {
-  position: absolute;
+  /* position: absolute; */
 }
 </style>

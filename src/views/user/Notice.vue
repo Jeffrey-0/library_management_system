@@ -87,7 +87,7 @@
         this.currentPage = 1
         console.log(this.formSearch.noticeContent)
         if (this.formSearch.noticeContent) {
-          SelectNoticeFuzzy(this.formSearch.noticeContent).then(res => {
+          SelectNoticeFuzzy(this.formSearch.noticeContent, this.currentPage, this.pageSize).then(res => {
             // TODO
             // let res2 = JSON.parse(res)
             if (res) {
@@ -176,8 +176,10 @@
       }
     },
     created () {
-      SelectUserNotice().then(res => {
+      SelectUserNotice(this.currentPage, this.pageSize).then(res => {
+        console.log('公告结果' , res)
         if (res) {
+          console.log('公告结果' , res)
           this.tableData = res.data
           this.total = res.total
           }  else {

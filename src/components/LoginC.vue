@@ -87,24 +87,34 @@ export default {
             if (res) {
               // 保存用户到sessionStorage
               // TODO res[0] => res
-              sessionStorage.setItem("user", JSON.stringify(res));
-              Object.assign(this.$user, res);
-
-              console.log("登录成功$user", this.$user);
-              this.$message({
-                message: "登录成功",
-                type: "success",
+              if (res.userCategory == "-1") {
+                this.$message({
+                message: "登录失败，该用户已被禁用",
+                type: "error",
                 center: true,
                 offset: 40,
-              });
-
-              // TODO
-              console.log(res);
-              if (res.userCategory == "1") {
-                this.$router.push("/helloworld");
+              })
               } else {
-                this.$router.push("/index");
+                sessionStorage.setItem("user", JSON.stringify(res));
+                Object.assign(this.$user, res);
+
+                console.log("登录成功$user", this.$user);
+                this.$message({
+                  message: "登录成功",
+                  type: "success",
+                  center: true,
+                  offset: 40,
+                });
+
+                // TODO
+                console.log(res);
+                if (res.userCategory == "1") {
+                  this.$router.push("/helloworld");
+                } else {
+                  this.$router.push("/index");
+                }
               }
+
             } else {
               console.log("登录失败");
               this.$message({

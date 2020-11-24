@@ -101,6 +101,7 @@
 <script>
   import {SelectUserHistoryById, SelectHistoryFuzzy} from '../../network/history'
   export default {
+    name: 'History',
     methods: {
       handleClick(row) {
         this.formInline = row
