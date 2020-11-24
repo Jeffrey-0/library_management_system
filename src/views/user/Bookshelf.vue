@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import {SelectBookshelf, returnBook, returnBookChange} from '../../network/book'
+import {SelectBookshelf, returnBook} from '../../network/book'
 // import {Selecthistoryshelf, }
 import BookshelfItem from '../../components/BookshelfItem'
 import { addDate } from '../../common/util.js'
@@ -52,7 +52,7 @@ export default {
         console.log('归还图书2', res)
         // TODO
         this.books[index].isreturn = 1
-        returnBookChange(this.books[index])
+        // returnBookChange(this.books[index].historyId)
         if (res) {
           // console.log('changeBookStatus', history.bookId, 2)
           this.$eventBus.$emit('changeBookStatus', history.bookId)

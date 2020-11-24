@@ -37,6 +37,16 @@ export default {
       var checkUsername = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('姓名不能为空'));
+        } else {
+          if (value !== '') {
+            let regex = /^[\u4e00-\u9fa5]+$/
+            if (!regex.test(value)) {
+              return callback(new Error('姓名只能为汉字'))
+            } else {
+              callback()
+            }
+          }
+          callback()
         }
         callback()
       }
@@ -54,7 +64,7 @@ export default {
           }
           callback()
         }
-      };
+      }
       var validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));

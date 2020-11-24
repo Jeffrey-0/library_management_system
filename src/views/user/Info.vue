@@ -2,31 +2,31 @@
   <div class="info">
     <div class="info_left">
     <div class="title">个人信息</div>
-    <el-form :model="user" class="demo-form-inline" id="infoForm" label-width="40px">
+    <el-form :model="user" class="demo-form-inline" id="infoForm" label-width="40px" :rules="rules1" ref="user">
       
-      <el-form-item label="ID" >
+      <el-form-item label="ID" prop="userId">
         <el-input v-model="user.userId" placeholder="ID" disabled></el-input>
       </el-form-item>
-      <el-form-item label="姓名">
+      <el-form-item label="姓名" prop="userName">
         <el-input v-model="user.userName" placeholder="姓名"></el-input>
       </el-form-item>
       <el-form-item label="性别">
         <el-select v-model="user.userSex" placeholder="性别">
-          <el-option label="男" value="shanghai"></el-option>
-          <el-option label="女" value="beijing"></el-option>
+          <el-option label="男" value="男"></el-option>
+          <el-option label="女" value="女"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="手机">
+      <el-form-item label="手机" prop="userPhone">
         <el-input v-model="user.userPhone" placeholder="手机"></el-input>
       </el-form-item>
       <el-form-item label="年龄">
-        <el-input v-model="user.userAge" placeholder="年龄"></el-input>
+        <el-input v-model.number="user.userAge" placeholder="年龄"></el-input>
       </el-form-item>
-      <el-form-item label="邮箱">
+      <el-form-item label="邮箱" prop="userEmail">
         <el-input v-model="user.userEmail" placeholder="邮箱"></el-input>
       </el-form-item>
       <el-form-item class="bt-save">
-        <el-button type="primary" @click="onSubmit">保存信息</el-button>
+        <el-button type="primary" @click="onSubmit('user')">保存信息</el-button>
       </el-form-item>
     </el-form>
     </div>
@@ -59,6 +59,48 @@
   import {updateUser, updateUserPass} from '../../network/user'
   export default {
     data() {
+      var checkPhone = (rule, value, callback) => {
+        if (value !== '') {
+          let regex = /^1[34578]\d{9}$/
+          if (!regex.test(value)) {
+            return callback(new Error('手机格式有误'))
+          } else {
+            callback()
+          }
+        }
+        callback()
+      }
+      var checkUsername = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('姓名不能为空'));
+        } else {
+          if (value !== '') {
+            let regex = /^[\u4e00-\u9fa5]+$/
+            if (!regex.test(value)) {
+              return callback(new Error('姓名只能为汉字'))
+            } else {
+              callback()
+            }
+          }
+          callback()
+        }
+        callback()
+      }
+      var checkEmail = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('邮箱不能为空'));
+        } else {
+          if (value !== '') {
+            let regex = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+            if (!regex.test(value)) {
+              return callback(new Error('邮箱格式错误'))
+            } else {
+              callback()
+            }
+          }
+          callback()
+        }
+      }
       var validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
@@ -104,9 +146,20 @@
           userAge: '',
           userPassword: '',
           userEmail: '',
-          userSex: '',
+          userSex: '男',
           userPhone: '',
           userCategory: ''
+        },
+        rules1: {
+          userName: [
+            { validator: checkUsername, trigger: 'blur' }
+          ],
+          userEmail: [
+            { validator: checkEmail, trigger: 'blur' }
+          ],
+          userPhone: [
+            { validator: checkPhone, trigger: 'blur' }
+          ]
         },
         rules: {
           oldPass: [
@@ -122,26 +175,37 @@
       }
     },
     methods: {
-      onSubmit() {
-        console.log('submit!');
-        updateUser(this.user).then(res => {
-          if (res) {
-            this.$message({
-              message: '修改成功',
-              type: 'success',
-              center: true
-            })
-            Object.assign(this.$user, this.user)
-            sessionStorage.setItem('user', JSON.stringify(this.user))
-          } else {
-            this.$message({
-              message: '修改失败',
-              type: 'error',
-              center: true
-            })
-          }
-        })
-      },
+      onSubmit(formName) {
+        this.$refs[formName].validate((valid) => {
+        if (valid) {
+          console.log('submit!');
+          updateUser(this.user).then(res => {
+            if (res) {
+              this.$message({
+                message: '修改成功',
+                type: 'success',
+                center: true
+              })
+              Object.assign(this.$user, this.user)
+              sessionStorage.setItem('user', JSON.stringify(this.user))
+            } else {
+              this.$message({
+                message: '修改失败',
+                type: 'error',
+                center: true
+              })
+            }
+          })
+        } else {
+          this.$message({
+                message: '格式错误',
+                type: 'error',
+                center: true
+              })
+        }
+      })
+      }
+      ,
       submitForm (formName) {
         this.$refs[formName].validate((valid) => {
         if (valid) {

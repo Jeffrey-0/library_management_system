@@ -114,6 +114,7 @@
 <script>
 import {
   SelectNotice,
+  // SelectSelector,
   SelectNoticeFuzzy,
   deleteNotice,
 } from "../../network/notice";
@@ -181,7 +182,20 @@ export default {
           this.tableData = res.data;
           this.total = res.total;
         });
-      }  else {
+      }/*  else if (this.queryModel === 1) {
+        // 筛选查询
+        SelectSelector(
+          this.formSeletor.sort,
+          this.formSeletor.pub,
+          this.formSeletor.isreturn,
+          this.currentPage,
+          this.pageSize
+        ).then((res) => {
+          // TODO
+          this.tableData = res;
+          this.total = 6;
+        });
+      }  */else {
         // 普通查询
         SelectNotice(this.currentPage, this.pageSize).then((res) => {
           console.log(res);
