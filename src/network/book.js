@@ -142,12 +142,13 @@ export function SelectBookshelf(userId) {
 
 // 归还图书
 // /mybook/return/{book_id}
-export function returnBook(historyId) {
+export function returnBook(historyId = 1) {
+    console.log(historyId);
     return request({
         url: 'ReturnBookHistory',
         method: 'post',
         data: {
-            historyId: historyId
+            historyId: 1
         }
     })
 }
@@ -174,7 +175,8 @@ export function borrowBook(history) {
         data: {
             userId: history.userId,
             bookId: history.bookId,
-            validityDate: 60
+            validityDate: 60,
+            isreturn: 0
         }
     })
 }

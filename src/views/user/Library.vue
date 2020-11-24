@@ -1,8 +1,16 @@
 <template>
-  <div>
+  <div class="library">
     <div class="title">书库</div>
+    <el-form :inline="true" :model="form" class="demo-form-inline demo-form-inline2" size="mini">
+      <el-form-item>
+        <el-input v-model="form.bookName" placeholder="书名"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmitFuzzy">查询</el-button>
+      </el-form-item>
+    </el-form>
 
-    <el-form :inline="true" :model="formSeletor" class="demo-form-inline">
+    <el-form :inline="true" :model="formSeletor" class="demo-form-inline demo-form-inline1" size="mini">
       <!-- <el-form-item label="书名">
         <el-input v-model="formSeletor.user" placeholder="审批人"></el-input>
       </el-form-item> -->
@@ -33,14 +41,7 @@
       </el-form-item>
     </el-form>
 
-    <el-form :inline="true" :model="form" class="demo-form-inline demo-form-inline2">
-      <el-form-item>
-        <el-input v-model="form.bookName" placeholder="书名"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmitFuzzy">查询</el-button>
-      </el-form-item>
-    </el-form>
+    
   <el-table
     :data="tableData"
     border
@@ -383,4 +384,7 @@
  /* .el-input__inner {
    width: 100px;
  }*/
+.demo-form-inline2 {
+  position: absolute;
+}
 </style>
