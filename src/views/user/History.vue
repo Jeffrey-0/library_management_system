@@ -123,11 +123,11 @@
           })
           this.queryModel = 2
         } else {  //为空时切换普通查询
-          SelectUserHistoryById(this.$user.userId, this.currentPage, this.pageSize).then(res => {
+          SelectUserHistoryById(this.$user.userId).then(res => {
             console.log(res)
             // TODO
             if (res) {
-              this.tableData = res.borrowhistory
+              this.tableData = res.data
               this.total = res.total
             } else {
               this.tableData = []
@@ -162,7 +162,7 @@
             this.total = 9 */
             // this.total = res.total
             if (res) {
-              this.tableData = res.borrowhistory
+              this.tableData = res.data
               this.total = res.total
             } else {
               this.tableData = []

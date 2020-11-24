@@ -5,10 +5,10 @@
     <el-form :model="user" class="demo-form-inline" id="infoForm" label-width="40px" :rules="rules1" ref="user">
       
       <el-form-item label="ID" prop="userId">
-        <el-input v-model="user.userId" placeholder="ID" disabled></el-input>
+        <el-input v-model.number="user.userId" placeholder="ID" disabled></el-input>
       </el-form-item>
       <el-form-item label="姓名" prop="userName">
-        <el-input v-model="user.userName" placeholder="姓名"></el-input>
+        <el-input v-model="user.userName" placeholder="姓名" maxlength="20"></el-input>
       </el-form-item>
       <el-form-item label="性别">
         <el-select v-model="user.userSex" placeholder="性别">
@@ -17,13 +17,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="手机" prop="userPhone">
-        <el-input v-model="user.userPhone" placeholder="手机"></el-input>
+        <el-input v-model="user.userPhone" placeholder="手机" maxlength="11"></el-input>
       </el-form-item>
       <el-form-item label="年龄">
-        <el-input v-model.number="user.userAge" placeholder="年龄"></el-input>
+        <el-input v-model.number="user.userAge" placeholder="年龄" maxlength="3"></el-input>
       </el-form-item>
       <el-form-item label="邮箱" prop="userEmail">
-        <el-input v-model="user.userEmail" placeholder="邮箱"></el-input>
+        <el-input v-model="user.userEmail" placeholder="邮箱" maxlength="30"></el-input>
       </el-form-item>
       <el-form-item class="bt-save">
         <el-button type="primary" @click="onSubmit('user')">保存信息</el-button>

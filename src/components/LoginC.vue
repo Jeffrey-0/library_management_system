@@ -9,7 +9,7 @@
       class="demo-ruleForm"
     >
       <el-form-item label="ID" prop="id">
-        <el-input v-model="ruleForm.id" maxlength="30"></el-input>
+        <el-input v-model.number="ruleForm.id" maxlength="15"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pass">
         <el-input
