@@ -192,3 +192,39 @@ export function borrowBookChange(history) {
         data: history
     })
 }
+//删除图书
+export function DeleteBook(bookId) {
+    return request({
+        url: '/DeleteBook',
+        method: 'get',
+        params:{
+            bookId: bookId
+        }
+    })
+}
+
+// 查询书籍分类
+export function getSort(page = 1, rows = 100) {
+    return request({
+        // url: 'booksorts'
+        url: 'GetSort',
+        method: 'get',
+        params: {
+            page,
+            rows
+        }
+    })
+}
+
+// 查询出版社
+export function getPub(page = 1, rows = 100) {
+    return request({
+        // url: 'booksorts'
+        url: 'GetPub',
+        method: 'get',
+        params: {
+            page,
+            rows
+        }
+    })
+}

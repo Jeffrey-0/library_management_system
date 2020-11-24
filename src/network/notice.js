@@ -45,15 +45,16 @@ export function SelectUserNotice(page = 1, rows = 6) {
     }
   })
 } */
-export function SelectNoticeFuzzy(noticeContent, page = 1, rows = 6) {
+export function SelectNoticeFuzzy(noticeContent, page = 1, rows = 5) {
     // rows = 2
     // console.log(noticeName, page, rows)
     return request({
-        url: 'notice',
+        url: 'admin/notice/findNoticeByLike',
+        method: 'post',
         params: {
-            noticeContent_like: noticeContent,
-            _page: page,
-            _limit: rows
+          noticeContent: noticeContent,
+          page: page,
+          rows: rows
         }
     })
 }
@@ -67,4 +68,15 @@ export function SelectNotice(page = 1, rows = 5) {
             rows: rows
         }
     })
+}
+
+// 删除公告
+export function deleteNotice(noticeId) {
+  return request({
+      url: 'admin/notice/delete',
+      method: 'get',
+      params: {
+          noticeId: noticeId
+      }
+  })
 }

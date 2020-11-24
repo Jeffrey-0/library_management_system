@@ -12,8 +12,8 @@
             <el-select v-model="formSeletor.sort" placeholder="分类">
               <el-option label="所有" value="所有"></el-option>
               <el-option
-                :label="item.sortName"
-                :value="item.sortName"
+                :label="item"
+                :value="item"
                 v-for="item in bookSorts"
                 :key="item.sortId"
               ></el-option>
@@ -23,8 +23,8 @@
             <el-select v-model="formSeletor.pub" placeholder="出版社">
               <el-option label="所有" value="所有"></el-option>
               <el-option
-                :label="item.pubName"
-                :value="item.pubName"
+                :label="item"
+                :value="item"
                 v-for="item in bookPubs"
                 :key="item.pubId"
               ></el-option>
@@ -64,7 +64,7 @@
               type="success"
               class="publish"
               size="small"
-              @click="dialogNewBookVisible = true"
+              @click="addBook"
               >添加新书籍</el-button
             >
           </el-form-item>
@@ -97,7 +97,7 @@
                 disable-transitions
                 >编辑</el-tag
               >
-              <el-tag @click="cancel" type="info" class="tag-btn">删 除</el-tag>
+              <el-tag @click="cancel(scope.row)" type="info" class="tag-btn">删 除</el-tag>
             </template>
           </el-table-column>
         </el-table>
@@ -115,17 +115,25 @@
                 placeholder="书名"
               ></el-input>
             </el-form-item>
-            <el-form-item label="出版社" :label-width="formLabelWidth">
-              <el-input v-model="formInline.bookPub"></el-input>
-            </el-form-item>
+            <el-form-item label="出版社">
+            <el-select v-model="formSeletor.pub" placeholder="出版社">
+              <el-option label="所有" value="所有"></el-option>
+              <el-option
+                :label="item"
+                :value="item"
+                v-for="item in bookPubs"
+                :key="item.pubId"
+              ></el-option>
+            </el-select>
+          </el-form-item>
             <el-form-item label="作者" :label-width="formLabelWidth">
               <el-input v-model="formInline.bookAuthor"></el-input>
             </el-form-item>
             <el-form-item label="类别" :label-width="formLabelWidth">
               <el-select v-model="formInline.bookSort" placeholder="类别">
                 <el-option
-                  :label="item.sortName"
-                  :value="item.sortName"
+                  :label="item"
+                  :value="item"
                   v-for="item in bookSorts"
                   :key="item.sortId"
                 ></el-option>
@@ -169,21 +177,30 @@
                 ></el-input>
               </el-form-item>
               <el-form-item label="出版社" :label-width="formLabelWidth">
-                <el-input v-model="formNewBook.bookPub"></el-input>
-              </el-form-item>
+            <el-select v-model="formSeletor.pub" placeholder="出版社">
+              <el-option label="所有" value="所有"></el-option>
+              <el-option
+                :label="item"
+                :value="item"
+                v-for="item in bookPubs"
+                :key="item.pubId"
+              ></el-option>
+            </el-select>
+          </el-form-item>
               <el-form-item label="作者" :label-width="formLabelWidth">
                 <el-input v-model="formNewBook.bookAuthor"></el-input>
               </el-form-item>
-              <el-form-item label="类别" :label-width="formLabelWidth">
-                <el-select v-model="formNewBook.bookSort" placeholder="类别">
-                  <el-option
-                    :label="item.sortName"
-                    :value="item.sortName"
-                    v-for="item in bookSorts"
-                    :key="item.sortId"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
+              <el-form-item label="分类" :label-width="formLabelWidth">
+            <el-select v-model="formSeletor.sort" placeholder="分类">
+              <el-option label="所有" value="所有"></el-option>
+              <el-option
+                :label="item"
+                :value="item"
+                v-for="item in bookSorts"
+                :key="item.sortId"
+              ></el-option>
+            </el-select>
+          </el-form-item>
               <el-form-item label="上架时间" :label-width="formLabelWidth">
                 <el-date-picker
                   v-model="formNewBook.bookRecord"
@@ -228,10 +245,11 @@
 <script>
 import {
   SelectBook,
-  SelectBookSort,
-  SelectBookPub,
+  getPub,
+  getSort,
   SelectSelector,
   SelectFuzzy,
+  DeleteBook,
 } from "../../network/book";
 export default {
   name: "Books",
@@ -254,14 +272,12 @@ export default {
       },
       formNewBook: {
         // 添加书籍模态框
-        id: "",
         bookId: "",
         bookName: "",
         bookAuthor: "",
         bookPub: "",
         bookSort: "",
         bookRecord: "",
-        isreturn: 0,
       },
       tableData: [], //书籍列表
 
@@ -270,7 +286,7 @@ export default {
       dialogFormVisible: false,
       dialogNewBookVisible: false,
       formInlineIsreturn: "0",
-      total: 8,
+      total: 0,
       bookSorts: [],
       bookPubs: [],
       queryModel: 0, // 当前查询状态，用户分页切换，分页查询0， 筛选查询1， 模糊查询2
@@ -302,8 +318,8 @@ export default {
         SelectFuzzy(this.form.bookName, this.currentPage, this.pageSize).then(
           (res) => {
             // TODO
-            this.tableData = res;
-            this.total = 7;
+            this.tableData = res.data;
+            this.total = res.total;
           }
         );
       } else if (this.queryModel === 1) {
@@ -316,16 +332,16 @@ export default {
           this.pageSize
         ).then((res) => {
           // TODO
-          this.tableData = res;
-          this.total = 6;
+          this.tableData = res.data;
+          this.total = res.total;
         });
       } else {
         // 普通查询
         SelectBook(this.currentPage, this.pageSize).then((res) => {
           console.log(res);
           // TODO
-          this.tableData = res;
-          this.total = 8;
+          this.tableData = res.data;
+          this.total = res.total;
           // this.total = res.total
         });
       }
@@ -345,7 +361,6 @@ export default {
           // TODO
           this.tableData = res.data;
           this.total = res.total;
-          console.log(res, "9999");
         });
         this.queryModel = 2;
       } else {
@@ -369,13 +384,13 @@ export default {
         this.formSeletor.status
       ).then((res) => {
         // TODO
-        this.tableData = res;
-        this.total = 6;
+        this.tableData = res.data;
+        this.total = res.total;
       });
       console.log(this.formSeletor);
       this.queryModel = 1;
     },
-    cancel() {
+    cancel(row) {
       //删除书籍
       this.$confirm("此操作将删除这本书籍数据, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -383,6 +398,7 @@ export default {
         type: "warning",
       })
         .then(() => {
+          DeleteBook(row.bookId);
           this.$message({
             type: "success",
             message: "删除成功!",
@@ -395,18 +411,24 @@ export default {
           });
         });
     },
+    addBook(){
+      this.dialogNewBookVisible = true;
+
+    },
   },
   created() {
     SelectBook(this.currentPage, this.pageSize).then((res) => {
       console.log(this.currentPage);
       // TODO
       this.tableData = res.data;
+      this.total=res.total
     });
-    SelectBookSort().then((res) => {
-      this.bookSorts = res;
+    getPub().then((res) => {
+      this.bookPubs = res.data;
+      console.log(this.bookSorts,"99999")
     });
-    SelectBookPub().then((res) => {
-      this.bookPubs = res;
+    getSort().then((res) => {
+      this.bookSorts = res.data;
     });
   },
   mounted() {
