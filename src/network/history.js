@@ -2,16 +2,16 @@ import { request } from './request'
 // 借书历史
 
 // 分页查询历史
-export function SelectUserHistoryById(userId, page = 1, rows = 6) {
-    return request({
-        url: 'SelectUserHistoryById',
-        method: 'post',
-        data: {
-            userId,
-            page,
-            rows
-        }
-    })
+export function SelectUserHistoryById (userId, page = 1, rows = 6) {
+  return request({
+    url: 'SelectUserHistoryById',
+    method: 'post',
+    data: {
+      userId,
+      page,
+      rows
+    }
+  })
 }
 /* export function SelectUserHistory (userId, page = 1, rows = 6) {
   return request({
@@ -25,18 +25,18 @@ export function SelectUserHistoryById(userId, page = 1, rows = 6) {
   })
 } */
 
-// 模糊查询某图书借阅历史
-export function SelectHistoryFuzzy(userId, historyName, page = 1, rows = 6) {
-    return request({
-        url: 'SelectUserHistoryByIdLikeName',
-        method: 'post',
-        data: {
-            userId,
-            bookName: historyName,
-            page,
-            rows
-        }
-    })
+// 模糊查询某用户借阅历史
+export function SelectHistoryFuzzy (userId, historyName, page = 1, rows = 6) {
+  return request({
+    url: 'SelectUserHistoryByIdLikeName',
+    method: 'post',
+    data: {
+      userId,
+      bookName: historyName,
+      page,
+      rows
+    }
+  })
 }
 /* export function SelectHistoryFuzzy (userId, historyName, page = 1, rows = 6) {
   console.log(historyName, page, rows)
@@ -60,15 +60,15 @@ export function SelectHistoryFuzzy(userId, historyName, page = 1, rows = 6) {
     }
   })
 } */
-export function Selecthistoryshelf(userId) {
-    console.log(userId)
-    return request({
-        url: 'borrowHistory2',
-        params: {
-            userId,
-            isreturn: 0
-        }
-    })
+export function Selecthistoryshelf (userId) {
+  console.log(userId)
+  return request({
+    url: 'borrowHistory2',
+    params: {
+      userId,
+      isreturn: 0
+    }
+  })
 }
 
 // 归还图书
@@ -82,11 +82,11 @@ export function Selecthistoryshelf(userId) {
 //     }
 //   })
 // }
-export function returnhistory(historyId) {
-    return request({
-        url: 'borrowHistory2/' + historyId,
-        method: 'get'
-    })
+export function returnhistory (historyId) {
+  return request({
+    url: 'borrowHistory2/' + historyId,
+    method: 'get'
+  })
 }
 
 // 借书
@@ -96,101 +96,101 @@ export function returnhistory(historyId) {
 //     method: 'post'
 //   })
 // }
-export function borrowhistory(historyId) {
-    return request({
-        url: 'borrowHistory2/' + historyId,
-        method: 'get'
-    })
+export function borrowhistory (historyId) {
+  return request({
+    url: 'borrowHistory2/' + historyId,
+    method: 'get'
+  })
 }
 
 // 今日借出数
-export function borrowToday() {
-    return request({
-        url: '/BorrowCollection/borrowtoday',
-        methods: 'get'
-    })
+export function borrowToday () {
+  return request({
+    url: '/BorrowCollection/borrowtoday',
+    methods: 'get'
+  })
 }
-export function backToday() {
-    return request({
-        url: '/BorrowCollection/backtoday',
-        methods: 'get'
-    })
+export function backToday () {
+  return request({
+    url: '/BorrowCollection/backtoday',
+    methods: 'get'
+  })
 }
-export function borrowThisMonth() {
-    return request({
-        url: '/BorrowCollection/borrowthismonth',
-        methods: 'get'
-    })
+export function borrowThisMonth () {
+  return request({
+    url: '/BorrowCollection/borrowthismonth',
+    methods: 'get'
+  })
 }
-export function backThisMonth() {
-    return request({
-        url: '/BorrowCollection/backthismonth',
-        methods: 'get'
-    })
+export function backThisMonth () {
+  return request({
+    url: '/BorrowCollection/backthismonth',
+    methods: 'get'
+  })
 }
-export function borrowThisYear() {
-    return request({
-        url: '/BorrowCollection/borrowthisyear',
-        methods: 'get'
-    })
+export function borrowThisYear () {
+  return request({
+    url: '/BorrowCollection/borrowthisyear',
+    methods: 'get'
+  })
 }
-//年度归还数
-export function backThisYear() {
-    return request({
-        url: '/BorrowCollection/backthisyear',
-        methods: 'get'
-    })
+// 年度归还数
+export function backThisYear () {
+  return request({
+    url: '/BorrowCollection/backthisyear',
+    methods: 'get'
+  })
 }
 
-//获取最新的一条公告
-export function getNewNotice() {
-    return request({
-        url: 'admin/notice/select',
-        methods: 'get'
-    })
+// 获取最新的一条公告
+export function getNewNotice () {
+  return request({
+    url: 'admin/notice/select',
+    methods: 'get'
+  })
 }
-//分页查询所有借阅历史
-export function selectHistory(page = 1, rows = 5) {
-    return request({
-        url: '/SelectHistoryAll',
-        method: 'post',
-        params: {
-            page: page,
-            rows: rows
-        }
-    })
+// 分页查询所有借阅历史
+export function selectHistory (page = 1, rows = 5) {
+  return request({
+    url: '/SelectHistoryAll',
+    method: 'post',
+    params: {
+      page: page,
+      rows: rows
+    }
+  })
 }
-//模糊查找借阅历史
-export function selectHistoryByLike(bookName, page = 1, rows = 5) {
-    console.log(rows)
-    return request({
-        url: '/SelectHistoryAllByLike',
-        method: 'post',
-        params: {
-            bookName: bookName,
-            page: page,
-            rows: rows
-        }
-    })
+// 模糊查找借阅历史
+export function selectHistoryByLike (bookName, page = 1, rows = 5) {
+  console.log(rows)
+  return request({
+    url: '/SelectHistoryAllByLike',
+    method: 'post',
+    params: {
+      bookName: bookName,
+      page: page,
+      rows: rows
+    }
+  })
 }
 // 筛选查询
-export function SelectSelectorHistory(bookSort, bookPub, bookIsreturn, page = 1, rows = 5) {
-    const data = {
-        page: page,
-        rows: rows
-    }
-    if (bookSort !== '所有') {
-        data.bookSort = bookSort
-    }
-    if (bookPub !== '所有') {
-        data.bookPub = bookPub
-    }
-    if (bookIsreturn !== '所有') {
-        data.isreturn = bookIsreturn
-    }
-    return request({
-        url: 'SelectHistoryAllDesc',
-        method: 'post',
-        data: data
-    })
+export function SelectSelectorHistory (bookSort, bookPub, bookIsreturn, page = 1, rows = 5) {
+  const data = {
+    page: page,
+    rows: rows
+  }
+  if (bookSort !== '所有') {
+    data.bookSort = bookSort
+  }
+  if (bookPub !== '所有') {
+    data.bookPub = bookPub
+  }
+  if (bookIsreturn !== '所有') {
+    data.isreturn = bookIsreturn
+  }
+  return request({
+    url: 'SelectHistoryAllDesc',
+    method: 'post',
+    data: data
+  })
 }

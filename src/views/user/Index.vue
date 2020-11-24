@@ -2,7 +2,7 @@
   <div id="index">
     <nav-bar></nav-bar>
     <div class="content">
-      <keep-alive exclude="Bookshelf">
+      <keep-alive exclude="Bookshelf,History">
         <router-view></router-view>
       </keep-alive>
     </div>
