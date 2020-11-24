@@ -26,35 +26,48 @@
 .el-input.is-disabled .el-input__inner {
     cursor: default;
 }
- .el-select {
+
+.el-select {
     width: 100%;
 }
+
 .tags .el-tabs__content {
     color: #666;
-    position: unset; 
+    position: unset;
 }
-.el-tabs__header{
+
+.el-tabs__header {
     background-color: #fff;
     height: 35px;
-  -webkit-box-shadow: 0 5px 10px #ddd;
-  box-shadow: 0 5px 10px #ddd;
+    -webkit-box-shadow: 0 5px 10px #ddd;
+    box-shadow: 0 5px 10px #ddd;
 }
-.el-tabs__nav .el-tabs__item:first-child .el-icon-close{
+
+.el-tabs__nav .el-tabs__item:first-child .el-icon-close {
     display: none;
 }
-.tags .el-date-editor.el-input, .el-date-editor.el-input__inner{
+
+.tags .el-date-editor.el-input,
+.el-date-editor.el-input__inner {
     width: 100%;
 }
-.el-card__body{
+
+.el-card__body {
     padding: 0;
 }
+
 .card-info .el-col-6 {
     margin-left: 6%;
 }
+
 .card-info .el-row {
     margin-bottom: 40px;
 }
 
 #notice .el-table .cell {
     white-space: nowrap;
-  }
+}
+
+.library .el-input--mini .el-input__inner {
+    width: 120px;
+}
