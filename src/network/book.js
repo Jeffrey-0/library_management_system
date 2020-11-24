@@ -6,6 +6,7 @@ export function SelectBook(page = 1, rows = 5) {
     return request({
         // url: 'SelectBook',
         method: 'post',
+        // url: 'SelectBookHistoryByChioseDescRecord',
         url: 'SelectBookHistoryByChioseDescRecord',
         data: {
             page: page,
@@ -92,6 +93,7 @@ export function SelectSelector(bookSort, bookPub, bookIsreturn, page = 1, rows =
 export function SelectFuzzy(bookName, page = 1, rows = 5) {
     return request({
         url: 'SearchBookByLike',
+        // url: 'getHistoryAllByLike',
         method: 'post',
         data: {
             bookName: bookName,

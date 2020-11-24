@@ -2,10 +2,10 @@
   <div id="loginC">
     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="40px" class="demo-ruleForm">
       <el-form-item label="ID" prop="id">
-        <el-input type="text" v-model="ruleForm.id" autocomplete="off" maxlength="30"></el-input>
+        <el-input type="text" v-model.number="ruleForm.id" autocomplete="off" maxlength="15"></el-input>
       </el-form-item>
       <el-form-item label="姓名" prop="username">
-        <el-input type="text" v-model="ruleForm.username" autocomplete="off" maxlength="30"></el-input>
+        <el-input type="text" v-model="ruleForm.username" autocomplete="off" maxlength="20"></el-input>
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
         <el-input type="text" v-model="ruleForm.email" maxlength="30"></el-input>
