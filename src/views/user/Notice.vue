@@ -66,7 +66,7 @@
         <el-input v-model="formInline.noticeCreatetime" placeholder="时间" disabled></el-input>
       </el-form-item>
       <el-form-item>
-        <el-input v-model="formInline.noticeContent" placeholder="内容" disabled type="textarea"></el-input>
+        <el-input v-model="formInline.noticeContent" placeholder="内容" disabled type="textarea" rows="10"></el-input>
       </el-form-item>
       
     </el-form>
