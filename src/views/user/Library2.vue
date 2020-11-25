@@ -1,11 +1,25 @@
 <template>
   <div class="library" id="library">
-    <div class="title">书库</div>
-
+    <!-- <div class="title">书库</div> -->
+    <el-form
+      :inline="true"
+      :model="form"
+      class="demo-form-inline demo-form-inline2"
+      
+      size="mini"
+    >
+      <el-form-item>
+        <el-input v-model="form.bookName" placeholder="书名"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmitFuzzy">查询</el-button>
+      </el-form-item>
+    </el-form>
     <el-form
       :inline="true"
       :model="formSeletor"
       class="demo-form-inline demo-form-inline1"
+      size="mini"
     >
       <!-- <el-form-item label="书名">
         <el-input v-model="formSeletor.user" placeholder="审批人"></el-input>
@@ -50,24 +64,20 @@
         <el-button type="primary" @click="onSubmitSeletor">查询</el-button>
       </el-form-item>
     </el-form>
-    <el-form
-      :inline="true"
-      :model="form"
-      class="demo-form-inline demo-form-inline2"
-    >
-      <el-form-item>
-        <el-input v-model="form.bookName" placeholder="书名"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmitFuzzy">查询</el-button>
-      </el-form-item>
-    </el-form>
 
-    <el-table
+    <div class="books">
+      <div class="book-item" v-for="item in tableData" :key="item.bookId">
+        <img src="../../assets/img/avatar.png" alt="">
+        <div class="bookname">{{ item.bookName }}</div>
+        <div class="bookdetail">{{ item.bookName }}</div>
+      </div>
+    </div>
+
+    <!-- <el-table
       :data="tableData"
       border
       stripe
-      style="width: 100%; min-height: 330px; margin-bottom: 15px"
+      style="width: 100%; min-height: 420px; margin-bottom: 15px"
       :default-sort = "{prop: 'bookRecord', order: 'descending'}"
     >
       <el-table-column prop="bookName" label="书名"> </el-table-column>
@@ -75,7 +85,6 @@
       <el-table-column prop="bookAuthor" label="作者"> </el-table-column>
       <el-table-column prop="bookPub" label="出版社"> </el-table-column>
       <el-table-column prop="bookRecord" label="上架时间" sortable>
-        <!-- {{ $moment().format('YYYY-MM-DD') }} -->
       </el-table-column>
 
       <el-table-column label="状态" width="70">
@@ -88,7 +97,7 @@
           >
         </div>
       </el-table-column>
-    </el-table>
+    </el-table> -->
 
     <div class="block">
       <el-pagination
@@ -473,8 +482,45 @@ export default {
    width: 100px;
  }*/
 .demo-form-inline2 {
-  /* position: absolute; */
+  position: absolute;
 }
-
-
+.books {
+  width: 100%;
+  /* background: #00000020; */
+  min-height: 490px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.book-item {
+  /* box-sizing: border-box; */
+  /* padding: 10px 30px; */
+  /* border: 1px solid red; */
+  width: 21%;
+  height: 200px;
+  float: left;
+  margin-bottom: 20px;
+  position: relative;
+}
+.book-item img {
+  width: 100%;
+  height: 100%;
+}
+.book-item .bookname {
+  text-align: center;
+}
+.bookdetail {
+  position: absolute;
+  /* bottom: 20px; */
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background: #00000022;
+  display: none;
+}
+.book-item:hover .bookdetail {
+  display: block;
+  cursor: pointer;
+}
 </style>

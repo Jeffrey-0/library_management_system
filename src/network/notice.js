@@ -45,7 +45,7 @@ export function SelectUserNotice (page = 1, rows = 6) {
     }
   })
 } */
-export function SelectNoticeFuzzy (noticeContent, page = 1, rows = 5) {
+export function SelectNoticeFuzzy (noticeContent, page = 1, rows = 6) {
   // rows = 2
   // console.log(noticeName, page, rows)
   return request({
@@ -60,7 +60,7 @@ export function SelectNoticeFuzzy (noticeContent, page = 1, rows = 5) {
 }
 
 // 分页查找所有公告
-export function SelectNotice (page = 1, rows = 5) {
+export function SelectNotice (page = 1, rows = 6) {
   return request({
     url: 'admin/notice/noticeshow',
     params: {

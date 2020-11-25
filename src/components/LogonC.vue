@@ -30,7 +30,7 @@ export default {
     data() {
       var checkID = (rule, value, callback) => {
         if (!value) {
-          return callback(new Error('ID不能为空'));
+          return callback(new Error('ID不能为空'))
         }
           if (value !== '') {
           let regex = /^[1234567890]+$/
@@ -144,7 +144,7 @@ export default {
               console.log(res)  
               if (!res) {
                 this.$message({
-                  message: '注册失败',
+                  message: '注册失败，ID或邮箱已存在',
                   type: 'error',
                   center: true,
                   offset: 40

@@ -14,6 +14,7 @@
     :data="tableData"
     border
     stripe
+    :default-sort = "{prop: 'noticeCreatetime', order: 'descending'}"
     style="width: 100%;min-height:390px;margin-bottom:15px">  
     <!-- <el-table-column
       prop="userName"
@@ -29,6 +30,7 @@
       label="发表时间"
       width="120"
       :formatter = formatDate
+      sortable
       >
     </el-table-column>
 

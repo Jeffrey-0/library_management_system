@@ -14,6 +14,7 @@
     :data="tableData"
     border
     stripe
+    :default-sort = "{prop: 'borrowDate', order: 'descending'}"
     style="width: 100%;min-height:390px;margin-bottom:15px">  
     <el-table-column
       prop="bookName"
@@ -29,6 +30,7 @@
     </el-table-column>
     <el-table-column
       prop="borrowDate"
+      sortable
       label="借书时间">
     </el-table-column>
     <!-- <el-table-column
