@@ -26,6 +26,12 @@
           style="width: 100%; min-height: 330px; margin-bottom: 15px"
         >
           <el-table-column prop="userName" label="姓名"> </el-table-column>
+          <el-table-column
+            :formatter="forUserCategory"
+            prop="userCategory"
+            label="级别"
+          >
+          </el-table-column>
           <el-table-column prop="userSex" label="性别"> </el-table-column>
           <el-table-column prop="userPhone" label="手机"> </el-table-column>
           <el-table-column prop="userAge" label="年龄"> </el-table-column>
@@ -41,10 +47,20 @@
               >
               <el-tag
                 @click="cancel(scope.row)"
-                :type="scope.row.userCategory == '-1' ? 'success' : 'info'"
+                :type="
+                  scope.row.userCategory == '-1'
+                    ? 'success'
+                    : scope.row.userCategory == '-2'
+                    ? 'success'
+                    : 'info'
+                "
                 class="tag-btn"
                 >{{
-                  scope.row.userCategory == "-1" ? "解除禁用" : "禁用"
+                  scope.row.userCategory == "-1"
+                    ? "解除禁用"
+                    : scope.row.userCategory == "-2"
+                    ? "解除禁用"
+                    : "禁用"
                 }}</el-tag
               >
             </template>
@@ -227,7 +243,7 @@ export default {
     },
 
     cancel(row) {
-      if (row.userCategory != "-1") {
+      if (row.userCategory != "-1" && row.userCategory != "-2") {
         this.$confirm("此操作将禁用这个用户, 是否继续?", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
@@ -235,10 +251,10 @@ export default {
         })
           .then(() => {
             this.user = row;
-            if(row.userCategory==1){
-              this.user.userCategory = "-2";
-            }else{
+            if (row.userCategory == "1") {
               this.user.userCategory = "-1";
+            } else {
+              this.user.userCategory = "-2";
             }
             forbiddenUser(this.user.userId, this.user.userCategory);
             this.$message({
@@ -254,9 +270,9 @@ export default {
           });
       } else {
         this.user = row;
-        if(row.userCategory=='-2'){
+        if (row.userCategory == "-1") {
           this.user.userCategory = "1";
-        }else{
+        } else {
           this.user.userCategory = "0";
         }
         forbiddenUser(this.user.userId, this.user.userCategory);
@@ -298,6 +314,13 @@ export default {
     },
     forIsReturn(row) {
       return row.returnDate ? "已还" : "未还";
+    },
+    forUserCategory(row) {
+      return row.userCategory == "1"
+        ? "管理员"
+        : row.userCategory == "-1"
+        ? "管理员"
+        : "普通用户";
     },
   },
   mounted() {

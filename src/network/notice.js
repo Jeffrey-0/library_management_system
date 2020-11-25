@@ -45,7 +45,7 @@ export function SelectUserNotice (page = 1, rows = 6) {
     }
   })
 } */
-export function SelectNoticeFuzzy (noticeContent, page = 1, rows = 6) {
+export function SelectNoticeFuzzy (noticeContent, page = 1, rows = 5) {
   // rows = 2
   // console.log(noticeName, page, rows)
   return request({
@@ -60,7 +60,7 @@ export function SelectNoticeFuzzy (noticeContent, page = 1, rows = 6) {
 }
 
 // 分页查找所有公告
-export function SelectNotice (page = 1, rows = 6) {
+export function SelectNotice (page = 1, rows = 5) {
   return request({
     url: 'admin/notice/noticeshow',
     params: {
@@ -82,6 +82,7 @@ export function deleteNotice (noticeId) {
 }
 // 添加公告
 export function addNotice (Notice) {
+  console.log(Notice)
   return request({
     url: 'admin/notice/insertall',
     method: 'post',

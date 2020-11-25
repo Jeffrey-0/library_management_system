@@ -112,34 +112,37 @@
             label-width="60px"
             style="text-align: center"
           >
+            <div class="book-info">
+              <el-form-item label="出版社" :label-width="formLabelWidth">
+                <el-select v-model="formInline.bookPub" placeholder="出版社">
+                  <el-option
+                    :label="item"
+                    :value="item"
+                    v-for="item in bookPubs"
+                    :key="item.pubId"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="类别" :label-width="formLabelWidth">
+                <el-select v-model="formInline.bookSort" placeholder="类别">
+                  <el-option
+                    :label="item"
+                    :value="item"
+                    v-for="item in bookSorts"
+                    :key="item.sortId"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="作者" :label-width="formLabelWidth">
+                <el-input v-model="formInline.bookAuthor"></el-input>
+              </el-form-item>
+            </div>
+            <div class="book-img"></div>
             <el-form-item label="书名" :label-width="formLabelWidth">
               <el-input
                 v-model="formInline.bookName"
                 placeholder="书名"
               ></el-input>
-            </el-form-item>
-            <el-form-item label="出版社" :label-width="formLabelWidth">
-              <el-select v-model="formInline.bookPub" placeholder="出版社">
-                <el-option
-                  :label="item"
-                  :value="item"
-                  v-for="item in bookPubs"
-                  :key="item.pubId"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="作者" :label-width="formLabelWidth">
-              <el-input v-model="formInline.bookAuthor"></el-input>
-            </el-form-item>
-            <el-form-item label="类别" :label-width="formLabelWidth">
-              <el-select v-model="formInline.bookSort" placeholder="类别">
-                <el-option
-                  :label="item"
-                  :value="item"
-                  v-for="item in bookSorts"
-                  :key="item.sortId"
-                ></el-option>
-              </el-select>
             </el-form-item>
             <el-form-item label="上架时间" :label-width="formLabelWidth">
               <el-date-picker
@@ -493,5 +496,15 @@ export default {
 .tag-btn {
   cursor: pointer;
   margin-right: 10px;
+}
+.book-info {
+  width: 300px;
+  display: inline-block;
+}
+.book-img {
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  background: red;
 }
 </style>
