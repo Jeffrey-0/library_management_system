@@ -74,7 +74,12 @@
           :data="tableData"
           style="width: 100%; min-height: 300px"
         >
-          <el-table-column prop="bookName" label="书名" fixed>
+          <el-table-column
+            prop="bookName"
+            :show-overflow-tooltip="true"
+            label="书名"
+            fixed
+          >
           </el-table-column>
           <el-table-column prop="bookSort" label="类别"> </el-table-column>
           <el-table-column prop="bookAuthor" label="作者"> </el-table-column>
@@ -125,7 +130,11 @@
               <el-input v-model="formInline.bookName" disabled></el-input>
             </el-form-item>
             <el-form-item label="分类" :label-width="formLabelWidth">
-              <el-select v-model="formInline.bookSort" placeholder="图书分类" disabled>
+              <el-select
+                v-model="formInline.bookSort"
+                placeholder="图书分类"
+                disabled
+              >
                 <el-option
                   :label="item.sortName"
                   :value="item.sortName"
