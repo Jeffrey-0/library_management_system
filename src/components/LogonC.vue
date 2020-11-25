@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {logon} from '../network/login'
+import {logon, CheckuserId, CheckuserEmail} from '../network/login'
 export default {
     data() {
       var checkID = (rule, value, callback) => {
@@ -37,7 +37,16 @@ export default {
           if (!regex.test(value)) {
             return callback(new Error('ID只能为数字'))
           } else {
-            callback()
+            
+            CheckuserId(value).then(res => {
+              console.log('id检测', res)
+              if (res) {
+                return callback(new Error('ID已存在'))
+              } else {
+                callback()
+              }
+            })
+            
           }
         }
       }
@@ -66,10 +75,19 @@ export default {
             if (!regex.test(value)) {
               return callback(new Error('邮箱格式错误'))
             } else {
-              callback()
+              
+            CheckuserEmail(value).then(res => {
+              console.log('邮箱检测', res)
+              if (res) {
+                return callback(new Error('该邮箱已注册过账号'))
+              } else {
+                callback()
+              }
+            })
+              
             }
           }
-          callback()
+          // callback()
         }
       }
       var validatePass = (rule, value, callback) => {

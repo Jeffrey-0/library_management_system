@@ -73,6 +73,17 @@
           <div class="introduce">
           {{ item.bookIntroduce }}
           </div>
+          <!-- <div class="introduce" v-if="item.bookIntroduce">
+          {{ item.bookIntroduce }}
+          </div>
+          <div class="introduce" v-else>
+            <div>分类:</div>
+            <div class="content"> {{item.bookSort}}</div>
+            <div>出版社：</div>
+            <div class="content"> {{item.bookPub}}</div>
+            <div>作者：</div>
+            <div class="content"> {{item.bookAuthor}}</div>
+          </div> -->
           <div class="isreturn" :class="{primary : item.isreturn}">
           {{ item.isreturn != 1 ? "借完" : "借阅" }}
           </div>
@@ -171,7 +182,7 @@
           </el-form-item>
           <el-form-item label="状态">
             <el-input
-              v-model="formInline.isreturn"
+              v-model="formInlineItemReturn"
               placeholder="状态"
               disabled
             ></el-input>
@@ -432,6 +443,11 @@ export default {
       queryModel: 0, // 当前查询状态，用户分页切换，分页查询0， 筛选查询1， 模糊查询2
     };
   },
+  computed : {
+    formInlineItemReturn () {
+      return this.formInline.isreturn ? '可借' : '借完'
+    }
+  },
   created() {
     SelectBook(this.currentPage, this.pageSize).then((res) => {
       // console.log('书库',res.data)
@@ -522,6 +538,7 @@ export default {
 .book-item img {
   width: 100%;
   height: 90%;
+  border-radius: 5px;
 }
 .book-item .bookname {
   text-align: center;
@@ -538,8 +555,9 @@ export default {
   top: -100%;
   left: 0;
   color: #ffffff;
-  background: #00000088;
+  background: #000000aa;
   transition: 1s;
+  border-radius: 5px;
 }
 .book-item:hover .bookdetail {
   display: block;
@@ -556,6 +574,11 @@ export default {
   line-height: 22px;
   color: #ccc;
   text-align: left;
+}
+.book-item .introduce .content {
+  width: 100%;
+  height: 20px;
+  text-indent: 2em;
 }
 .book-item .isreturn {
   width: 100%;

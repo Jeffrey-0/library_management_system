@@ -64,3 +64,51 @@ export function logon (id, username, password, email) {
     }]
   })
 }
+
+// 判断userId是否存在
+export function CheckuserId (id) {
+  return request({
+    // url: 'users',
+    url: 'CheckuserId',
+    method: 'post',
+    data: {
+      userId: id
+    },
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+      // 设置未form-data数据
+    },
+    // 格式化数据
+    transformRequest: [function (data) {
+      let ret = ''
+      for (const it in data) {
+        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+      }
+      return ret
+    }]
+  })
+}
+
+// 判断userEmail是否存在
+export function CheckuserEmail (userEmail) {
+  return request({
+    // url: 'users',
+    url: 'CheckuserEmail',
+    method: 'post',
+    data: {
+      userEmail: userEmail
+    },
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+      // 设置未form-data数据
+    },
+    // 格式化数据
+    transformRequest: [function (data) {
+      let ret = ''
+      for (const it in data) {
+        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+      }
+      return ret
+    }]
+  })
+}
