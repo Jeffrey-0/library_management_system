@@ -137,7 +137,7 @@ export default {
       publishNotice: {
         noticeContent: "",
         noticeCreatetime: "",
-        userAuthor: "",
+        userName: "",
       },
       tableData: [],
       currentPage: 1,
@@ -293,9 +293,11 @@ export default {
         return fmt;
       };
       this.publishNotice.userId = this.$user.userId;
+      this.publishNotice.userName = this.$user.userName;
       this.publishNotice.noticeCreatetime = new Date().format("yyyy-MM-dd");
       addNotice(this.publishNotice);
       this.dialogNoticeVisible = false;
+      console.log(this.publishNotice);
       this.$message({
         type: "success",
         message: "发布成功!",
