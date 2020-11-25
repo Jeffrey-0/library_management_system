@@ -95,7 +95,7 @@
                 @click="handleClick(scope.row)"
                 type="primary"
                 disable-transitions
-                class="tag-btn "
+                class="tag-btn"
                 >编辑</el-tag
               >
               <el-tag @click="cancel(scope.row)" type="info" class="tag-btn"
@@ -158,57 +158,55 @@
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="updateBookInfo"
-              >确 定</el-button
-            >
+            <el-button type="primary" @click="updateBookInfo">确 定</el-button>
           </div>
         </el-dialog>
         <!-- 添加图书对话框 -->
         <el-dialog title="书籍资料" :visible.sync="dialogNewBookVisible">
-            <el-form
-              :model="formNewBook"
-              class="demo-form-inline"
-              label-width="60px"
-              style="text-align: center"
-            >
-              <el-form-item label="书名" :label-width="formLabelWidth">
-                <el-input
-                  v-model="formNewBook.bookName"
-                  placeholder="书名"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="出版社" :label-width="formLabelWidth">
-                <el-select v-model="formSeletor.pub" placeholder="出版社">
-                  <el-option label="所有" value="所有"></el-option>
-                  <el-option
-                    :label="item"
-                    :value="item"
-                    v-for="item in bookPubs"
-                    :key="item"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="作者" :label-width="formLabelWidth">
-                <el-input v-model="formNewBook.bookAuthor"></el-input>
-              </el-form-item>
-              <el-form-item label="分类" :label-width="formLabelWidth">
-                <el-select v-model="formSeletor.sort" placeholder="分类">
-                  <el-option label="所有" value="所有"></el-option>
-                  <el-option
-                    :label="item"
-                    :value="item"
-                    v-for="item in bookSorts"
-                    :key="item.sortId"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-              <!-- <el-form-item label="状态" :label-width="formLabelWidth">
+          <el-form
+            :model="formNewBook"
+            class="demo-form-inline"
+            label-width="60px"
+            style="text-align: center"
+          >
+            <el-form-item label="书名" :label-width="formLabelWidth">
+              <el-input
+                v-model="formNewBook.bookName"
+                placeholder="书名"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="出版社" :label-width="formLabelWidth">
+              <el-select v-model="formSeletor.pub" placeholder="出版社">
+                <el-option label="所有" value="所有"></el-option>
+                <el-option
+                  :label="item"
+                  :value="item"
+                  v-for="item in bookPubs"
+                  :key="item"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="作者" :label-width="formLabelWidth">
+              <el-input v-model="formNewBook.bookAuthor"></el-input>
+            </el-form-item>
+            <el-form-item label="分类" :label-width="formLabelWidth">
+              <el-select v-model="formSeletor.sort" placeholder="分类">
+                <el-option label="所有" value="所有"></el-option>
+                <el-option
+                  :label="item"
+                  :value="item"
+                  v-for="item in bookSorts"
+                  :key="item.sortId"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <!-- <el-form-item label="状态" :label-width="formLabelWidth">
               <el-select v-model="formInline.isreturn" placeholder="请选择活动区域">
                 <el-option label="未借" value="shanghai"></el-option>
                 <el-option label="已借" value="beijing"></el-option>
               </el-select>
             </el-form-item> -->
-            </el-form>
+          </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogNewBookVisible = false">取 消</el-button>
             <el-button type="primary" @click="addBook">确 定</el-button>
@@ -320,7 +318,7 @@ export default {
         SelectSelector(
           this.formSeletor.sort,
           this.formSeletor.pub,
-          this.formSeletor.isreturn,
+          "所有",
           this.currentPage,
           this.pageSize
         ).then((res) => {
@@ -394,6 +392,11 @@ export default {
             type: "success",
             message: "删除成功!",
           });
+          SelectBook(this.currentPage, this.pageSize).then((res) => {
+            // TODO
+            this.tableData = res.data;
+            this.total = res.total;
+          });
         })
         .catch(() => {
           this.$message({
@@ -401,7 +404,6 @@ export default {
             message: "已取消删除",
           });
         });
-        
     },
     addBook() {
       this.dialogNewBookVisible = false;
@@ -410,15 +412,18 @@ export default {
       saveBook(this.formNewBook);
       console.log(this.formNewBook);
       this.$message({
-            type: "success",
-            message: "发布成功!",
-          });
+        type: "success",
+        message: "发布成功!",
+      });
     },
-    updateBookInfo() {   //修改图书信息
-            this.dialogFormVisible = false;
-            this.formInline.bookRecord = this.$moment(new Date(this.formInline.bookRecord).getTime()).format('YYYY-MM-DD');
-            updateBook(this.formInline);
-        }
+    updateBookInfo() {
+      //修改图书信息
+      this.dialogFormVisible = false;
+      this.formInline.bookRecord = this.$moment(
+        new Date(this.formInline.bookRecord).getTime()
+      ).format("YYYY-MM-DD");
+      updateBook(this.formInline);
+    },
   },
   created() {
     SelectBook(this.currentPage, this.pageSize).then((res) => {

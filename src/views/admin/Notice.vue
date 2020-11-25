@@ -225,6 +225,12 @@ export default {
             type: "success",
             message: "删除成功!",
           });
+          SelectNotice(this.currentPage, this.pageSize).then((res) => {
+            // TODO
+            console.log(res);
+            this.tableData = res.data;
+            this.total = res.total;
+          });
         })
         .catch(() => {
           this.$message({
