@@ -81,9 +81,24 @@
             fixed
           >
           </el-table-column>
-          <el-table-column prop="bookSort" label="类别"> </el-table-column
-          ><el-table-column prop="bookPub" label="出版社"> </el-table-column>
-          <el-table-column prop="userName" label="借阅人"> </el-table-column>
+          <el-table-column
+            prop="bookSort"
+            :show-overflow-tooltip="true"
+            label="类别"
+          >
+          </el-table-column
+          ><el-table-column
+            prop="bookPub"
+            :show-overflow-tooltip="true"
+            label="出版社"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="userName"
+            :show-overflow-tooltip="true"
+            label="借阅人"
+          >
+          </el-table-column>
           <el-table-column
             prop="borrowDate"
             label="借书时间"
@@ -319,6 +334,7 @@ export default {
       if (this.form.bookName) {
         selectHistoryByLike(this.form.bookName).then((res) => {
           // TODO
+          console.log(res);
           this.tableData = res.data;
           this.total = res.total;
         });
@@ -326,7 +342,7 @@ export default {
       } else {
         //为空时切换普通查询
         selectHistory(this.currentPage, this.pageSize).then((res) => {
-          console.log(res);
+          console.log(res, "6595");
           // TODO
           this.tableData = res.data;
           this.total = res.total;

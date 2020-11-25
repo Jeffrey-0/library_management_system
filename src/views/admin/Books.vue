@@ -76,9 +76,19 @@
           :data="tableData"
           style="width: 100%; min-height: 300px"
         >
-          <el-table-column prop="bookName" label="书名" fixed>
+          <el-table-column
+            prop="bookName"
+            :show-overflow-tooltip="true"
+            label="书名"
+            fixed
+          >
           </el-table-column>
-          <el-table-column prop="bookPub" label="出版社"> </el-table-column>
+          <el-table-column
+            prop="bookPub"
+            :show-overflow-tooltip="true"
+            label="出版社"
+          >
+          </el-table-column>
           <el-table-column prop="bookSort" label="类别"> </el-table-column>
           <el-table-column
             prop="bookRecord"
@@ -88,8 +98,13 @@
             column-key="date"
           >
           </el-table-column>
-          <el-table-column prop="bookAuthor" label="作者"> </el-table-column>
-          <el-table-column prop="tag" label="操作">
+          <el-table-column
+            prop="bookAuthor"
+            :show-overflow-tooltip="true"
+            label="作者"
+          >
+          </el-table-column>
+          <el-table-column prop="tag" label="操作" width="160">
             <template slot-scope="scope">
               <el-tag
                 @click="handleClick(scope.row)"
@@ -110,7 +125,6 @@
             :model="formInline"
             class="demo-form-inline"
             label-width="60px"
-            style="text-align: center"
           >
             <div class="book-info">
               <el-form-item label="出版社" :label-width="formLabelWidth">
@@ -136,14 +150,17 @@
               <el-form-item label="作者" :label-width="formLabelWidth">
                 <el-input v-model="formInline.bookAuthor"></el-input>
               </el-form-item>
+              <el-form-item label="书名" :label-width="formLabelWidth">
+                <el-input
+                  v-model="formInline.bookName"
+                  placeholder="书名"
+                ></el-input>
+              </el-form-item>
             </div>
-            <div class="book-img"></div>
-            <el-form-item label="书名" :label-width="formLabelWidth">
-              <el-input
-                v-model="formInline.bookName"
-                placeholder="书名"
-              ></el-input>
-            </el-form-item>
+            <div class="book-img">
+              <img :src="bookImgUrl" alt="无法加载图片" title="点击更换封面" />
+            </div>
+
             <el-form-item label="上架时间" :label-width="formLabelWidth">
               <el-date-picker
                 v-model="formInline.bookRecord"
@@ -151,6 +168,9 @@
                 placeholder="选择日期"
               >
               </el-date-picker>
+            </el-form-item>
+            <el-form-item label="简介" :label-width="formLabelWidth">
+              <el-input v-model="formInline.bookIntroduc"></el-input>
             </el-form-item>
             <!-- <el-form-item label="状态" :label-width="formLabelWidth">
               <el-select v-model="formInline.isreturn" placeholder="请选择活动区域">
@@ -170,38 +190,62 @@
             :model="formNewBook"
             class="demo-form-inline"
             label-width="60px"
-            style="text-align: center"
           >
-            <el-form-item label="书名" :label-width="formLabelWidth">
-              <el-input
-                v-model="formNewBook.bookName"
-                placeholder="书名"
-              ></el-input>
+            <div class="book-info">
+              <el-form-item label="出版社" :label-width="formLabelWidth">
+                <el-select v-model="formInline.bookPub" placeholder="出版社">
+                  <el-option
+                    :label="item"
+                    :value="item"
+                    v-for="item in bookPubs"
+                    :key="item.pubId"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="类别" :label-width="formLabelWidth">
+                <el-select v-model="formInline.bookSort" placeholder="类别">
+                  <el-option
+                    :label="item"
+                    :value="item"
+                    v-for="item in bookSorts"
+                    :key="item.sortId"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="作者" :label-width="formLabelWidth">
+                <el-input v-model="formInline.bookAuthor"></el-input>
+              </el-form-item>
+              <el-form-item label="书名" :label-width="formLabelWidth">
+                <el-input
+                  v-model="formInline.bookName"
+                  placeholder="书名"
+                ></el-input>
+              </el-form-item>
+            </div>
+            <div class="book-img">
+              <el-upload
+                class="avatar-uploader"
+                action="#"
+                :show-file-list="false"
+                :limit="1"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload"
+              >
+                <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </div>
+
+            <el-form-item label="上架时间" :label-width="formLabelWidth">
+              <el-date-picker
+                v-model="formInline.bookRecord"
+                type="date"
+                placeholder="选择日期"
+              >
+              </el-date-picker>
             </el-form-item>
-            <el-form-item label="出版社" :label-width="formLabelWidth">
-              <el-select v-model="formSeletor.pub" placeholder="出版社">
-                <el-option label="所有" value="所有"></el-option>
-                <el-option
-                  :label="item"
-                  :value="item"
-                  v-for="item in bookPubs"
-                  :key="item"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="作者" :label-width="formLabelWidth">
-              <el-input v-model="formNewBook.bookAuthor"></el-input>
-            </el-form-item>
-            <el-form-item label="分类" :label-width="formLabelWidth">
-              <el-select v-model="formSeletor.sort" placeholder="分类">
-                <el-option label="所有" value="所有"></el-option>
-                <el-option
-                  :label="item"
-                  :value="item"
-                  v-for="item in bookSorts"
-                  :key="item.sortId"
-                ></el-option>
-              </el-select>
+            <el-form-item label="简介" :label-width="formLabelWidth">
+              <el-input v-model="formInline.bookIntroduc"></el-input>
             </el-form-item>
             <!-- <el-form-item label="状态" :label-width="formLabelWidth">
               <el-select v-model="formInline.isreturn" placeholder="请选择活动区域">
@@ -212,7 +256,7 @@
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogNewBookVisible = false">取 消</el-button>
-            <el-button type="primary" @click="addBook">确 定</el-button>
+            <el-button type="primary" @click="addBook">发 布</el-button>
           </div>
         </el-dialog>
       </div>
@@ -261,6 +305,8 @@ export default {
         bookPub: "",
         bookSort: "",
         bookRecord: "",
+        bookIntroduc: "",
+        bookImg: "",
         isreturn: 0,
       },
       formNewBook: {
@@ -271,6 +317,8 @@ export default {
         bookPub: "",
         bookSort: "",
         bookRecord: "",
+        bookIntroduc: "",
+        bookImg: "",
       },
       tableData: [], //书籍列表
 
@@ -294,6 +342,11 @@ export default {
         status: "所有",
       },
       formLabelWidth: "70px",
+      bookImgUrl: require("../../assets/img/avatar.png"),
+      imageUrl: "",
+      dialogImageUrl: "",
+      dialogVisible: false,
+      disabled: false,
     };
   },
   methods: {
@@ -427,6 +480,22 @@ export default {
       ).format("YYYY-MM-DD");
       updateBook(this.formInline);
     },
+
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/png";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
+    },
   },
   created() {
     SelectBook(this.currentPage, this.pageSize).then((res) => {
@@ -498,13 +567,45 @@ export default {
   margin-right: 10px;
 }
 .book-info {
-  width: 300px;
+  width: 65%;
   display: inline-block;
 }
 .book-img {
   display: inline-block;
-  width: 200px;
-  height: 200px;
-  background: red;
+  width: 26%;
+  height: 40%;
+  margin-left: 25px;
+  position: absolute;
+}
+.book-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.book-img img:hover {
+  cursor: pointer;
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
 }
 </style>

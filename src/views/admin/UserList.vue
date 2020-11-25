@@ -29,12 +29,15 @@
           <el-table-column
             :formatter="forUserCategory"
             prop="userCategory"
+            width="80"
             label="级别"
           >
           </el-table-column>
-          <el-table-column prop="userSex" label="性别"> </el-table-column>
+          <el-table-column prop="userSex" label="性别" width="60">
+          </el-table-column>
           <el-table-column prop="userPhone" label="手机"> </el-table-column>
-          <el-table-column prop="userAge" label="年龄"> </el-table-column>
+          <el-table-column prop="userAge" label="年龄" width="60">
+          </el-table-column>
           <el-table-column prop="userEmail" label="邮箱" width="200">
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="170">
