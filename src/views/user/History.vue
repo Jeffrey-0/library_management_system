@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="history">
     <div class="title">历史</div>
 
     <el-form :inline="true" :model="formSearch" class="demo-form-inline">

@@ -1,5 +1,5 @@
 <template>
-  <div class="library">
+  <div class="library" id="library">
     <div class="title">书库</div>
     
 
@@ -405,4 +405,6 @@
 .demo-form-inline2 {
   /* position: absolute; */
 }
+
+
 </style>
