@@ -38,7 +38,12 @@
         ></el-table-column>
         <el-table-column prop="userName" label="上传人" width="120">
         </el-table-column>
-        <el-table-column prop="noticeCreatetime" label="上传日期" width="140">
+        <el-table-column
+          prop="noticeCreatetime"
+          sortable
+          label="上传日期"
+          width="140"
+        >
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="144">
           <template slot-scope="scope">
@@ -220,6 +225,12 @@ export default {
             type: "success",
             message: "删除成功!",
           });
+          SelectNotice(this.currentPage, this.pageSize).then((res) => {
+            // TODO
+            console.log(res);
+            this.tableData = res.data;
+            this.total = res.total;
+          });
         })
         .catch(() => {
           this.$message({
@@ -286,10 +297,9 @@ export default {
       addNotice(this.publishNotice);
       this.dialogNoticeVisible = false;
       this.$message({
-            type: "success",
-            message: "发布成功!",
-          });
-          
+        type: "success",
+        message: "发布成功!",
+      });
     },
   },
   mounted() {

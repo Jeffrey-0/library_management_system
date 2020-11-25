@@ -85,14 +85,18 @@
                   </el-table-column>
                   <el-table-column prop="borrowDate" label="借阅" width="120">
                   </el-table-column>
-                  <el-table-column 
-                    prop="returnDate" 
-                    label="归还" 
-                    :formatter="forReturnDate" 
-                    width="120">
+                  <el-table-column
+                    prop="returnDate"
+                    label="归还"
+                    :formatter="forReturnDate"
+                    width="120"
+                  >
                   </el-table-column>
-                  <el-table-column prop="isreturn" label="状态"
-                    >{{ tableHistory.isreturn == 0 ? "未还" : "已还" }}
+                  <el-table-column
+                    :formatter="forIsReturn"
+                    prop="isreturn"
+                    label="状态"
+                  >
                   </el-table-column>
                   <el-table-column prop="validityDate" label="剩余">
                   </el-table-column>
@@ -269,10 +273,13 @@ export default {
       if (this.form.userName) {
         SelectFuzzy(this.form.userName).then((res) => {
           // TODO
-          console.log(res, "99999996666");
-
-          this.tableData = res.data;
-          this.total = res.total;
+          if (res) {
+            this.tableData = res.data;
+            this.total = res.total;
+          } else {
+            this.tableData = [];
+            this.total = 0;
+          }
         });
         this.queryModel = 2;
       } else {
@@ -288,6 +295,9 @@ export default {
     },
     forReturnDate(row) {
       return row.returnDate ? row.returnDate : "暂未归还";
+    },
+    forIsReturn(row) {
+      return row.returnDate ? "已还" : "未还";
     },
   },
   mounted() {

@@ -40,8 +40,8 @@
               width="50px"
             >
               <el-option label="所有" value="所有"></el-option>
-              <el-option label="借完" value="0"></el-option>
-              <el-option label="可借" value="1"></el-option>
+              <el-option label="已借" value="0"></el-option>
+              <el-option label="未借" value="1"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -74,10 +74,16 @@
           :data="tableData"
           style="width: 100%; min-height: 300px"
         >
-          <el-table-column prop="bookName" label="书名" fixed>
+          <el-table-column
+            prop="bookName"
+            :show-overflow-tooltip="true"
+            label="书名"
+            fixed
+          >
           </el-table-column>
-          <el-table-column prop="bookSort" label="类别"> </el-table-column>
-          <el-table-column prop="bookAuthor" label="作者"> </el-table-column>
+          <el-table-column prop="bookSort" label="类别"> </el-table-column
+          ><el-table-column prop="bookPub" label="出版社"> </el-table-column>
+          <el-table-column prop="userName" label="借阅人"> </el-table-column>
           <el-table-column
             prop="borrowDate"
             label="借书时间"
@@ -108,7 +114,7 @@
                 @click="handleClick(scope.row)"
                 :type="scope.row.isreturn == '0' ? 'success' : 'primary'"
                 disable-transitions
-                >{{ scope.row.isreturn == "0" ? "借完" : "可借" }}</el-tag
+                >{{ scope.row.isreturn == "0" ? "已借" : "未借" }}</el-tag
               >
             </template>
           </el-table-column>
@@ -125,7 +131,11 @@
               <el-input v-model="formInline.bookName" disabled></el-input>
             </el-form-item>
             <el-form-item label="分类" :label-width="formLabelWidth">
-              <el-select v-model="formInline.bookSort" placeholder="图书分类" disabled>
+              <el-select
+                v-model="formInline.bookSort"
+                placeholder="图书分类"
+                disabled
+              >
                 <el-option
                   :label="item.sortName"
                   :value="item.sortName"
@@ -134,8 +144,8 @@
                 ></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="作者" :label-width="formLabelWidth">
-              <el-input v-model="formInline.bookAuthor" disabled></el-input>
+            <el-form-item label="借阅人" :label-width="formLabelWidth">
+              <el-input v-model="formInline.userName" disabled></el-input>
             </el-form-item>
             <el-form-item label="借书" :label-width="formLabelWidth">
               <el-date-picker
@@ -238,9 +248,7 @@ export default {
   created() {
     selectHistory(this.currentPage, this.pageSize).then((res) => {
       // TODO
-      if (res.data.borrowDate == false) {
-        console.log(res.data.borrowDate, "****----");
-      }
+      console.log(res.data, "****----");
       this.tableData = res.data;
       this.total = res.total;
     });
@@ -286,7 +294,7 @@ export default {
         SelectSelector(
           this.formSeletor.sort,
           this.formSeletor.pub,
-          this.formSeletor.isreturn,
+          this.formSeletor.status,
           this.currentPage,
           this.pageSize
         ).then((res) => {
