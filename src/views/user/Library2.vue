@@ -1,11 +1,25 @@
 <template>
   <div class="library" id="library">
-    <div class="title">书库</div>
-
+    <!-- <div class="title">书库</div> -->
+    <el-form
+      :inline="true"
+      :model="form"
+      class="demo-form-inline demo-form-inline2"
+      
+      size="small"
+    >
+      <el-form-item>
+        <el-input v-model="form.bookName" placeholder="书名"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmitFuzzy">查询</el-button>
+      </el-form-item>
+    </el-form>
     <el-form
       :inline="true"
       :model="formSeletor"
       class="demo-form-inline demo-form-inline1"
+      size="small"
     >
       <!-- <el-form-item label="书名">
         <el-input v-model="formSeletor.user" placeholder="审批人"></el-input>
@@ -50,24 +64,27 @@
         <el-button type="primary" @click="onSubmitSeletor">查询</el-button>
       </el-form-item>
     </el-form>
-    <el-form
-      :inline="true"
-      :model="form"
-      class="demo-form-inline demo-form-inline2"
-    >
-      <el-form-item>
-        <el-input v-model="form.bookName" placeholder="书名"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmitFuzzy">查询</el-button>
-      </el-form-item>
-    </el-form>
 
-    <el-table
+    <div class="books">
+      <div class="book-item" v-for="item in tableData" :key="item.bookId"  @click="handleClick(item)">
+        <img src="../../assets/img/avatar.png" alt="">
+        <div class="bookname">{{ item.bookName }}</div>
+        <div class="bookdetail">
+          <div class="introduce">
+          {{ item.bookIntroduce }}
+          </div>
+          <div class="isreturn" :class="{primary : item.isreturn}">
+          {{ item.isreturn != 1 ? "借完" : "借阅" }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <el-table
       :data="tableData"
       border
       stripe
-      style="width: 100%; min-height: 330px; margin-bottom: 15px"
+      style="width: 100%; min-height: 420px; margin-bottom: 15px"
       :default-sort = "{prop: 'bookRecord', order: 'descending'}"
     >
       <el-table-column prop="bookName" label="书名"> </el-table-column>
@@ -75,7 +92,6 @@
       <el-table-column prop="bookAuthor" label="作者"> </el-table-column>
       <el-table-column prop="bookPub" label="出版社"> </el-table-column>
       <el-table-column prop="bookRecord" label="上架时间" sortable>
-        <!-- {{ $moment().format('YYYY-MM-DD') }} -->
       </el-table-column>
 
       <el-table-column label="状态" width="70">
@@ -88,7 +104,7 @@
           >
         </div>
       </el-table-column>
-    </el-table>
+    </el-table> -->
 
     <div class="block">
       <el-pagination
@@ -153,12 +169,15 @@
               <!-- {{ 123 }} -->
             </el-input>
           </el-form-item>
-          <el-form-item label="状态   ">
+          <el-form-item label="状态">
             <el-input
               v-model="formInline.isreturn"
               placeholder="状态"
               disabled
             ></el-input>
+          </el-form-item>
+          <el-form-item label="简介" class="introduceItem">
+            <el-input v-model="formInline.bookIntroduce" placeholder="简介" disabled type="textarea" rows="4"></el-input>
           </el-form-item>
         </el-form>
       </el-form>
@@ -405,9 +424,9 @@ export default {
         bookName: "",
       },
       formLabelWidth: "120px",
-      pageSize: 5,
+      pageSize: 8,
       formInlineIsreturn: "0",
-      total: 8,
+      total: 0,
       bookSorts: [],
       bookPubs: [],
       queryModel: 0, // 当前查询状态，用户分页切换，分页查询0， 筛选查询1， 模糊查询2
@@ -473,8 +492,79 @@ export default {
    width: 100px;
  }*/
 .demo-form-inline2 {
-  /* position: absolute; */
+  position: absolute;
 }
-
+.books {
+  width: 100%;
+  /* background: #00000020; */
+  height: 480px;
+  /*display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;*/
+}
+.book-item:nth-child(4),.book-item:nth-child(8) {
+  margin-right: 0;
+}
+.book-item {
+  transition-duration: .7s;
+  /*box-sizing: border-box;
+  padding: 10px 30px;*/
+  width: 20%;
+  height: 220px;
+  margin-right: 6%;
+  float: left;
+  position: relative;
+  margin-top: 3px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.book-item img {
+  width: 100%;
+  height: 90%;
+}
+.book-item .bookname {
+  text-align: center;
+  white-space: nowrap;
+  /* text-overflow: ellipsis; */
+  overflow: hidden;
+  height: 10%;
+}
+.bookdetail {
+  position: absolute;
+  /* bottom: 20px; */
+  width: 100%;
+  height: 90%;
+  top: -100%;
+  left: 0;
+  color: #ffffff;
+  background: #00000088;
+  transition: 1s;
+}
+.book-item:hover .bookdetail {
+  display: block;
+  cursor: pointer;
+  transition: 1s;
+  top: 0px;
+}
+.book-item .introduce {
+  width: 100%;
+  height: 85%;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 18px 20px;
+  line-height: 22px;
+  color: #ccc;
+  text-align: left;
+}
+.book-item .isreturn {
+  width: 100%;
+  height: 15%;
+  color:#F56C6C;
+  line-height: 22px;
+}
+.book-item .isreturn.primary {
+  color:#66b1ff;
+}
 
 </style>

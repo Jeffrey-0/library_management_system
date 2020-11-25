@@ -14,6 +14,7 @@
     :data="tableData"
     border
     stripe
+    :default-sort = "{prop: 'noticeCreatetime', order: 'descending'}"
     style="width: 100%;min-height:390px;margin-bottom:15px">  
     <!-- <el-table-column
       prop="userName"
@@ -29,6 +30,7 @@
       label="发表时间"
       width="120"
       :formatter = formatDate
+      sortable
       >
     </el-table-column>
 
@@ -64,7 +66,7 @@
         <el-input v-model="formInline.noticeCreatetime" placeholder="时间" disabled></el-input>
       </el-form-item>
       <el-form-item>
-        <el-input v-model="formInline.noticeContent" placeholder="内容" disabled type="textarea"></el-input>
+        <el-input v-model="formInline.noticeContent" placeholder="内容" disabled type="textarea" rows="10"></el-input>
       </el-form-item>
       
     </el-form>
