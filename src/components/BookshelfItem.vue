@@ -33,6 +33,9 @@
       <el-form-item label="ID" >
         <el-input v-model="formInline.user" placeholder="ID" disabled></el-input>
       </el-form-item> -->
+      <!-- <el-form-item>
+        <el-button v-if="book.bookName" type="primary" @click="openBook">详情</el-button>
+      </el-form-item> -->
     </el-form>
   </div>
 </template>
@@ -73,6 +76,9 @@ export default {
             message: '取消归还'
           })        
         })
+      },
+      openBook() {
+        console.log(this.book)
       }
   },
   // 监听父组件中传过来的参数book变化
