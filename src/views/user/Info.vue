@@ -19,7 +19,8 @@
       <el-form-item label="手机" prop="userPhone">
         <el-input v-model="user.userPhone" placeholder="手机" maxlength="11"></el-input>
       </el-form-item>
-      <el-form-item label="年龄">
+      
+      <el-form-item label="年龄" prop="userAge">
         <el-input v-model.number="user.userAge" placeholder="年龄" maxlength="3"></el-input>
       </el-form-item>
       <el-form-item label="邮箱" prop="userEmail">
@@ -60,10 +61,24 @@
   export default {
     data() {
       var checkPhone = (rule, value, callback) => {
+        console.log('测试手机')
         if (value !== '') {
           let regex = /^1[34578]\d{9}$/
           if (!regex.test(value)) {
             return callback(new Error('手机格式有误'))
+          } else {
+            callback()
+          }
+        }
+        callback()
+      }
+      var checkAge = (rule, value, callback) => {
+        if (value !== '') {
+          let regex = /^[1234567890]+$/
+          // let regex = /^1[34578]\d{9}$/
+
+          if (!regex.test(value)) {
+            return callback(new Error('年龄只能为数字'))
           } else {
             callback()
           }
@@ -159,6 +174,9 @@
           ],
           userPhone: [
             { validator: checkPhone, trigger: 'blur' }
+          ],
+          userAge: [
+            { validator: checkAge, trigger: 'blur' }
           ]
         },
         rules: {
@@ -170,6 +188,9 @@
           ],
           checkPass: [
             { validator: validatePass2, trigger: 'blur' }
+          ],
+          userAge: [
+            { validator: checkAge, trigger: 'blur' }
           ]
         }
       }

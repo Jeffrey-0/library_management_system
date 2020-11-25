@@ -61,6 +61,7 @@ export function SelectSelector (bookSort, bookPub, bookIsreturn, page = 1, rows 
   if (bookIsreturn !== '所有') {
     data.isreturn = bookIsreturn
   }
+  console.log(data,"84848")
   return request({
     url: 'SelectBookHistoryByChioseDescRecord',
     method: 'post',

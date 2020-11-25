@@ -38,9 +38,18 @@ export default {
       if (!value) {
         return callback(new Error("ID不能为空"));
       }
-      setTimeout(() => {
-        callback();
-      }, 1000);
+        if (value !== '') {
+          let regex = /^[1234567890]+$/
+          if (!regex.test(value)) {
+            return callback(new Error('ID只能为数字'))
+          } else {
+            callback()
+          }
+        }
+        callback()
+      // setTimeout(() => {
+      //   callback();
+      // }, 1000);
     };
     var validatePass = (rule, value, callback) => {
       if (value === "") {
