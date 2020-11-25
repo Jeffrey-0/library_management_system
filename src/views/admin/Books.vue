@@ -320,7 +320,7 @@ export default {
         SelectSelector(
           this.formSeletor.sort,
           this.formSeletor.pub,
-          this.formSeletor.isreturn,
+          '所有',
           this.currentPage,
           this.pageSize
         ).then((res) => {

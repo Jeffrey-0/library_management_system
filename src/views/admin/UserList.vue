@@ -231,7 +231,11 @@ export default {
         })
           .then(() => {
             this.user = row;
-            this.user.userCategory = "-1";
+            if(row.userCategory==1){
+              this.user.userCategory = "-2";
+            }else{
+              this.user.userCategory = "-1";
+            }
             forbiddenUser(this.user.userId, this.user.userCategory);
             this.$message({
               type: "success",
@@ -246,7 +250,11 @@ export default {
           });
       } else {
         this.user = row;
-        this.user.userCategory = "1";
+        if(row.userCategory=='-2'){
+          this.user.userCategory = "1";
+        }else{
+          this.user.userCategory = "0";
+        }
         forbiddenUser(this.user.userId, this.user.userCategory);
         this.$message({
           type: "success",
