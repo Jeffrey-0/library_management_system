@@ -223,17 +223,10 @@
               </el-form-item>
             </div>
             <div class="book-img">
-              <el-upload
-                class="avatar-uploader"
-                action="#"
-                :show-file-list="false"
-                :limit="1"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload"
-              >
-                <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
+              
+              <label for="img-input"><img v-if="imageUrl" :src="imageUrl" alt="无法加载图片" title="点击更换封面" />
+              <li v-else class="el-icon-plus img-icon"></li></label>
+              <input type="file" class="img-input" id="img-input" name="img" @change="imgInput">
             </div>
 
             <el-form-item label="上架时间" :label-width="formLabelWidth">
@@ -347,9 +340,15 @@ export default {
       dialogImageUrl: "",
       dialogVisible: false,
       disabled: false,
+      
     };
   },
   methods: {
+    imgInput(even) {
+      // this.imageUrl = event.target.value;
+      console.log('imgInput', even)
+      console.log('imgInput', even.target, event.target.files[0])
+    },
     isCollapse(val) {
       this.collapse = val;
     },
@@ -481,10 +480,11 @@ export default {
       updateBook(this.formInline);
     },
 
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
+    handleAvatarSuccess(file) {
+      console.log(file, "+++");
     },
     beforeAvatarUpload(file) {
+      console.log(file,"878484")
       const isJPG = file.type === "image/png";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
@@ -574,8 +574,25 @@ export default {
   display: inline-block;
   width: 26%;
   height: 40%;
+  text-align: center;
+  vertical-align: center;
+  line-height: 222px;
   margin-left: 25px;
+  background: greenyellow;
   position: absolute;
+}
+.book-img:hover{
+  cursor: pointer;
+}
+.book-img .img-icon{
+  font-size: 40px;
+}
+.img-input {
+  display: none;
+      font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
 }
 .book-img img {
   width: 100%;
@@ -585,8 +602,8 @@ export default {
 .book-img img:hover {
   cursor: pointer;
 }
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
+.book-img .avatar-uploader {
+  border: 1px dashed red;
   border-radius: 6px;
   cursor: pointer;
   position: relative;
