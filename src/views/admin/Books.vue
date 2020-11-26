@@ -163,8 +163,8 @@
                   :src="formInline.bookImg"
                   alt="无法加载图片"
                   title="点击更换封面"
+                  @error="defualtImg"
                 />
-                <li class="el-icon-plus img-icon"></li>
                 <input
                   type="file"
                   class="img-input"
@@ -206,7 +206,7 @@
           >
             <div class="book-info">
               <el-form-item label="出版社" :label-width="formLabelWidth">
-                <el-select v-model="formNewBook.bookPub" placeholder="出版社">
+                <el-select v-model="formNewBook.bookPub" placeholder="请输入出版社">
                   <el-option
                     :label="item"
                     :value="item"
@@ -216,7 +216,7 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="类别" :label-width="formLabelWidth">
-                <el-select v-model="formNewBook.bookSort" placeholder="类别">
+                <el-select v-model="formNewBook.bookSort" placeholder="请输入类别">
                   <el-option
                     :label="item"
                     :value="item"
@@ -225,17 +225,17 @@
                   ></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="作者" :label-width="formLabelWidth">
-                <el-input v-model="formNewBook.bookAuthor"></el-input>
+              <el-form-item label="作者" :label-width="formLabelWidth" >
+                <el-input v-model="formNewBook.bookAuthor" placeholder="请输入作者"></el-input>
               </el-form-item>
               <el-form-item label="书名" :label-width="formLabelWidth">
                 <el-input
                   v-model="formNewBook.bookName"
-                  placeholder="书名"
+                  placeholder="请输入书名"
                 ></el-input>
               </el-form-item>
             </div>
-            <div class="book-img">
+            <div class="add-book-img">
               <label class="lable-img"
                 ><img
                   v-if="formNewBook.bookImg"
@@ -254,7 +254,7 @@
             </div>
 
             <el-form-item label="简介" :label-width="formLabelWidth">
-              <el-input v-model="formNewBook.bookIntroduc"></el-input>
+              <el-input v-model="formNewBook.bookIntroduc" placeholder="请输入简介"></el-input>
             </el-form-item>
             <!-- <el-form-item label="状态" :label-width="formLabelWidth">
               <el-select v-model="formInline.isreturn" placeholder="请选择活动区域">
@@ -351,14 +351,10 @@ export default {
         status: "所有",
       },
       formLabelWidth: "70px",
-      bookImgUrl: require("../../assets/img/avatar.png"),
-      imageUrl: "",
-      dialogImageUrl: "",
-      dialogVisible: false,
-      disabled: false,
-      userInfo: {
-        avatar: "",
-      },
+      bookImgUrl: "",
+      defualtPic: require("../../assets/img/avatar.png"),
+      imageFile: "",
+      
     };
   },
   methods: {
@@ -367,14 +363,13 @@ export default {
       let $target = even.target || even.srcElement;
       let file = $target.files[0];
       console.log(file, "52654");
-      // var reader = new FileReader();
-      // reader.onload = (data) => {
-      //   let res = data.target || data.srcElement;
-      //   this.formNewBook.bookImg = res.result;
-      // };
-      // reader.readAsDataURL(file);
-
-      this.formNewBook.file = file;
+      var reader = new FileReader();
+      reader.onload = (data) => {
+        let res = data.target || data.srcElement;
+        this.formNewBook.bookImg = res.result;
+      };
+      reader.readAsDataURL(file);
+      this.imageFile = file;
     },
     imgReplace(even) {
       let $target = even.target || even.srcElement;
@@ -386,6 +381,9 @@ export default {
         this.formInline.bookImg = res.result;
       };
       reader.readAsDataURL(file);
+    },
+    defualtImg() {
+      this.bookImgUrl=this.defualtPic;
     },
     isCollapse(val) {
       this.collapse = val;
@@ -433,6 +431,8 @@ export default {
     handleClick(row) {
       this.dialogFormVisible = true;
       this.formInline = row;
+      
+        
       // this.formInlineIsreturn = row.isreturn
     },
     onSubmitFuzzy() {
@@ -505,14 +505,14 @@ export default {
       console.log(this.formNewBook.file, "5***4");
 
       let param = new FormData(); // 创建form对象
-      param.append("file", this.formNewBook.file); // 通过append向form对象添加数据
-      param.append("bookAuthor", this.formNewBook.bookAuthor);
-      param.append("bookIntroduc", this.formNewBook.bookIntroduc);
-      param.append("bookName", this.formNewBook.bookName);
-      param.append("bookPub", this.formNewBook.bookPub);
-      param.append("bookSort", this.formNewBook.bookSort);
+      param.append("file", this.imageFile); // 通过append向form对象添加数据
+      // param.append("bookAuthor", this.formNewBook.bookAuthor);
+      // param.append("bookIntroduc", this.formNewBook.bookIntroduc);
+      // param.append("bookName", this.formNewBook.bookName);
+      // param.append("bookPub", this.formNewBook.bookPub);
+      // param.append("bookSort", this.formNewBook.bookSort);
       console.log(param.get("file")); // FormData私有类对象，访问不到，可以通过get判断值是否传进去
-      saveBook(param);
+      saveBook(param,this.formNewBook);
       console.log(param);
       this.$message({
         type: "success",
@@ -632,7 +632,18 @@ export default {
   border: 1px solid #ddd;
   position: absolute;
 }
-.book-img .lable-img {
+.add-book-img {
+  display: inline-block;
+  width: 26%;
+  height: 45%;
+  text-align: center;
+  vertical-align: center;
+  line-height: 222px;
+  margin-left: 25px;
+  border: 1px solid #ddd;
+  position: absolute;
+}
+ .lable-img {
   width: 100%;
   height: 100%;
   cursor: pointer;
@@ -641,7 +652,7 @@ export default {
 .book-img:hover {
   cursor: pointer;
 }
-.book-img .img-icon {
+ .img-icon {
   font-size: 40px;
   cursor: pointer;
 }
@@ -651,6 +662,11 @@ export default {
   font-size: inherit;
   line-height: inherit;
   color: inherit;
+}
+.add-book-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .book-img img {
   width: 100%;

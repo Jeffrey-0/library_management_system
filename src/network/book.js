@@ -251,7 +251,7 @@ export function getPub(page = 1, rows = 100) {
 }
 
 // 添加新图书
-export function saveBook(Book) {
+export function saveBook(param,Book) {
     console.log(Book, "***")
     return request({
         // url: 'booksorts'
@@ -260,7 +260,10 @@ export function saveBook(Book) {
         headers: {
             'Content-Type': 'Multipart/form-data',
         },
-        data: Book
+        data: {
+            file: param,
+            Book : Book
+        }
 
     })
 
