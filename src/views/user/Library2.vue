@@ -67,7 +67,9 @@
 
     <div class="books">
       <div class="book-item" v-for="item in tableData" :key="item.bookId"  @click="handleClick(item)">
-        <img src="../../assets/img/avatar.png" alt="">
+        <img v-if="item.bookImg" :src="$baseImgUrl + item.bookImg" alt="" onerror="this.src='https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=18407241,433710790&fm=26&gp=0.jpg'">
+        <img v-else src="../../assets/img/avatar.png" alt="">
+        <!-- <img :src="'../../assets/img/avatar/' + item.bookImg " alt=""> -->
         <div class="bookname">{{ item.bookName }}</div>
         <div class="bookdetail">
           <div class="introduce">
@@ -222,8 +224,15 @@ import {
   borrowBook,
   SelectBookshelf,
 } from "../../network/book";
+// import {baseImgUrl} from '../../common/util.js'
 export default {
   methods: {
+    onError() {
+      console.log('错误图片' + event)
+      var img=event.srcElement;
+      img.src= require('../../assets/img/bg.jpg');
+      // img.οnerrοr=null;
+    },
     handleClick(row) {
       this.dialogFormVisible = true;
       this.formInline = row;
@@ -421,6 +430,7 @@ export default {
         bookRecord: "",
         isreturn: 0,
       },
+      errorImg: require('../../assets/img/avatar/1.jpg'),
       formSeletor: {
         // 筛选表单
         sort: "所有",
@@ -449,6 +459,7 @@ export default {
     }
   },
   created() {
+    // console.log(baseImgUrl)
     SelectBook(this.currentPage, this.pageSize).then((res) => {
       // console.log('书库',res.data)
       // TODO
@@ -539,6 +550,7 @@ export default {
   width: 100%;
   height: 90%;
   border-radius: 5px;
+  object-fit: cover;
 }
 .book-item .bookname {
   text-align: center;
