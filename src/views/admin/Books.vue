@@ -74,7 +74,7 @@
         <el-table
           ref="filterTable"
           :data="tableData"
-          style="width: 100%; min-height: 300px"
+          style="width: 100%; min-height: 339px"
         >
           <el-table-column
             prop="bookName"
@@ -113,7 +113,7 @@
                 class="tag-btn"
                 >编辑</el-tag
               >
-              <el-tag @click="cancel(scope.row)" type="info" class="tag-btn"
+              <el-tag @click="cancel(scope.row,scope.$index)" type="info" class="tag-btn"
                 >删 除</el-tag
               >
             </template>
@@ -290,7 +290,7 @@ import {
   SelectBook,
   SelectBookPub,
   SelectBookSort,
-  SelectSelector,
+  SelectSelectorHistory2,
   SelectFuzzy,
   DeleteBook,
   saveBook,
@@ -323,8 +323,8 @@ export default {
         bookId: "",
         bookName: "",
         bookAuthor: "",
-        bookPub: "",
-        bookSort: "武侠",
+        bookPub: "所有",
+        bookSort: "其他",
         bookIntroduce: "",
         bookImg: "",
         file: "",
@@ -406,7 +406,7 @@ export default {
         );
       } else if (this.queryModel === 1) {
         // 筛选查询
-        SelectSelector(
+        SelectSelectorHistory2(
           this.formSeletor.sort,
           this.formSeletor.pub,
           "所有",
@@ -459,7 +459,7 @@ export default {
       //筛选查询
 
       this.currentPage = 1;
-      SelectSelector(
+      SelectSelectorHistory2(
         this.formSeletor.sort,
         this.formSeletor.pub,
         this.formSeletor.status
@@ -471,7 +471,7 @@ export default {
       console.log(this.formSeletor);
       this.queryModel = 1;
     },
-    cancel(row) {
+    cancel(row,index) {
       //删除书籍
       this.$confirm("此操作将删除这本书籍数据, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -480,15 +480,20 @@ export default {
       })
         .then(() => {
           DeleteBook(row.bookId);
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
-          SelectBook(this.currentPage, this.pageSize).then((res) => {
+          this.tableData.splice(index,1);
+          setTimeout(() => {
+            SelectBook(this.currentPage, this.pageSize).then((res) => {   
             // TODO
             this.tableData = res.data;
             this.total = res.total;
           });
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+          }, 500);
+          
+          
         })
         .catch(() => {
           this.$message({
@@ -521,6 +526,17 @@ export default {
         type: "success",
         message: "发布成功!",
       });
+      Object.assign(this.formNewBook, {
+        // 添加书籍模态框
+        bookId: "",
+        bookName: "",
+        bookAuthor: "",
+        bookPub: "所有",
+        bookSort: "其他",
+        bookIntroduce: "",
+        bookImg: "",
+        file: "",
+      })
     },
     updateBookInfo() {
       //修改图书信息

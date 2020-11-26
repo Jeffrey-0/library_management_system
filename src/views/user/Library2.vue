@@ -69,6 +69,7 @@
       <div class="book-item" v-for="item in tableData" :key="item.bookId"  @click="handleClick(item)">
         <!-- <img v-if="item.bookImg" :src="$baseImgUrl + item.bookImg" alt="" onerror="this.src='https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=18407241,433710790&fm=26&gp=0.jpg'"> -->
         <img v-if="item.bookImg" :src="$baseImgUrl + item.bookImg" alt="" @error="defImg()">
+        <!-- <img v-if="item.bookImg" src="http://xfz.zone:5000/MiliMili/img/ad1.jpg" alt="" @error="defImg()"> -->
         <img v-else src="../../assets/img/defaultBook.jpg" alt="">
         <!-- <img :src="'../../assets/img/avatar/' + item.bookImg " alt=""> -->
         <div class="bookname">{{ item.bookName }}</div>

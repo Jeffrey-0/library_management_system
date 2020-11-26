@@ -40,8 +40,8 @@
               width="50px"
             >
               <el-option label="所有" value="所有"></el-option>
-              <el-option label="已借" value="0"></el-option>
-              <el-option label="未借" value="1"></el-option>
+              <el-option label="未还" value="0"></el-option>
+              <el-option label="已还" value="1"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -129,7 +129,7 @@
                 @click="handleClick(scope.row)"
                 :type="scope.row.isreturn == '0' ? 'success' : 'primary'"
                 disable-transitions
-                >{{ scope.row.isreturn == "0" ? "已借" : "未借" }}</el-tag
+                >{{ scope.row.isreturn == "0" ? "未还" : "已还" }}</el-tag
               >
             </template>
           </el-table-column>
@@ -209,10 +209,9 @@
 <script>
 import {
   SelectBookSort,
-  SelectBookPub,
-  SelectSelectorHistory2,
+  SelectBookPub
 } from "../../network/book";
-import { selectHistory, selectHistoryByLike } from "../../network/history";
+import { selectHistory, selectHistoryByLike ,SelectSelectorHistory} from "../../network/history";
 export default {
   name: "Borrow",
   components: {},
@@ -308,7 +307,7 @@ export default {
         });
       } else if (this.queryModel === 1) {
         // 筛选查询
-        SelectSelectorHistory2(
+        SelectSelectorHistory(
           this.formSeletor.sort,
           this.formSeletor.pub,
           this.formSeletor.status,
@@ -356,12 +355,13 @@ export default {
       //筛选查询
 
       this.currentPage = 1;
-      SelectSelectorHistory2(
+      SelectSelectorHistory(
         this.formSeletor.sort,
         this.formSeletor.pub,
         this.formSeletor.status
       ).then((res) => {
         // TODO
+        console.log('删选', res)
         this.tableData = res.data;
         this.total = res.total;
       });

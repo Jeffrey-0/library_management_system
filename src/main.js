@@ -16,7 +16,8 @@ Vue.prototype.$eventBusiIcon = new Vue()
 Vue.prototype.$moment = moment
 Vue.config.productionTip = false
 
-Vue.prototype.$baseImgUrl = 'http://127.0.0.1:8081'
+// Vue.prototype.$baseImgUrl = 'http://127.0.0.1:8081'
+Vue.prototype.$baseImgUrl = 'http://xfz.zone:5000/library'
 // Vue.prototype.$baseImgUrl = 'D:/图片/'
 
 Vue.prototype.$user = Object.assign({
