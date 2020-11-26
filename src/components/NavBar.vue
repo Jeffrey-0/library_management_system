@@ -10,7 +10,7 @@
     <div class="notice_head" @click="toNotice">公告</div>
     <div class="notice">{{ notice ? notice.noticeContent : '暂无新公告'}}</div>
     <!-- <div class="notice">公告内容</div> -->
-    <el-button type="info" class="exit" @click="signOut">退出登录</el-button>
+    <el-button type="primary" class="exit" @click="signOut">退出登录</el-button>
   </div>
 </template>
 

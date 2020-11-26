@@ -72,8 +72,8 @@ export default {
     };
     return {
       ruleForm: {
-        pass: "aA@000000",
-        id: "1",
+        pass: "",
+        id: "",
       },
       rules: {
         pass: [{ validator: validatePass, trigger: "blur" }],
@@ -96,7 +96,7 @@ export default {
             if (res) {
               // 保存用户到sessionStorage
               // TODO res[0] => res
-              if (res.userCategory == "-1") {
+              if (res.userCategory <= -1) {
                 this.$message({
                 message: "登录失败，该用户已被禁用",
                 type: "error",
