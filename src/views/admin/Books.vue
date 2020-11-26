@@ -12,10 +12,10 @@
             <el-select v-model="formSeletor.sort" placeholder="分类">
               <el-option label="所有" value="所有"></el-option>
               <el-option
-                :label="item"
-                :value="item"
+                :label="item.sortName"
+                :value="item.sortName"
                 v-for="item in bookSorts"
-                :key="item.sortName"
+                :key="item.sortId"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -26,7 +26,7 @@
                 :label="item"
                 :value="item"
                 v-for="item in bookPubs"
-                :key="item.pubName"
+                :key="item"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -133,15 +133,15 @@
                     :label="item"
                     :value="item"
                     v-for="item in bookPubs"
-                    :key="item.pubId"
+                    :key="item"
                   ></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="类别" :label-width="formLabelWidth">
                 <el-select v-model="formInline.bookSort" placeholder="类别">
                   <el-option
-                    :label="item"
-                    :value="item"
+                    :label="item.sortName"
+                    :value="item.sortName"
                     v-for="item in bookSorts"
                     :key="item.sortId"
                   ></el-option>
@@ -160,16 +160,9 @@
             <div class="book-img">
               <label class="lable-img"
                 ><img
-                  :src="formInline.bookImg"
+                  :src="this.$baseImgUrl + formInline.bookImg"
                   alt="无法加载图片"
-                  title="点击更换封面"
                   @error="defualtImg"
-                />
-                <input
-                  type="file"
-                  class="img-input"
-                  name="img"
-                  @change="imgReplace"
                 />
               </label>
             </div>
@@ -206,26 +199,20 @@
           >
             <div class="book-info">
               <el-form-item label="出版社" :label-width="formLabelWidth">
-                <el-select
-                  v-model="formNewBook.bookPub"
-                  placeholder="请输入出版社"
-                >
+                <el-select v-model="formSeletor.pub" placeholder="请输入出版社">
                   <el-option
                     :label="item"
                     :value="item"
                     v-for="item in bookPubs"
-                    :key="item.pubId"
+                    :key="item"
                   ></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="类别" :label-width="formLabelWidth">
-                <el-select
-                  v-model="formNewBook.bookSort"
-                  placeholder="请输入类别"
-                >
+                <el-select v-model="formSeletor.sort" placeholder="请输入类别">
                   <el-option
-                    :label="item"
-                    :value="item"
+                    :label="item.sortName"
+                    :value="item.sortName"
                     v-for="item in bookSorts"
                     :key="item.sortId"
                   ></el-option>
@@ -301,13 +288,14 @@
 <script>
 import {
   SelectBook,
-  getPub,
-  getSort,
+  SelectBookPub,
+  SelectBookSort,
   SelectSelector,
   SelectFuzzy,
   DeleteBook,
   saveBook,
   updateBook,
+  uploadImg,
 } from "../../network/book";
 export default {
   name: "Books",
@@ -336,7 +324,7 @@ export default {
         bookName: "",
         bookAuthor: "",
         bookPub: "",
-        bookSort: "",
+        bookSort: "武侠",
         bookIntroduc: "",
         bookImg: "",
         file: "",
@@ -513,19 +501,22 @@ export default {
       this.dialogNewBookVisible = false;
       this.formNewBook.bookSort = this.formSeletor.sort;
       this.formNewBook.bookPub = this.formSeletor.pub;
-      console.log(this.formNewBook.file, "5***4");
+      console.log(this.formNewBook, "5***4");
       this.formNewBook.bookImg = "";
       let file = new FormData(); // 创建form对象
       file.append("file", this.imageFile); // 通过append向form对象添加数据
-      let param = new FormData(); // 创建form对象
-      param.append("bookAuthor", this.formNewBook.bookAuthor);
-      param.append("bookIntroduc", this.formNewBook.bookIntroduc);
-      param.append("bookName", this.formNewBook.bookName);
-      param.append("bookPub", this.formNewBook.bookPub);
-      param.append("bookSort", this.formNewBook.bookSort);
-      console.log(param.get("file")); // FormData私有类对象，访问不到，可以通过get判断值是否传进去
-      saveBook(file, param);
-      console.log(param);
+      // let param = new FormData(); // 创建form对象
+      // param.append("bookAuthor", this.formNewBook.bookAuthor);
+      // param.append("bookIntroduc", this.formNewBook.bookIntroduc);
+      // param.append("bookName", this.formNewBook.bookName);
+      // param.append("bookPub", this.formNewBook.bookPub);
+      // param.append("bookSort", this.formNewBook.bookSort);
+      // console.log(param.get("file")); // FormData私有类对象，访问不到，可以通过get判断值是否传进去
+      uploadImg(file);
+      console.log(file, "5---4");
+      saveBook(this.formNewBook);
+      console.log(this.formNewBook, "5***4");
+      // console.log(param, "998");
       this.$message({
         type: "success",
         message: "发布成功!",
@@ -539,40 +530,21 @@ export default {
       ).format("YYYY-MM-DD");
       updateBook(this.formInline);
     },
-
-    handleAvatarSuccess(file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
-
-      console.log(file, "+++");
-    },
-    beforeAvatarUpload(file) {
-      console.log(file, "878484");
-      console.log(this.imageUrl, "1111");
-      const isJPG = file.type === "image/png";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
-      }
-      if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
-      }
-      return isJPG && isLt2M;
-    },
   },
   created() {
     SelectBook(this.currentPage, this.pageSize).then((res) => {
       // TODO
       this.tableData = res.data;
+      console.log(res.data, "*-*-*-*");
       this.total = res.total;
     });
-    getPub().then((res) => {
+    SelectBookPub().then((res) => {
       this.bookPubs = res.data;
-      console.log(this.bookPubs, "99999");
+      console.log(res.data, "99999");
     });
-    getSort().then((res) => {
+    SelectBookSort().then((res) => {
       this.bookSorts = res.data;
-      console.log(this.bookSorts, "99999");
+      console.log(res.data, "8888");
     });
   },
   mounted() {
@@ -662,9 +634,7 @@ export default {
   cursor: pointer;
   display: block;
 }
-.book-img:hover {
-  cursor: pointer;
-}
+
 .img-icon {
   font-size: 40px;
   cursor: pointer;
@@ -686,9 +656,7 @@ export default {
   height: 100%;
   object-fit: cover;
 }
-.book-img img:hover {
-  cursor: pointer;
-}
+
 .book-img .avatar-uploader {
   border: 1px dashed red;
   border-radius: 6px;

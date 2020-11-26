@@ -17,9 +17,7 @@ export function request(config) {
         }
 
         if (config.method !== 'get') {
-            console.log(config.url, "saveBook")
-            if (config.url != '/SaveBook') {
-                console.log(config.url, "saveBook111")
+            if (config.url != '/UploadFile') {
                 config.headers.ContentType = 'application/x-www-form-urlencoded'
                     // config.headers.ContentType = 'Multipart/form-data'
                 config.transformRequest = [function(data) {

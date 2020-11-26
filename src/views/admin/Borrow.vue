@@ -210,7 +210,7 @@
 import {
   SelectBookSort,
   SelectBookPub,
-  SelectSelector,
+  SelectSelectorHistory2,
 } from "../../network/book";
 import { selectHistory, selectHistoryByLike } from "../../network/history";
 export default {
@@ -268,9 +268,11 @@ export default {
       this.total = res.total;
     });
     SelectBookSort().then((res) => {
+      console.log(res.data, "**99");
       this.bookSorts = res.data;
     });
     SelectBookPub().then((res) => {
+      console.log(res.data, "**88");
       this.bookPubs = res.data;
     });
   },
@@ -306,7 +308,7 @@ export default {
         });
       } else if (this.queryModel === 1) {
         // 筛选查询
-        SelectSelector(
+        SelectSelectorHistory2(
           this.formSeletor.sort,
           this.formSeletor.pub,
           this.formSeletor.status,
@@ -354,7 +356,7 @@ export default {
       //筛选查询
 
       this.currentPage = 1;
-      SelectSelector(
+      SelectSelectorHistory2(
         this.formSeletor.sort,
         this.formSeletor.pub,
         this.formSeletor.status

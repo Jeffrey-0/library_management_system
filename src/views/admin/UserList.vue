@@ -100,16 +100,23 @@
                     border-radius: 5px;
                   "
                 >
-                  <el-table-column prop="bookName" :show-overflow-tooltip="true" label="书名">
+                  <el-table-column
+                    prop="bookName"
+                    :show-overflow-tooltip="true"
+                    label="书名"
+                  >
                   </el-table-column>
-                  <el-table-column prop="borrowDate" :show-overflow-tooltip="true" label="借阅" width="120">
+                  <el-table-column
+                    prop="borrowDate"
+                    :show-overflow-tooltip="true"
+                    label="借阅"
+                  >
                   </el-table-column>
                   <el-table-column
                     prop="returnDate"
                     label="归还"
                     :formatter="forReturnDate"
                     :show-overflow-tooltip="true"
-                    width="120"
                   >
                   </el-table-column>
                   <el-table-column
@@ -118,8 +125,6 @@
                     prop="isreturn"
                     label="状态"
                   >
-                  </el-table-column>
-                  <el-table-column prop="validityDate" label="剩余">
                   </el-table-column>
                 </el-table>
               </el-form-item>

@@ -59,7 +59,29 @@ export function SelectBookPub() {
 }
 
 // 筛选查询
-export function SelectSelector(bookSort, bookPub, bookIsreturn, page = 1, rows = 8) {
+export function SelectSelector(bookSort, bookPub, bookIsreturn, page = 1, rows = 5) {
+    const data = {
+        page: page,
+        rows: rows
+    }
+    if (bookSort !== '所有') {
+        data.bookSort = bookSort
+    }
+    if (bookPub !== '所有') {
+        data.bookPub = bookPub
+    }
+    if (bookIsreturn !== '所有') {
+        data.isreturn = bookIsreturn
+    }
+    console.log(data, '84848')
+    return request({
+        url: 'SelectBookHistoryByChioseDescRecord',
+        method: 'post',
+        data: data
+    })
+}
+// 筛选查询
+export function SelectSelectorHistory2(bookSort, bookPub, bookIsreturn, page = 1, rows = 5) {
     const data = {
         page: page,
         rows: rows
@@ -104,6 +126,18 @@ export function SelectSelector(bookSort, bookPub, bookIsreturn, page = 1, rows =
 
 // 模糊查询
 export function SelectFuzzy(bookName, page = 1, rows = 8) {
+    return request({
+        url: 'SelectHistoryByLike',
+        // url: 'getHistoryAllByLike',
+        method: 'post',
+        data: {
+            bookName: bookName,
+            page,
+            rows
+        }
+    })
+}
+export function SelectFuzzy2(bookName, page = 1, rows = 5) {
     return request({
         url: 'SelectHistoryByLike',
         // url: 'getHistoryAllByLike',
@@ -250,20 +284,30 @@ export function getPub(page = 1, rows = 100) {
     })
 }
 
-// 添加新图书
-export function saveBook(file, Book) {
-    console.log(Book, "***")
+// 添加新图书图片
+export function uploadImg(file) {
     console.log(file)
     return request({
         // url: 'booksorts'
-        url: '/SaveBook',
+        url: '/UploadFile',
         method: 'post',
         headers: {
             'Content-Type': 'Multipart/form-data',
         },
         data: file
     })
+}
 
+// 添加新图书信息
+export function saveBook(Book) {
+    console.log(Book, "***")
+    return request({
+        // url: 'booksorts'
+        url: '/SaveBook',
+        method: 'post',
+
+        data: Book
+    })
 }
 
 // 根据bookId查找图书
