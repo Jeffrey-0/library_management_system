@@ -47,7 +47,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmitSeletor">查询</el-button>
+        <el-button type="primary" @click="onSubmitSeletor" >查询</el-button>
       </el-form-item>
     </el-form>
     <el-form
@@ -56,7 +56,7 @@
       class="demo-form-inline demo-form-inline2"
     >
       <el-form-item>
-        <el-input v-model="form.bookName" placeholder="书名"></el-input>
+        <el-input v-model="form.bookName" placeholder="书名" @keyup.enter.native="onSubmitFuzzy"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmitFuzzy">查询</el-button>
@@ -279,12 +279,15 @@ export default {
       SelectSelector(
         this.formSeletor.sort,
         this.formSeletor.pub,
-        this.formSeletor.isreturn
+        this.formSeletor.isreturn,
+        0,
+        8
       ).then((res) => {
         // TODO
         /* this.tableData = res
           this.total = 6 */
         if (res) {
+          console.log('筛选查询', res)
           this.tableData = res.data;
           this.total = res.total;
         } else {

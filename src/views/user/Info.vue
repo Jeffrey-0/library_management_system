@@ -35,13 +35,13 @@
       <div class="title">更改密码</div>
       <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="60px" class="demo-ruleForm">
         <el-form-item label="旧密码" prop="oldPass">
-          <el-input type="password" v-model="ruleForm.oldPass" autocomplete="off" maxlength="30"></el-input>
+          <el-input type="password" v-model="ruleForm.oldPass" autocomplete="off" maxlength="30" placeholder="旧密码"></el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="pass">
-          <el-input type="password" v-model="ruleForm.pass" autocomplete="off" maxlength="30"></el-input>
+          <el-input type="password" v-model="ruleForm.pass" autocomplete="off" maxlength="30" placeholder="新密码"></el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="checkPass">
-          <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" maxlength="30"></el-input>
+          <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" maxlength="30" placeholder="确认密码"></el-input>
         </el-form-item>
         
         <el-form-item>

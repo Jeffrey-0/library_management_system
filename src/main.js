@@ -16,34 +16,33 @@ Vue.prototype.$eventBusiIcon = new Vue()
 Vue.prototype.$moment = moment
 Vue.config.productionTip = false
 
-Vue.prototype.$baseImgUrl = 'http://127.0.0.1:8081/Pic/'
+Vue.prototype.$baseImgUrl = 'http://127.0.0.1:8081'
 // Vue.prototype.$baseImgUrl = 'D:/图片/'
 
 Vue.prototype.$user = Object.assign({
-    id: '',
-    userId: '',
-    userName: '',
-    userAge: '',
-    userPassword: '',
-    userEmail: '',
-    userSex: '',
-    userPhone: '',
-    userCategory: ''
+  id: '',
+  userId: '',
+  userName: '',
+  userAge: '',
+  userPassword: '',
+  userEmail: '',
+  userSex: '',
+  userPhone: '',
+  userCategory: ''
 }, JSON.parse(window.sessionStorage.getItem('user')))
 
-
 new Vue({
-    router,
-    render: h => h(App)
+  router,
+  render: h => h(App)
 }).$mount('#app')
 
 // 配置代理，解决跨域
 Vue.prototype.HOST = {
-    target: 'http://127.0.0.1:3000',
-    changeOrigin: true,
-    pathRewrite: {
-        '^/api': ''
-    }
+  target: 'http://127.0.0.1:3000',
+  changeOrigin: true,
+  pathRewrite: {
+    '^/api': ''
+  }
 }
 
 // 保存登录用户的信息

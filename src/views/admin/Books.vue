@@ -176,7 +176,7 @@
               </el-date-picker>
             </el-form-item>
             <el-form-item label="简介" :label-width="formLabelWidth">
-              <el-input v-model="formInline.bookIntroduc"></el-input>
+              <el-input v-model="formInline.bookIntroduce"></el-input>
             </el-form-item>
             <!-- <el-form-item label="状态" :label-width="formLabelWidth">
               <el-select v-model="formInline.isreturn" placeholder="请选择活动区域">
@@ -251,7 +251,7 @@
 
             <el-form-item label="简介" :label-width="formLabelWidth">
               <el-input
-                v-model="formNewBook.bookIntroduc"
+                v-model="formNewBook.bookIntroduce"
                 placeholder="请输入简介"
               ></el-input>
             </el-form-item>
@@ -314,7 +314,7 @@ export default {
         bookPub: "",
         bookSort: "",
         bookRecord: "",
-        bookIntroduc: "",
+        bookIntroduce: "",
         bookImg: require("../../assets/img/avatar.png"),
         isreturn: 0,
       },
@@ -325,7 +325,7 @@ export default {
         bookAuthor: "",
         bookPub: "",
         bookSort: "武侠",
-        bookIntroduc: "",
+        bookIntroduce: "",
         bookImg: "",
         file: "",
       },
@@ -507,7 +507,7 @@ export default {
       file.append("file", this.imageFile); // 通过append向form对象添加数据
       // let param = new FormData(); // 创建form对象
       // param.append("bookAuthor", this.formNewBook.bookAuthor);
-      // param.append("bookIntroduc", this.formNewBook.bookIntroduc);
+      // param.append("bookIntroduce", this.formNewBook.bookIntroduce);
       // param.append("bookName", this.formNewBook.bookName);
       // param.append("bookPub", this.formNewBook.bookPub);
       // param.append("bookSort", this.formNewBook.bookSort);

@@ -2,19 +2,19 @@
   <div id="loginC">
     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="40px" class="demo-ruleForm">
       <el-form-item label="ID" prop="id">
-        <el-input type="text" v-model.number="ruleForm.id" autocomplete="off" maxlength="15"></el-input>
+        <el-input type="text" v-model.number="ruleForm.id" autocomplete="off" maxlength="15" placeholder="ID"></el-input>
       </el-form-item>
       <el-form-item label="姓名" prop="username">
-        <el-input type="text" v-model="ruleForm.username" autocomplete="off" maxlength="20"></el-input>
+        <el-input type="text" v-model="ruleForm.username" autocomplete="off" maxlength="20" placeholder="姓名"></el-input>
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
-        <el-input type="text" v-model="ruleForm.email" maxlength="30"></el-input>
+        <el-input type="text" v-model="ruleForm.email" maxlength="30" placeholder="邮箱"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pass">
-        <el-input type="password" v-model="ruleForm.pass" autocomplete="off" maxlength="30"></el-input>
+        <el-input type="password" v-model="ruleForm.pass" autocomplete="off" maxlength="30" placeholder="密码"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="checkPass">
-        <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" maxlength="30"></el-input>
+        <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" maxlength="30" placeholder="确认密码"></el-input>
       </el-form-item>
       
       <el-form-item>
