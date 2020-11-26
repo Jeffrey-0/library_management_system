@@ -113,7 +113,7 @@ const router = new VueRouter({
 })
 
 // 挂载路由导航守卫，如果用户未登陆，则跳转到登录页面
-/* router.beforeEach((to, form, next) => {
+router.beforeEach((to, form, next) => {
   if (to.path === '/login') {
     return next()
   }
@@ -124,5 +124,5 @@ const router = new VueRouter({
   } else {
     return next()
   }
-}) */
+})
 export default router
