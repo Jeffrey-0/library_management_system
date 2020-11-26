@@ -15,7 +15,7 @@
                 :label="item"
                 :value="item"
                 v-for="item in bookSorts"
-                :key="item.sortId"
+                :key="item.sortName"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -26,7 +26,7 @@
                 :label="item"
                 :value="item"
                 v-for="item in bookPubs"
-                :key="item.pubId"
+                :key="item.pubName"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -206,7 +206,10 @@
           >
             <div class="book-info">
               <el-form-item label="出版社" :label-width="formLabelWidth">
-                <el-select v-model="formNewBook.bookPub" placeholder="请输入出版社">
+                <el-select
+                  v-model="formNewBook.bookPub"
+                  placeholder="请输入出版社"
+                >
                   <el-option
                     :label="item"
                     :value="item"
@@ -216,7 +219,10 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="类别" :label-width="formLabelWidth">
-                <el-select v-model="formNewBook.bookSort" placeholder="请输入类别">
+                <el-select
+                  v-model="formNewBook.bookSort"
+                  placeholder="请输入类别"
+                >
                   <el-option
                     :label="item"
                     :value="item"
@@ -225,8 +231,11 @@
                   ></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="作者" :label-width="formLabelWidth" >
-                <el-input v-model="formNewBook.bookAuthor" placeholder="请输入作者"></el-input>
+              <el-form-item label="作者" :label-width="formLabelWidth">
+                <el-input
+                  v-model="formNewBook.bookAuthor"
+                  placeholder="请输入作者"
+                ></el-input>
               </el-form-item>
               <el-form-item label="书名" :label-width="formLabelWidth">
                 <el-input
@@ -254,7 +263,10 @@
             </div>
 
             <el-form-item label="简介" :label-width="formLabelWidth">
-              <el-input v-model="formNewBook.bookIntroduc" placeholder="请输入简介"></el-input>
+              <el-input
+                v-model="formNewBook.bookIntroduc"
+                placeholder="请输入简介"
+              ></el-input>
             </el-form-item>
             <!-- <el-form-item label="状态" :label-width="formLabelWidth">
               <el-select v-model="formInline.isreturn" placeholder="请选择活动区域">
@@ -354,7 +366,7 @@ export default {
       bookImgUrl: "",
       defualtPic: require("../../assets/img/avatar.png"),
       imageFile: "",
-      
+      imgUrl: "",
     };
   },
   methods: {
@@ -383,7 +395,7 @@ export default {
       reader.readAsDataURL(file);
     },
     defualtImg() {
-      this.bookImgUrl=this.defualtPic;
+      this.bookImgUrl = this.defualtPic;
     },
     isCollapse(val) {
       this.collapse = val;
@@ -431,8 +443,7 @@ export default {
     handleClick(row) {
       this.dialogFormVisible = true;
       this.formInline = row;
-      
-        
+
       // this.formInlineIsreturn = row.isreturn
     },
     onSubmitFuzzy() {
@@ -503,16 +514,17 @@ export default {
       this.formNewBook.bookSort = this.formSeletor.sort;
       this.formNewBook.bookPub = this.formSeletor.pub;
       console.log(this.formNewBook.file, "5***4");
-
+      this.formNewBook.bookImg = "";
+      let file = new FormData(); // 创建form对象
+      file.append("file", this.imageFile); // 通过append向form对象添加数据
       let param = new FormData(); // 创建form对象
-      param.append("file", this.imageFile); // 通过append向form对象添加数据
-      // param.append("bookAuthor", this.formNewBook.bookAuthor);
-      // param.append("bookIntroduc", this.formNewBook.bookIntroduc);
-      // param.append("bookName", this.formNewBook.bookName);
-      // param.append("bookPub", this.formNewBook.bookPub);
-      // param.append("bookSort", this.formNewBook.bookSort);
+      param.append("bookAuthor", this.formNewBook.bookAuthor);
+      param.append("bookIntroduc", this.formNewBook.bookIntroduc);
+      param.append("bookName", this.formNewBook.bookName);
+      param.append("bookPub", this.formNewBook.bookPub);
+      param.append("bookSort", this.formNewBook.bookSort);
       console.log(param.get("file")); // FormData私有类对象，访问不到，可以通过get判断值是否传进去
-      saveBook(param,this.formNewBook);
+      saveBook(file, param);
       console.log(param);
       this.$message({
         type: "success",
@@ -556,10 +568,11 @@ export default {
     });
     getPub().then((res) => {
       this.bookPubs = res.data;
-      console.log(this.bookSorts, "99999");
+      console.log(this.bookPubs, "99999");
     });
     getSort().then((res) => {
       this.bookSorts = res.data;
+      console.log(this.bookSorts, "99999");
     });
   },
   mounted() {
@@ -643,7 +656,7 @@ export default {
   border: 1px solid #ddd;
   position: absolute;
 }
- .lable-img {
+.lable-img {
   width: 100%;
   height: 100%;
   cursor: pointer;
@@ -652,7 +665,7 @@ export default {
 .book-img:hover {
   cursor: pointer;
 }
- .img-icon {
+.img-icon {
   font-size: 40px;
   cursor: pointer;
 }
