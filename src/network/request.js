@@ -2,7 +2,8 @@ import axios from 'axios'
 export function request(config) {
     // 1.创建axios实例
     const instance = axios.create({
-        baseURL: 'http://127.0.0.1:8081',
+        // baseURL: 'http://127.0.0.1:8081',
+        baseURL: 'http://120.79.198.193:8081',
         // baseURL: 'http://127.0.0.1:3000',
 
         timeout: 10000
@@ -16,20 +17,26 @@ export function request(config) {
         }
 
         if (config.method !== 'get') {
-            config.headers.ContentType = 'application/x-www-form-urlencoded'
-            config.transformRequest = [function(data) {
-                let ret = ''
-                for (const it in data) {
-                    ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-                }
-                return ret
-            }]
-        }
+            if (config.url != '/SaveBook') {
 
+                config.headers.ContentType = 'application/x-www-form-urlencoded'
+                    // config.headers.ContentType = 'Multipart/form-data'
+                config.transformRequest = [function(data) {
+                    let ret = ''
+                    for (const it in data) {
+                        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                    }
+                    return ret
+                }]
+            }
+        }
         return config
     }, err => {
         console.log(err)
     })
+
+
+
 
     // 2.2响应拦截
     instance.interceptors.response.use(res => {
