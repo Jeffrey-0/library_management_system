@@ -67,8 +67,9 @@
 
     <div class="books">
       <div class="book-item" v-for="item in tableData" :key="item.bookId"  @click="handleClick(item)">
-        <img v-if="item.bookImg" :src="$baseImgUrl + item.bookImg" alt="" onerror="this.src='https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=18407241,433710790&fm=26&gp=0.jpg'">
-        <img v-else src="../../assets/img/avatar.png" alt="">
+        <!-- <img v-if="item.bookImg" :src="$baseImgUrl + item.bookImg" alt="" onerror="this.src='https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=18407241,433710790&fm=26&gp=0.jpg'"> -->
+        <img v-if="item.bookImg" :src="$baseImgUrl + item.bookImg" alt="" @error="defImg()">
+        <img v-else src="../../assets/img/defaultBook.jpg" alt="">
         <!-- <img :src="'../../assets/img/avatar/' + item.bookImg " alt=""> -->
         <div class="bookname">{{ item.bookName }}</div>
         <div class="bookdetail">
@@ -227,6 +228,11 @@ import {
 // import {baseImgUrl} from '../../common/util.js'
 export default {
   methods: {
+    defImg () {
+      let img = event.srcElement;
+        img.src = this.defaultImg;
+        img.onerror = null; //防止闪图
+    },
     onError() {
       console.log('错误图片' + event)
       var img=event.srcElement;
@@ -430,6 +436,7 @@ export default {
         bookRecord: "",
         isreturn: 0,
       },
+      defaultImg: require("../../assets/img/error.jpg"),
       errorImg: require('../../assets/img/avatar/1.jpg'),
       formSeletor: {
         // 筛选表单

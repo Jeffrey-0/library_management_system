@@ -65,7 +65,7 @@ const routes = [{
   {
     path: 'library',
     component: () =>
-      import('../views/user/Library.vue')
+      import('../views/user/Library2.vue')
   },
   {
     path: 'notice',
@@ -76,7 +76,7 @@ const routes = [{
   {
     path: '',
     component: () =>
-      import('../views/user/Library.vue'),
+      import('../views/user/Library2.vue'),
     default: true
   },
   {
