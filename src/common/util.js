@@ -7,6 +7,7 @@ export function addDate (date, days) {
   return d.getFullYear() + '-' + m + '-' + d.getDate()
 }
 
-var baseImgUrl = 'http://127.0.0.1:8081'
+// var baseImgUrl = 'http://127.0.0.1:8081'
+var baseImgUrl = 'D:/图片/'
 
 export {baseImgUrl}
