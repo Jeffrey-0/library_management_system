@@ -6,3 +6,7 @@ export function addDate (date, days) {
   var m = d.getMonth() + 1
   return d.getFullYear() + '-' + m + '-' + d.getDate()
 }
+
+var baseImgUrl = 'http://127.0.0.1:8081'
+
+export {baseImgUrl}
