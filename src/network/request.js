@@ -16,14 +16,18 @@ export function request(config) {
         }
 
         if (config.method !== 'get') {
-            config.headers.ContentType = 'application/x-www-form-urlencoded'
-            config.transformRequest = [function(data) {
-                let ret = ''
-                for (const it in data) {
-                    ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-                }
-                return ret
-            }]
+            if (config.url != '/SaveBook') {
+
+                config.headers.ContentType = 'application/x-www-form-urlencoded'
+                    // config.headers.ContentType = 'Multipart/form-data'
+                config.transformRequest = [function(data) {
+                    let ret = ''
+                    for (const it in data) {
+                        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                    }
+                    return ret
+                }]
+            }
         }
 
         return config

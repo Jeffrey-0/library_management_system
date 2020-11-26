@@ -158,7 +158,20 @@
               </el-form-item>
             </div>
             <div class="book-img">
-              <img :src="bookImgUrl" alt="无法加载图片" title="点击更换封面" />
+              <label class="lable-img"
+                ><img
+                  :src="formInline.bookImg"
+                  alt="无法加载图片"
+                  title="点击更换封面"
+                />
+                <li class="el-icon-plus img-icon"></li>
+                <input
+                  type="file"
+                  class="img-input"
+                  name="img"
+                  @change="imgReplace"
+                />
+              </label>
             </div>
 
             <el-form-item label="上架时间" :label-width="formLabelWidth">
@@ -193,7 +206,7 @@
           >
             <div class="book-info">
               <el-form-item label="出版社" :label-width="formLabelWidth">
-                <el-select v-model="formInline.bookPub" placeholder="出版社">
+                <el-select v-model="formNewBook.bookPub" placeholder="出版社">
                   <el-option
                     :label="item"
                     :value="item"
@@ -203,7 +216,7 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="类别" :label-width="formLabelWidth">
-                <el-select v-model="formInline.bookSort" placeholder="类别">
+                <el-select v-model="formNewBook.bookSort" placeholder="类别">
                   <el-option
                     :label="item"
                     :value="item"
@@ -213,32 +226,35 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="作者" :label-width="formLabelWidth">
-                <el-input v-model="formInline.bookAuthor"></el-input>
+                <el-input v-model="formNewBook.bookAuthor"></el-input>
               </el-form-item>
               <el-form-item label="书名" :label-width="formLabelWidth">
                 <el-input
-                  v-model="formInline.bookName"
+                  v-model="formNewBook.bookName"
                   placeholder="书名"
                 ></el-input>
               </el-form-item>
             </div>
             <div class="book-img">
-              
-              <label for="img-input"><img v-if="imageUrl" :src="imageUrl" alt="无法加载图片" title="点击更换封面" />
-              <li v-else class="el-icon-plus img-icon"></li></label>
-              <input type="file" class="img-input" id="img-input" name="img" @change="imgInput">
+              <label class="lable-img"
+                ><img
+                  v-if="formNewBook.bookImg"
+                  :src="formNewBook.bookImg"
+                  alt="无法加载图片"
+                  title="点击更换封面"
+                />
+                <li v-else class="el-icon-plus img-icon"></li>
+                <input
+                  type="file"
+                  class="img-input"
+                  name="img"
+                  @change="imgInput"
+                />
+              </label>
             </div>
 
-            <el-form-item label="上架时间" :label-width="formLabelWidth">
-              <el-date-picker
-                v-model="formInline.bookRecord"
-                type="date"
-                placeholder="选择日期"
-              >
-              </el-date-picker>
-            </el-form-item>
             <el-form-item label="简介" :label-width="formLabelWidth">
-              <el-input v-model="formInline.bookIntroduc"></el-input>
+              <el-input v-model="formNewBook.bookIntroduc"></el-input>
             </el-form-item>
             <!-- <el-form-item label="状态" :label-width="formLabelWidth">
               <el-select v-model="formInline.isreturn" placeholder="请选择活动区域">
@@ -299,7 +315,7 @@ export default {
         bookSort: "",
         bookRecord: "",
         bookIntroduc: "",
-        bookImg: "",
+        bookImg: require("../../assets/img/avatar.png"),
         isreturn: 0,
       },
       formNewBook: {
@@ -309,9 +325,9 @@ export default {
         bookAuthor: "",
         bookPub: "",
         bookSort: "",
-        bookRecord: "",
         bookIntroduc: "",
         bookImg: "",
+        file: "",
       },
       tableData: [], //书籍列表
 
@@ -340,14 +356,36 @@ export default {
       dialogImageUrl: "",
       dialogVisible: false,
       disabled: false,
-      
+      userInfo: {
+        avatar: "",
+      },
     };
   },
   methods: {
     imgInput(even) {
       // this.imageUrl = event.target.value;
-      console.log('imgInput', even)
-      console.log('imgInput', even.target, event.target.files[0])
+      let $target = even.target || even.srcElement;
+      let file = $target.files[0];
+      console.log(file, "52654");
+      // var reader = new FileReader();
+      // reader.onload = (data) => {
+      //   let res = data.target || data.srcElement;
+      //   this.formNewBook.bookImg = res.result;
+      // };
+      // reader.readAsDataURL(file);
+
+      this.formNewBook.file = file;
+    },
+    imgReplace(even) {
+      let $target = even.target || even.srcElement;
+      let file = $target.files[0];
+      console.log(file, "5555");
+      var reader = new FileReader();
+      reader.onload = (data) => {
+        let res = data.target || data.srcElement;
+        this.formInline.bookImg = res.result;
+      };
+      reader.readAsDataURL(file);
     },
     isCollapse(val) {
       this.collapse = val;
@@ -464,8 +502,18 @@ export default {
       this.dialogNewBookVisible = false;
       this.formNewBook.bookSort = this.formSeletor.sort;
       this.formNewBook.bookPub = this.formSeletor.pub;
-      saveBook(this.formNewBook);
-      console.log(this.formNewBook);
+      console.log(this.formNewBook.file, "5***4");
+
+      let param = new FormData(); // 创建form对象
+      param.append("file", this.formNewBook.file); // 通过append向form对象添加数据
+      param.append("bookAuthor", this.formNewBook.bookAuthor);
+      param.append("bookIntroduc", this.formNewBook.bookIntroduc);
+      param.append("bookName", this.formNewBook.bookName);
+      param.append("bookPub", this.formNewBook.bookPub);
+      param.append("bookSort", this.formNewBook.bookSort);
+      console.log(param.get("file")); // FormData私有类对象，访问不到，可以通过get判断值是否传进去
+      saveBook(param);
+      console.log(param);
       this.$message({
         type: "success",
         message: "发布成功!",
@@ -481,10 +529,13 @@ export default {
     },
 
     handleAvatarSuccess(file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+
       console.log(file, "+++");
     },
     beforeAvatarUpload(file) {
-      console.log(file,"878484")
+      console.log(file, "878484");
+      console.log(this.imageUrl, "1111");
       const isJPG = file.type === "image/png";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
@@ -578,21 +629,28 @@ export default {
   vertical-align: center;
   line-height: 222px;
   margin-left: 25px;
-  background: greenyellow;
+  border: 1px solid #ddd;
   position: absolute;
 }
-.book-img:hover{
+.book-img .lable-img {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  display: block;
+}
+.book-img:hover {
   cursor: pointer;
 }
-.book-img .img-icon{
+.book-img .img-icon {
   font-size: 40px;
+  cursor: pointer;
 }
 .img-input {
   display: none;
-      font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
 }
 .book-img img {
   width: 100%;
