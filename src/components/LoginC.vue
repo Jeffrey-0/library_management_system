@@ -91,7 +91,7 @@ export default {
           // 发起登录请求
           // TODO  ----loginP
           login(this.ruleForm.id, this.ruleForm.pass).then((res) => {
-            console.log(res);
+            console.log('**********',res);
             // TODO ---res.userId
             if (res) {
               // 保存用户到sessionStorage

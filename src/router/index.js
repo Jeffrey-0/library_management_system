@@ -9,6 +9,14 @@ import Notice from '../views/admin/Notice.vue'
 import Login from '../views/Login.vue'
 import HelloWorld from '../components/HelloWorld.vue'
 import NoFind from '../views/404.vue'
+import Category from '../views/user/Category.vue'
+import Edit from '../views/user/Edit.vue'
+import Details from '../views/user/Details.vue'
+import Music from '../views/user/Music.vue'
+import Message from '../views/user/Message.vue'
+import Player from '../views/user/Player.vue'
+import Friends from '../views/user/Friends.vue'
+import Photo from '../views/user/Photo.vue'
 
 Vue.use(VueRouter)
 
@@ -86,6 +94,46 @@ const routes = [{
     default: true
   }
   ]
+},
+{
+  path: '/category',
+  name: 'category',
+  component: Category
+},
+{
+  path: '/edit',
+  name: 'edit',
+  component: Edit
+},
+{
+  path: '/details',
+  name: 'details',
+  component: Details
+},
+{
+  path: '/music',
+  name: 'music',
+  component: Music
+},
+{
+  path: '/player',
+  name: 'player',
+  component: Player
+},
+{
+  path: '/message',
+  name: 'message',
+  component: Message
+},
+{
+  path: '/friends',
+  name: 'friends',
+  component: Friends
+},
+{
+  path: '/photo',
+  name: 'photo',
+  component: Photo
 },
 {
   path: '/home',

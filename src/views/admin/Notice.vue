@@ -53,7 +53,7 @@
               class="tag-btn"
               >查 看</el-tag
             >
-            <el-tag @click="cancel(scope.row)" type="info" class="tag-btn"
+            <el-tag @click="cancel(scope.row,scope.$index)" type="info" class="tag-btn"
               >删 除</el-tag
             >
           </template>
@@ -211,7 +211,7 @@ export default {
         });
       }
     },
-    cancel(row) {
+    cancel(row,index) {
       //注销禁用
       this.$confirm("此操作将删除这条公告, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -219,18 +219,19 @@ export default {
         type: "warning",
       })
         .then(() => {
-          console.log(row.noticeId, 999);
           deleteNotice(row.noticeId);
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
+          this.tableData.splice(index,1);
           SelectNotice(this.currentPage, this.pageSize).then((res) => {
             // TODO
             console.log(res);
             this.tableData = res.data;
             this.total = res.total;
           });
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+          
         })
         .catch(() => {
           this.$message({

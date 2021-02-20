@@ -11,7 +11,7 @@
       <!-- <el-col :xs="0" :sm="0" :md="4" :lg="4" :xl="4" class="nav" :offset="1">导航栏
         
       </el-col> -->
-      <el-col :md="5" class="nav" :md:offset="1">
+      <el-col  :md="5" class="nav" :md:offset="1">
         <nav-bar></nav-bar>
       </el-col>
       <el-col :md="16" class="content" :offset="1">正文</el-col>

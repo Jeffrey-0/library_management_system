@@ -113,7 +113,7 @@
                 class="tag-btn"
                 >编辑</el-tag
               >
-              <el-tag @click="cancel(scope.row)" type="info" class="tag-btn"
+              <el-tag @click="cancel(scope.row,scope.$index)" type="info" class="tag-btn"
                 >删 除</el-tag
               >
             </template>
@@ -176,7 +176,7 @@
               </el-date-picker>
             </el-form-item>
             <el-form-item label="简介" :label-width="formLabelWidth">
-              <el-input v-model="formInline.bookIntroduc"></el-input>
+              <el-input v-model="formInline.bookIntroduce"></el-input>
             </el-form-item>
             <!-- <el-form-item label="状态" :label-width="formLabelWidth">
               <el-select v-model="formInline.isreturn" placeholder="请选择活动区域">
@@ -251,7 +251,7 @@
 
             <el-form-item label="简介" :label-width="formLabelWidth">
               <el-input
-                v-model="formNewBook.bookIntroduc"
+                v-model="formNewBook.bookIntroduce"
                 placeholder="请输入简介"
               ></el-input>
             </el-form-item>
@@ -314,7 +314,7 @@ export default {
         bookPub: "",
         bookSort: "",
         bookRecord: "",
-        bookIntroduc: "",
+        bookIntroduce: "",
         bookImg: require("../../assets/img/avatar.png"),
         isreturn: 0,
       },
@@ -325,7 +325,7 @@ export default {
         bookAuthor: "",
         bookPub: "",
         bookSort: "武侠",
-        bookIntroduc: "",
+        bookIntroduce: "",
         bookImg: "",
         file: "",
       },
@@ -471,7 +471,7 @@ export default {
       console.log(this.formSeletor);
       this.queryModel = 1;
     },
-    cancel(row) {
+    cancel(row,index) {
       //删除书籍
       this.$confirm("此操作将删除这本书籍数据, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -480,14 +480,16 @@ export default {
       })
         .then(() => {
           DeleteBook(row.bookId);
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
+          this.tableData.splice(index,1);
           SelectBook(this.currentPage, this.pageSize).then((res) => {
             // TODO
             this.tableData = res.data;
+            console.log(res.data, "*-*-*-*");
             this.total = res.total;
+          });
+          this.$message({
+            type: "success",
+            message: "删除成功!",
           });
         })
         .catch(() => {

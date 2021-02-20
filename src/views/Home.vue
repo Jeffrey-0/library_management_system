@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div id="nav">
-      <h1 class="title">欢迎来到<span class="game">王者农药</span></h1>
+      <h1 class="title">欢迎来到<span class="game">Blog</span></h1>
     </div>
   </div>
 </template>
